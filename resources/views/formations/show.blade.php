@@ -92,7 +92,8 @@
                             <button class="tablinks" id='defaultOpen' onclick="openCity(event, 'London')">Détails</button>
                             <button class="tablinks" onclick="openCity(event, 'Paris')">Image</button>
                         </div>
-
+   fdq
+   dqfs
                         <!-- Tab content -->
                         <div id="London" class="tabcontent">
                             {{-- 1 --}}
