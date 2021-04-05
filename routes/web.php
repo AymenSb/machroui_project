@@ -41,5 +41,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('{page}', ['as' => 'page.index', 'uses' => 'App\Http\Controllers\PageController@index']);
 });
 
-Route::get('viewfile/{bill_number}/{file_name}',[FormationDetailsController::class,'viewfile']);
+Route::get('viewfile/{formation_id}/{file_id}',[FormationDetailsController::class,'viewfile']);
 

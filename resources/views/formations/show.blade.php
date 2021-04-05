@@ -159,8 +159,8 @@ input[type=number]::-webkit-outer-spin-button {
                                   @foreach ($attachments as $item)
                                       <td>{{$item->file_name}}</td>
                                       <td>
-                                        <a class="btn btn-outline-success btn-sm"
-                                        href=""
+                                        <a class="btn btn-outline-success btn-sm" target="_blank"
+                                        href= "{{ url('viewfile') }}/{{ $formation->name }}/{{ $item->file_name }}"
                                         role="button"><i class="fas fa-eye"></i>&nbsp;
                                         Show</a></td>
                                         <td>
