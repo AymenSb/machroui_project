@@ -62,6 +62,15 @@
         }
 
     </style>
+
+<link rel="stylesheet" href="../../plugins/jquery-ui/jquery-ui.min.css">
+<style>
+  input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+</style>
 @endsection
 
 @section('content')
@@ -150,7 +159,50 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="modaldemo9" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+         <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit product</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action='{{ route('formations.update',$formation->id) }}' method="post">
+                {{ method_field('patch') }}
+                {{ csrf_field() }}
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="title">Date de début</label>
+
+                        <input type="hidden" class="form-control" name="id" id="id" value="">
+                        <input class="form-control fc-datepicker" id="begin_date"name="begin_date" placeholder="YYYY-MM-DD"
+                                      type="text" value="{{ date('Y-m-d') }}" required>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="title">Date de fin</label>
+                      <input class="form-control fc-datepicker" id="end_date"name="end_date" placeholder="YYYY-MM-DD"
+                                      type="text" value="{{ date('Y-m-d') }}" required>
+                    </div>
+                  <div class="form-group">
+                    <label for="title">Description</label>
+                    <textarea type="text" class="form-control" name="description" id="description" autocomplete="off" ></textarea>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Edit</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
     </div>
+</div>
+
+    </div>
+    
 @endsection
 
 @section('js')
@@ -179,4 +231,28 @@
         document.getElementById("defaultOpen").click();
 
     </script>
+
+<script>
+	$('#modaldemo9').on('show.bs.modal', function(event) {
+		var button = $(event.relatedTarget)
+		var id = button.data('id')
+		var begin_date = button.data('begin_date')
+		var end_date = button.data('end_date')
+		var description = button.data('description')
+		var modal = $(this)
+		modal.find('.modal-body #id').val(id);
+		modal.find('.modal-body #begin_date').val(begin_date);
+		modal.find('.modal-body #end_date').val(end_date);
+		modal.find('.modal-body #description').val(description);
+	})
+    </script>
+
+<script src="../../plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="../../plugins/jquery-ui/jquery-ui.js"></script>
+
+<script>
+ var date = $('.fc-datepicker').datepicker({
+            dateFormat: 'yy-mm-dd'
+        }).val();
+</script>
 @endsection
