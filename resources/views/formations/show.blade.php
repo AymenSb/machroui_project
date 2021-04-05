@@ -173,8 +173,20 @@ input[type=number]::-webkit-outer-spin-button {
                 {{ method_field('patch') }}
                 {{ csrf_field() }}
                 <div class="modal-body">
+                     <div class="form-group">
+                        <label for="title">Nom de la formation</label>
+                        <input type="text" class="form-control" name="name" id="name" autocomplete="off" >
+                      </div>
 
-                    <div class="form-group">
+                      <div class="form-group">
+                        <label for="title">Nom du formateur</label>
+                        <input type="text" class="form-control" name="trainer" id="trainer" autocomplete="off" >
+                      </div>
+                      <div class="form-group">
+                        <label for="title">Places</label>
+                        <input type="number" class="form-control" name="places" id="places" autocomplete="off" >
+                      </div>
+                        <div class="form-group">
                         <label for="title">Date de début</label>
 
                         <input type="hidden" class="form-control" name="id" id="id" value="">
@@ -232,9 +244,12 @@ input[type=number]::-webkit-outer-spin-button {
 
     </script>
 
-<script>
+    <script>
 	$('#modaldemo9').on('show.bs.modal', function(event) {
 		var button = $(event.relatedTarget)
+		var name = button.data('name')
+		var trainer = button.data('trainer')
+		var places = button.data('places')
 		var id = button.data('id')
 		var begin_date = button.data('begin_date')
 		var end_date = button.data('end_date')
@@ -244,6 +259,10 @@ input[type=number]::-webkit-outer-spin-button {
 		modal.find('.modal-body #begin_date').val(begin_date);
 		modal.find('.modal-body #end_date').val(end_date);
 		modal.find('.modal-body #description').val(description);
+		modal.find('.modal-body #name').val(name);
+		modal.find('.modal-body #trainer').val(trainer);
+		modal.find('.modal-body #places').val(places);
+        
 	})
     </script>
 
