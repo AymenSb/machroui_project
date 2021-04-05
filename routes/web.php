@@ -42,4 +42,5 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::get('viewfile/{formation_id}/{file_id}',[FormationDetailsController::class,'viewfile']);
+Route::get('download/{formation_id}/{file_id}',[FormationDetailsController::class,'download']);
 

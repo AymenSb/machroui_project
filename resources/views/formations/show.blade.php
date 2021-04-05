@@ -165,7 +165,7 @@ input[type=number]::-webkit-outer-spin-button {
                                         Show</a></td>
                                         <td>
                                     <a class="btn btn-outline-info btn-sm"
-                                        href=""
+                                        href= "{{ url('download') }}/{{ $formation->name }}/{{ $item->file_name }}"
                                         role="button"><i
                                             class="fas fa-download"></i>&nbsp;
                                         download</a>

@@ -12,4 +12,9 @@ class FormationDetailsController extends Controller
         $file=Storage::disk('public_uploads')->getDriver()->getAdapter()->applyPathPrefix($formation_name.'/'.$file_name);
         return response()->file($file);
     }
+
+    public function download($formation_name,$file_name){
+        $file=Storage::disk('public_uploads')->getDriver()->getAdapter()->applyPathPrefix($formation_name.'/'.$file_name);
+        return response()->download($file);
+    }
 }
