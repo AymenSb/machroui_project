@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FormationsController;
 use App\Http\Controllers\FormationsAttachmentController;
+use App\Http\Controllers\FormationDetailsController;
 
 
 /*
@@ -39,3 +40,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
     Route::get('{page}', ['as' => 'page.index', 'uses' => 'App\Http\Controllers\PageController@index']);
 });
+
+Route::get('viewfile/{bill_number}/{file_name}',[FormationDetailsController::class,'viewfile']);
+

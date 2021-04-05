@@ -87,7 +87,7 @@ class FormationsController extends Controller
         if($formations==null){
             return redirect('/formations');
         }
-        $attachments=formations_attachment::where('formation_id',"=",$id)->first();
+        $attachments=formations_attachment::where('formation_id',"=",$id)->get();
         return view('formations.show', ['formation' => $formations],['attachments'=>$attachments]);
     }
 

@@ -91,7 +91,7 @@ input[type=number]::-webkit-outer-spin-button {
                         data-description="{{$formation->description}}"
                         data-id="{{$formation->id}}"
                         data-effect="effect-fall" data-toggle="modal"
-                           class="btn btn-primary btn-round" style="color: white;background-color:#FF3636;">Éditer</a>  
+                        class="btn btn-primary btn-round" style="color: white;background-color:#FF3636;">Éditer</a>  
                     </div>
                     <div class="card-body all-icons">
                         {{-- place content here --}}
@@ -151,8 +151,32 @@ input[type=number]::-webkit-outer-spin-button {
                         </div>
 
                         <div id="Paris" class="tabcontent">
-                            <h3>Paris</h3>
-                            <p>Paris is the capital of France.</p>
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                              
+                                </thead>
+                                <tbody>
+                                  @foreach ($attachments as $item)
+                                      <td>{{$item->file_name}}</td>
+                                      <td>
+                                        <a class="btn btn-outline-success btn-sm"
+                                        href=""
+                                        role="button"><i class="fas fa-eye"></i>&nbsp;
+                                        Show</a></td>
+                                        <td>
+                                    <a class="btn btn-outline-info btn-sm"
+                                        href=""
+                                        role="button"><i
+                                            class="fas fa-download"></i>&nbsp;
+                                        download</a>
+                                      </td>
+                                  @endforeach
+                            
+                                </tbody>
+                                <tfoot>
+                             
+                                </tfoot>
+                              </table>
                         </div>
 
                     </div>
@@ -164,7 +188,7 @@ input[type=number]::-webkit-outer-spin-button {
          <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edit product</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Modifier la formation</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -205,8 +229,8 @@ input[type=number]::-webkit-outer-spin-button {
                   </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Edit</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" style="background-color: #FF3636">Confirmer</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
                 </div>
             </form>
         </div>
