@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FormationsController;
 use App\Http\Controllers\FormationsAttachmentController;
 use App\Http\Controllers\FormationDetailsController;
+use App\Http\Controllers\MachinesController;
 
 
 /*
@@ -24,6 +25,7 @@ Route::get('/', function () {
 
 Route::resource('formations', FormationsController::class);
 Route::resource('attachment', FormationsAttachmentController::class);
+Route::resource('machines',MachinesController::class);
 
 
 Auth::routes(['register' => false]);

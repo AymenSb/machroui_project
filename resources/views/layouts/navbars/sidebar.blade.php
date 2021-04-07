@@ -28,8 +28,8 @@
         </a>
         <div class="collapse" id="machines">
           <ul class="nav">
-            <li class="@if ($activePage == 'profile') active @endif">
-              <a href="{{ route('profile.edit') }}">
+            <li class="@if ($activePage == 'Machines') active @endif">
+              <a href="{{ route('machines.index') }}">
                 <i class="now-ui-icons users_single-02"></i>
                 <p> {{ __("Toutes les machines") }} </p>
               </a>
