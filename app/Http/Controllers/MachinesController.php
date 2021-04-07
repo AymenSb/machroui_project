@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\machines;
+use App\Models\MachinesAttachments;
 use Illuminate\Http\Request;
 
 class MachinesController extends Controller
@@ -35,7 +36,29 @@ class MachinesController extends Controller
      */
     public function store(Request $request)
     {
-     
+
+        machines::create([
+            'name'=>$request->name,
+            'begin_date'=>$request->begin_date,
+            'end_date'=>$request->end_date,
+            'places'=>$request->places,
+            'description'=>$request->description,
+            'trainer'=>$request->trainer,
+        ]);
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            foreach ($image as $files) {
+                $destinationPath = 'files/';
+                $file_name =$files->getClientOriginalName();
+                $files->move($destinationPath, $file_name);
+                $data[] = $file_name;
+            }
+        }
+        $file= new MachinesAttachments();
+        $file->file_name=json_encode($data);
+        $file->save();
+        return back()->withSuccess('Great! Image has been successfully uploaded.');
+    
 
     }
 
