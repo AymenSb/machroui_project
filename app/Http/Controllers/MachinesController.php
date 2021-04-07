@@ -36,19 +36,27 @@ class MachinesController extends Controller
      */
     public function store(Request $request)
     {
-
+        if($request->state=='Nouvelle machine'){
+                $statVal=2;
+        }
+        else {
+            $statVal=1;
+        }
         machines::create([
             'name'=>$request->name,
-            'begin_date'=>$request->begin_date,
-            'end_date'=>$request->end_date,
-            'places'=>$request->places,
-            'description'=>$request->description,
-            'trainer'=>$request->trainer,
+            'price'=>$request->price,
+            'details'=>$request->details,
+            'characteristics'=>$request->characteristics,
+            'markDetails'=>$request->markDetails,
+            'state'=>$request->state,
+            'stateVal'=>$statVal,
+           
         ]);
         if ($request->hasFile('image')) {
+            $machine_id=machines::latest()->first()->id;
             $image = $request->file('image');
             foreach ($image as $files) {
-                $destinationPath = 'files/';
+                $destinationPath = 'Attachments/Machines Attachments/'.$request->name;
                 $file_name =$files->getClientOriginalName();
                 $files->move($destinationPath, $file_name);
                 $data[] = $file_name;
@@ -56,10 +64,9 @@ class MachinesController extends Controller
         }
         $file= new MachinesAttachments();
         $file->file_name=json_encode($data);
+        $file->machine_id=$machine_id;
         $file->save();
         return back()->withSuccess('Great! Image has been successfully uploaded.');
-    
-
     }
 
     /**
