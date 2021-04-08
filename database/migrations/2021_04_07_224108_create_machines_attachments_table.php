@@ -15,7 +15,7 @@ class CreateMachinesAttachmentsTable extends Migration
     {
         Schema::create('machines_attachments', function (Blueprint $table) {
             $table->id();
-            $table->string('file_name');
+            $table->json('file_name');
             $table->unsignedBigInteger('machine_id')->nullable();
             $table->foreign('machine_id')->references('id')->on('machines')->onDelete('cascade');
             $table->timestamps();

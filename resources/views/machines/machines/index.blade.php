@@ -38,48 +38,38 @@ cursor:pointer;
                   <tr style=" white-space: nowrap">
                     <th>id</th>
                     <th>Nom de la machines</th>
-                    <th>Description</th>
+                    
                     <th>Etat de la machine</th>
                     <th>prix</th>
-                    <th>Vendeurs</th>
-                    <th>Caractéristiques</th>
-                    <th>Detais de la marque</th>
+                    
+                    
+                    
                   </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                      <td>Test</td>
-                      <td>Test</td>
-                      <td>Test</td>
-                      <td>Test</td>
-                      <td>Test</td>
-                      <td>Test</td>
-                      <td>Test</td>
-                      <td>Test</td>
+                    <?php $i=0?>
+                    @foreach ($machines as $machine)
+                    <?php $i++?>
+                  <tr class="table-row" data-href="machines/{{$machine->id}}">
+                    <td>{{$i}}</td>
+                    <td>{{$machine->name}}</td>
+                    <td>{{$machine->state}}</td>
+                    <td>{{$machine->price}}</td>
                   </tr>
-                  <tr>
-                    <td>Test</td>
-                    <td>Test</td>
-                    <td>Test</td>
-                    <td>Test</td>
-                    <td>Test</td>
-                    <td>Test</td>
-                    <td>Test</td>
-                    <td>Test</td>
-                  </tr>
+                 
+                  @endforeach
+                
                  
                   </tbody>
                   <tfoot>
                     <tr style=" white-space: nowrap">
-                        <th>id</th>
-                        <th>Nom de la machines</th>
-                        <th>Description</th>
-                        <th>Etat de la machine</th>
-                        <th>prix</th>
-                        <th>Vendeurs</th>
-                        <th>Caractéristiques</th>
-                        <th>Detais de la marque</th>
-                      </tr>>
+                      <th>id</th>
+                      <th>Nom de la machines</th>
+                      
+                      <th>Etat de la machine</th>
+                      <th>prix</th>
+                      
+                      </tr>
                   </tfoot>
                 </table>
               </div>

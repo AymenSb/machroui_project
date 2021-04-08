@@ -15,7 +15,8 @@ class MachinesController extends Controller
      */
     public function index()
     {
-        return view('machines/machines/index');
+        $machines=machines::all();
+        return view('machines/machines/index',compact('machines'));
     }
 
     /**
@@ -75,9 +76,16 @@ class MachinesController extends Controller
      * @param  \App\Models\machines  $machines
      * @return \Illuminate\Http\Response
      */
-    public function show(machines $machines)
+    public function show($id)
     {
-        //
+        $machine=machines::findOrFail($id);
+        $images=MachinesAttachments::where('machine_id',$id)->pluck('file_name');
+        $files=json_decode($images,true);
+        
+       if($machine==null){
+        return redirect('/machines');
+        }
+        return view('machines/machines/show',compact('machine','files'));
     }
 
     /**

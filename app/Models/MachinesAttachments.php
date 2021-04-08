@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class MachinesAttachments extends Model
 {
     use HasFactory;
-    protected $fillable = ['file_name'];
+    protected $fillable = ['file_name'=>'array'];
     protected $table = 'machines_attachments';
 }
