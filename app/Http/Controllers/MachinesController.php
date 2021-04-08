@@ -121,4 +121,14 @@ class MachinesController extends Controller
     {
         //
     }
+
+    public function indexNew(){
+        $Newmachines=machines::where('stateVal',2)->get();
+        return view('machines/machines/indexNew',compact('Newmachines'));
+    }
+
+    public function indexUsed(){
+        $Usedmachines=machines::where('stateVal',1)->get();
+        return view('machines/machines/indexUsed',compact('Usedmachines'));
+    }
 }

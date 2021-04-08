@@ -27,6 +27,8 @@ Route::resource('formations', FormationsController::class);
 Route::resource('attachment', FormationsAttachmentController::class);
 Route::resource('machines',MachinesController::class);
 
+Route::get('NewMachines',[MachinesController::class,'indexNew'])->name('new');
+Route::get('UsedMachines',[MachinesController::class,'indexUsed'])->name('used');
 
 Auth::routes(['register' => false]);
 

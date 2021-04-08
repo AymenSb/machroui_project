@@ -40,14 +40,14 @@
                 <p> {{ __("Requêtes machines en attend") }} </p>
               </a>
             </li>
-            <li class="@if ($activePage == 'test') active @endif">
-              <a href="{{ route('profile.edit') }}">
+            <li class="@if ($activePage == 'NewMachines') active @endif">
+              <a href="{{ route('new') }}">
                 <i class="now-ui-icons users_single-02"></i>
                 <p> {{ __("nouvelles machines") }} </p>
               </a>
             </li>
-            <li class="@if ($activePage == 'users') active @endif">
-              <a href="{{ route('profile.edit') }}">
+            <li class="@if ($activePage == 'UsedMachines') active @endif">
+              <a href="{{ route('used') }}">
                 <i class="now-ui-icons design_bullet-list-67"></i>
                 <p> {{ __("machines d'occasion") }} </p>
               </a>
