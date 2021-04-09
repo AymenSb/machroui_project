@@ -82,16 +82,7 @@ input[type=number]::-webkit-outer-spin-button {
                 <div class="card">
                     <div class="card-header">
                         <h5 class="title">Machine/ Details</h5>
-                        <a href="#modaldemo9"
-                        {{-- data-places="{{$formation->places}}"
-                        data-trainer="{{$formation->trainer}}"
-                        data-name="{{$formation->name}}"
-                        data-begin_date="{{$formation->begin_date}}"
-                        data-end_date="{{$formation->end_date}}" 
-                        data-description="{{$formation->description}}"
-                        data-id="{{$formation->id}}" --}}
-                        data-effect="effect-fall" data-toggle="modal"
-                        class="btn btn-primary btn-round" style="color: white;background-color:#FF3636;">Éditer</a>  
+                        <a href= "{{route('editmachine',$machine->id)}}"class="btn btn-primary btn-round" style="color: white;background-color:#FF3636;">Éditer</a>  
                     </div>
                     <div class="card-body all-icons">
                         {{-- place content here --}}

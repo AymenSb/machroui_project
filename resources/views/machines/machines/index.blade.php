@@ -41,7 +41,7 @@ cursor:pointer;
                     
                     <th>Etat de la machine</th>
                     <th>prix</th>
-                    
+                    <th>Opérations</th>
                     
                     
                   </tr>
@@ -55,6 +55,19 @@ cursor:pointer;
                     <td>{{$machine->name}}</td>
                     <td>{{$machine->state}}</td>
                     <td>{{$machine->price}}</td>
+                    <td>
+                      <a class="btn btn-outline-info btn-sm" 
+                      href= "{{route('editmachine',$machine->id)}}"
+                      role="button"><i class="fas fa-edit"></i>&nbsp;
+                      Modifier</a>
+                      
+                  <a class="btn btn-outline-warning btn-sm"
+                      href= "deletethemachine/{{$machine->id}}"
+                      role="button"><i
+                          class="fas fa-trash"></i>&nbsp;
+                      Supprimer</a>
+                    </td>
+                    </td>
                   </tr>
                  
                   @endforeach
@@ -68,6 +81,8 @@ cursor:pointer;
                       
                       <th>Etat de la machine</th>
                       <th>prix</th>
+                      <th>Opérations</th>
+
                       
                       </tr>
                   </tfoot>

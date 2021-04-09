@@ -122,14 +122,7 @@ class RequestedMachinesController extends Controller
 
     public function delete($id){
         $requestedMachine=RequestedMachines::findOrfail($id);
-        $name=$requestedMachine->name;
-        $price=$requestedMachine->price;
-        $Vendor=$requestedMachine->Vendor;
-        $details=$requestedMachine->details;
-        $characteristics=$requestedMachine->characteristics;
-        $markDetails=$requestedMachine->markDetails;
-        $state=$requestedMachine->state;
-        $stateVal=$requestedMachine->stateVal;
+      
         $requestedMachine->delete();
         return redirect(route('machinesrequests.index'));
 

@@ -82,9 +82,6 @@ class MachinesController extends Controller
         $images=MachinesAttachments::where('machine_id',$id)->pluck('file_name');
         $files=json_decode($images,true);
         
-       if($machine==null){
-        return redirect('/machines');
-        }
         return view('machines/machines/show',compact('machine','files'));
     }
 
@@ -94,9 +91,10 @@ class MachinesController extends Controller
      * @param  \App\Models\machines  $machines
      * @return \Illuminate\Http\Response
      */
-    public function edit(machines $machines)
+    public function edit($id)
     {
-        //
+        echo('54');
+        
     }
 
     /**
@@ -107,8 +105,38 @@ class MachinesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, machines $machines)
-    {
-        //
+    { //2 = new
+
+        //1 =used
+        $id=$request->id;
+        $machine=machines::findOrFail($id);
+        $machine->update([
+            'name'=>$request->name,
+            'price'=>$request->price,
+            'Vendor'=>$request->Vendor,
+            'details'=>$request->details,
+            'characteristics'=>$request->characteristics,
+            'markDetails'=>$request->markDetails,
+            'state'=>$request->state,
+            'stateVal'=>$request->stateVal,
+        ]);
+            $stateVal_new=2;
+            $stateVal_used=1;
+        if($request->state=='Nouvelle machine'){
+           $machine->update([
+            'stateVal'=>$stateVal_new,
+           ]);
+
+        }
+
+        else {
+            $stateVal=1;
+            $machine->update([
+             'stateVal'=>$stateVal_used,
+            ]);
+        }
+        return back();
+        
     }
 
     /**
@@ -119,7 +147,7 @@ class MachinesController extends Controller
      */
     public function destroy(machines $machines)
     {
-        //
+        
     }
 
     public function indexNew(){
@@ -130,5 +158,16 @@ class MachinesController extends Controller
     public function indexUsed(){
         $Usedmachines=machines::where('stateVal',1)->get();
         return view('machines/machines/indexUsed',compact('Usedmachines'));
+    }
+
+    public function editpage($id){
+        $machine=machines::findOrfail($id);
+        return view('machines/machines/edit',compact('machine'));
+    }
+
+    public function delete($id){
+        $machine=machines::findOrFail($id);
+        $machine->delete();
+        return back();
     }
 }

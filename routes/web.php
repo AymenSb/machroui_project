@@ -29,6 +29,8 @@ Route::resource('attachment', FormationsAttachmentController::class);
 Route::resource('machines',MachinesController::class);
 Route::resource('machinesrequests',RequestedMachinesController::class);
 
+Route::get('deletethemachine/{machine_id}',[MachinesController::class,'delete'])->name('deletethemachine');
+Route::get('editmachine/{machine_id}',[MachinesController::class,'editpage'])->name('editmachine');
 Route::get('acceptMachine/{machine_id}',[RequestedMachinesController::class,'accept'])->name('accept');
 Route::get('deleteMachine/{machine_id}',[RequestedMachinesController::class,'delete'])->name('deleteMachine');
 Route::get('NewMachines',[MachinesController::class,'indexNew'])->name('new');

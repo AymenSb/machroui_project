@@ -28,7 +28,6 @@ cursor:pointer;
               <div class="card-header">
  
                 <h3 class="card-title">
-                  <a class="btn btn-primary btn-block" href="{{route('machines.create')}}" style="width: 260px; padding: 10px 32px; font-size: 16px;background-color:#FF3636">Ajouter une machines</a>
                 </h3>
               </div>
               <!-- /.card-header -->
