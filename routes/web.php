@@ -5,6 +5,7 @@ use App\Http\Controllers\FormationsController;
 use App\Http\Controllers\FormationsAttachmentController;
 use App\Http\Controllers\FormationDetailsController;
 use App\Http\Controllers\MachinesController;
+use App\Http\Controllers\RequestedMachinesController;
 
 
 /*
@@ -26,7 +27,10 @@ Route::get('/', function () {
 Route::resource('formations', FormationsController::class);
 Route::resource('attachment', FormationsAttachmentController::class);
 Route::resource('machines',MachinesController::class);
+Route::resource('machinesrequests',RequestedMachinesController::class);
 
+Route::get('acceptMachine/{machine_id}',[RequestedMachinesController::class,'accept'])->name('accept');
+Route::get('deleteMachine/{machine_id}',[RequestedMachinesController::class,'delete'])->name('deleteMachine');
 Route::get('NewMachines',[MachinesController::class,'indexNew'])->name('new');
 Route::get('UsedMachines',[MachinesController::class,'indexUsed'])->name('used');
 

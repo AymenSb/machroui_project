@@ -91,7 +91,7 @@ input[type=number]::-webkit-outer-spin-button {
                         data-description="{{$formation->description}}"
                         data-id="{{$formation->id}}" --}}
                         data-effect="effect-fall" data-toggle="modal"
-                        class="btn btn-primary btn-round" style="color: white;background-color:#FF3636;">Éditer</a>  
+                        class="btn btn-primary btn-round" style="color: white;background-color:#FF3636;" style="visibility: hidden" >Éditer</a>  
                     </div>
                     <div class="card-body all-icons">
                         {{-- place content here --}}
@@ -169,11 +169,7 @@ input[type=number]::-webkit-outer-spin-button {
                                           
                                         </thead>
                                         <tbody>
-                                            @foreach ((array)$files as $item)
-                                                  @foreach ((array)$item as $x)
-                                                      <span>{{$x}}</span>
-                                                  @endforeach
-                                            @endforeach
+                                          
                                         </tbody>
                                         <tfoot>
                                          

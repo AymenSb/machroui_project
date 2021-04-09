@@ -34,8 +34,8 @@
                 <p> {{ __("Toutes les machines") }} </p>
               </a>
             </li>
-            <li class="@if ($activePage == 'test') active @endif">
-              <a href="{{ route('profile.edit') }}">
+            <li class="@if ($activePage == 'RequestedMachines') active @endif">
+              <a href="{{ route('machinesrequests.index') }}">
                 <i class="now-ui-icons users_single-02"></i>
                 <p> {{ __("Requêtes machines en attend") }} </p>
               </a>

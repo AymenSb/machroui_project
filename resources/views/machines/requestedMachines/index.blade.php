@@ -1,7 +1,7 @@
 @extends('layouts.app', [
-    'namePage' => 'Formations',
+    'namePage' => 'Machines',
     'class' => 'sidebar-mini',
-    'activePage' => 'icons',
+    'activePage' => 'RequestedMachines',
 ])
 @section('css')
       <!-- DataTables -->
@@ -28,7 +28,7 @@ cursor:pointer;
               <div class="card-header">
  
                 <h3 class="card-title">
-                  <a class="btn btn-primary btn-block" href="formations/create" style="width: 260px; padding: 10px 32px; font-size: 16px;background-color:#FF3636">ajouter une formation</a>
+                  <a class="btn btn-primary btn-block" href="{{route('machines.create')}}" style="width: 260px; padding: 10px 32px; font-size: 16px;background-color:#FF3636">Ajouter une machines</a>
                 </h3>
               </div>
               <!-- /.card-header -->
@@ -37,34 +37,53 @@ cursor:pointer;
                   <thead>
                   <tr style=" white-space: nowrap">
                     <th>id</th>
-                    <th>Nom de la formation</th>
-                    <th>Date de début</th>
-                    <th>Nombre de places</th>
-                    <th>Formateur</th>
+                    <th>Nom de la machines</th>
+                    
+                    <th>prix</th>
+                    <th>vendeur</th>
+                    <th>operations</th>
+
+                    
+                    
                   </tr>
                   </thead>
                   <tbody>
                     <?php $i=0?>
-                    @foreach ($formations as $formation)
+                    @foreach ($requested as $machine)
                     <?php $i++?>
-                  <tr class="table-row" data-href="formations/{{$formation->id}}">
+                  <tr >
                     <td>{{$i}}</td>
-                    <td>{{$formation->name}}</td>
-                    <td>{{$formation->begin_date}}</td>
-                    <td>{{$formation->places}} personnes</td>
-                    <td>{{$formation->trainer}}</td>
+                    <td class="table-row" data-href="machinesrequests/{{$machine->id}}">{{$machine->name}}</td>
+                    <td>{{$machine->price}}</td>
+                    <td>{{$machine->Vendor}}</td>
+                    <td>
+                      <a class="btn btn-outline-success btn-sm" 
+                      href= "acceptMachine/{{$machine->id}}"
+                      role="button"><i class="fas fa-plus"></i>&nbsp;
+                      Ajouter</a>
+                      
+                  <a class="btn btn-outline-danger btn-sm"
+                      href= "deleteMachine/{{$machine->id}}"
+                      role="button"><i
+                          class="fas fa-trash"></i>&nbsp;
+                      Supprimer</a>
+                    </td>
                   </tr>
                  
                   @endforeach
+                
+                 
                   </tbody>
                   <tfoot>
-                  <tr>
-                    <th>id</th>
-                    <th>Nom de la formation</th>
-                    <th>Date de début</th>
-                    <th>Nombre de places</th>
-                    <th>Formateur</th>
-                  </tr>
+                    <tr style=" white-space: nowrap">
+                      <th>id</th>
+                      <th>Nom de la machines</th>
+                      
+                      <th>prix</th>
+                      <th>vendeur</th>
+                      <th>operations</th>
+                      
+                      </tr>
                   </tfoot>
                 </table>
               </div>

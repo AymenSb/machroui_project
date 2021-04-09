@@ -56,7 +56,7 @@ class FormationsController extends Controller
             'trainer'=>$request->trainer,
         ]);
 
-        if ($request->hasFile('file_name')) {
+        if ($request->hasFile('image')) {
             $formation_id = Formations::latest()->first()->id;
             $image = $request->file('image');
             $file_name = $image->getClientOriginalName();
