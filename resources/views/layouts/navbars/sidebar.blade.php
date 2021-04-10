@@ -20,7 +20,7 @@
       </li>
       <li>
         <a data-toggle="collapse" href="#machines">
-            <i class="fab fa-laravel"></i>
+          <i class="now-ui-icons users_single-02"></i>
           <p>
             {{ __("Machines") }}
             <b class="caret"></b>
