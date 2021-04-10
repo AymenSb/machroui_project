@@ -61,12 +61,13 @@
           <p>{{ __('Formations') }}</p>
         </a>
       </li>
-      {{-- <li class = "@if ($activePage == 'maps') active @endif">
-        <a href="{{ route('page.index','maps') }}">
+       {{-- <li class = "@if ($activePage == 'maps') active @endif">
+        <a href="{{ route('category.index') }}">
           <i class="now-ui-icons location_map-big"></i>
-          <p>{{ __('Maps') }}</p>
+          <p>{{ __('Categories') }}</p>
         </a>
-      </li>
+      </li> --}}
+      {{--
       <li class = " @if ($activePage == 'notifications') active @endif">
         <a href="{{ route('page.index','notifications') }}">
           <i class="now-ui-icons ui-1_bell-53"></i>

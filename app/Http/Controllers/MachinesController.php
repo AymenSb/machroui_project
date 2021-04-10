@@ -78,11 +78,8 @@ class MachinesController extends Controller
      */
     public function show($id)
     {
-        $machine=machines::findOrFail($id);
-        $images=MachinesAttachments::where('machine_id',$id)->pluck('file_name');
-        $files=json_decode($images,true);
-        
-        return view('machines/machines/show',compact('machine','files'));
+        $machine=machines::findOrFail($id);      
+        return view('machines/machines/show',compact('machine','images'));
     }
 
     /**

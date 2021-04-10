@@ -81,7 +81,7 @@ input[type=number]::-webkit-outer-spin-button {
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="title">Machine/ Details</h5>
+                        <h3 class="title">Machine/ Details</h3>
                         <a href= "{{route('editmachine',$machine->id)}}"class="btn btn-primary btn-round" style="color: white;background-color:#FF3636;">Éditer</a>  
                     </div>
                     <div class="card-body all-icons">
@@ -160,11 +160,11 @@ input[type=number]::-webkit-outer-spin-button {
                                           
                                         </thead>
                                         <tbody>
-                                            @foreach ((array)$files as $item)
-                                                  @foreach ((array)$item as $x)
-                                                      <span>{{$x}}</span>
-                                                  @endforeach
+                                            <td>@foreach (array_values(json_decode($machine->file->file_name , true)) as $item)
+                                                <p>{{$item}}</p>
                                             @endforeach
+                                           
+                                            </td>
                                         </tbody>
                                         <tfoot>
                                          
