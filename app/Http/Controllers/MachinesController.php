@@ -79,7 +79,7 @@ class MachinesController extends Controller
     public function show($id)
     {
         $machine=machines::findOrFail($id);      
-        return view('machines/machines/show',compact('machine','images'));
+        return view('machines/machines/show',compact('machine',));
     }
 
     /**

@@ -6,6 +6,8 @@ use App\Http\Controllers\FormationsAttachmentController;
 use App\Http\Controllers\FormationDetailsController;
 use App\Http\Controllers\MachinesController;
 use App\Http\Controllers\RequestedMachinesController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SubcategoryController;
 
 
 /*
@@ -28,6 +30,8 @@ Route::resource('formations', FormationsController::class);
 Route::resource('attachment', FormationsAttachmentController::class);
 Route::resource('machines',MachinesController::class);
 Route::resource('machinesrequests',RequestedMachinesController::class);
+Route::resource('category',CategoryController::class);
+Route::resource('subcategory',SubcategoryController::class);
 
 Route::get('deletethemachine/{machine_id}',[MachinesController::class,'delete'])->name('deletethemachine');
 Route::get('editmachine/{machine_id}',[MachinesController::class,'editpage'])->name('editmachine');
