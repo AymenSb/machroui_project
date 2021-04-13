@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\formations;
+use App\Models\subcategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB ;
+
 
 class CategoryController extends Controller
 {
@@ -14,7 +18,9 @@ class CategoryController extends Controller
      */
     public function index()
     {   $categories=Category::all();
-        return view('category.index',compact('categories'));
+        $formations=formations::all();
+        $subcategories=subcategory::all();
+        return view('category.index',compact('categories','formations','subcategories'));
     }
 
     /**
@@ -45,7 +51,17 @@ class CategoryController extends Controller
             $category->slug .='-'.($number+1);
         }
         $category->save();
+
+       
+        
+        $subcategory=new subcategory();
+        $subcategory->category_id=$category->id;
+        $subcategory->name='Autre';
+        $subcategory->slug='autre';
+         $subcategory->save();
+
         return back();
+
     }
 
     /**
@@ -91,5 +107,11 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         //
+    }
+
+    public function getsubcategory($id){
+        $subcategories=DB::table('subcategories')->where('category_id',$id)->pluck('name','id');
+        return json_encode($subcategories);
+  
     }
 }

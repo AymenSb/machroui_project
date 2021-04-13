@@ -33,6 +33,8 @@ Route::resource('machinesrequests',RequestedMachinesController::class);
 Route::resource('category',CategoryController::class);
 Route::resource('subcategory',SubcategoryController::class);
 
+Route::get('getsubcategory/{id}',[CategoryController::class,'getsubcategory']);
+Route::post('addToSub',[SubcategoryController::class,'addToSub'])->name('addToSub');
 Route::get('deletethemachine/{machine_id}',[MachinesController::class,'delete'])->name('deletethemachine');
 Route::get('editmachine/{machine_id}',[MachinesController::class,'editpage'])->name('editmachine');
 Route::get('acceptMachine/{machine_id}',[RequestedMachinesController::class,'accept'])->name('accept');

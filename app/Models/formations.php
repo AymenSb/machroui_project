@@ -14,4 +14,9 @@ class formations extends Model
     {
         return $this->hasOne(formations_attachment::class,'formation_id', 'id');
     }
+
+    public function subcategory()
+    {
+        return $this->belongsToMany(subcategory::class)->withTimestamps();
+    }
 }

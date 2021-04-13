@@ -8,5 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class subcategory extends Model
 {
     use HasFactory;
+
+    public function formations()
+    {
+        return $this->belongsToMany(formations::class)->withTimestamps();
+    }
   
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\subcategory;
+use App\Models\formations;
 use Illuminate\Http\Request;
 
 class SubcategoryController extends Controller
@@ -92,5 +93,16 @@ class SubcategoryController extends Controller
     public function destroy(subcategory $subcategory)
     {
         //
+    }
+
+    public function addToSub(Request $request){
+        // echo($request->subcategory_id.'<=>'.$request->formation_id);
+        if($request->formation){
+        $subcategory=subcategory::where('name',$request->subcategory)->first();
+        $formation=formations::where('id',$request->formation)->first();
+        $subcategory->formations()->syncWithoutDetaching($formation);
+        }
+       return back();
+        
     }
 }
