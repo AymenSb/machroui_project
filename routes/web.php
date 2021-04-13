@@ -8,6 +8,7 @@ use App\Http\Controllers\MachinesController;
 use App\Http\Controllers\RequestedMachinesController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubcategoryController;
+use App\Http\Controllers\RawMaterialsController;
 
 
 /*
@@ -29,6 +30,7 @@ Route::get('/', function () {
 Route::resource('formations', FormationsController::class);
 Route::resource('attachment', FormationsAttachmentController::class);
 Route::resource('machines',MachinesController::class);
+Route::resource('rawmaterials',RawMaterialsController::class);
 Route::resource('machinesrequests',RequestedMachinesController::class);
 Route::resource('category',CategoryController::class);
 Route::resource('subcategory',SubcategoryController::class);

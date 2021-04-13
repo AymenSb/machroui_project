@@ -14,4 +14,9 @@ class machines extends Model
         return $this->hasOne(MachinesAttachments::class,'machine_id','id');
     }
 
+    public function subcategory()
+    {
+        return $this->belongsToMany(subcategory::class)->withTimestamps();
+    }
+
 }

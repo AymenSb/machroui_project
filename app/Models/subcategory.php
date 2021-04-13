@@ -13,5 +13,10 @@ class subcategory extends Model
     {
         return $this->belongsToMany(formations::class)->withTimestamps();
     }
+
+    public function machines()
+    {
+        return $this->belongsToMany(machines::class)->withTimestamps();
+    }
   
 }

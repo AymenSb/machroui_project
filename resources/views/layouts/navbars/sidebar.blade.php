@@ -61,7 +61,7 @@
           <p>{{ __('Formations') }}</p>
         </a>
       </li>
-       <li class = "@if ($activePage == 'maps') active @endif">
+       <li class = "@if ($activePage == 'categories') active @endif">
         <a href="{{ route('category.index') }}">
           <i class="now-ui-icons location_map-big"></i>
           <p>{{ __('Categories') }}</p>

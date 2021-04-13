@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\formations;
+use App\Models\machines;
 use App\Models\subcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB ;
@@ -19,8 +20,9 @@ class CategoryController extends Controller
     public function index()
     {   $categories=Category::all();
         $formations=formations::all();
+        $machines=machines::all();
         $subcategories=subcategory::all();
-        return view('category.index',compact('categories','formations','subcategories'));
+        return view('category.index',compact('categories','formations','subcategories','machines'));
     }
 
     /**
@@ -57,7 +59,13 @@ class CategoryController extends Controller
         $subcategory=new subcategory();
         $subcategory->category_id=$category->id;
         $subcategory->name='Autre';
-        $subcategory->slug='autre';
+        $subcategory->slug=str_slug('Autre');
+        $latestSlug=subcategory::whereRaw("slug RLIKE'^{$subcategory->slug}(-[0-9])?$'")->latest('id')->value('slug');
+        if($latestSlug){
+            $pieces=explode('-',$latestSlug);
+            $number=intval(end($pieces));
+            $subcategory->slug .='-'.($number+1);
+        }
          $subcategory->save();
 
         return back();

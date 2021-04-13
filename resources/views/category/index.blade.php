@@ -1,7 +1,7 @@
 @extends('layouts.app', [
-    'namePage' => 'Icons',
+    'namePage' => 'Categories',
     'class' => 'sidebar-mini',
-    'activePage' => 'icons',
+    'activePage' => 'categories',
 ])
 @section('css')
 <style>
@@ -19,7 +19,7 @@
     <div class="row">
 
       <div class="col-md-6">
-        <div class="card" >
+        <div class="card" style="height: 323px" >
           <div class="card-header">
             <h3>Nouvelle catégorie</h3>
           </div>
@@ -107,16 +107,19 @@
                       </p> 
                     </a>
                     <div class="collapse" id="{{$subcategory->slug}}">
-                      <ul>Formations
-                        @foreach ($subcategory->formations as $item)
-                            <ul><a href="formations/{{$item->id}}">{{$item->name}}</a></ul>
+                      <ul><b>Formations</b>
+                        
+                        @foreach ($subcategory->formations as $formation)
+                            <ul><a href="formations/{{$formation->id}}">{{$formation->name}}</a></ul>
                         @endforeach
                       </ul>
-                      <ul>Machines
-                        <ul>test machine
-
-                        </ul>
+                      
+                      <ul><b>Machines</b>
+                        @foreach ($subcategory->machines as $machine)
+                            <ul><a href="machines/{{$machine->id}}">{{$machine->name}}</a></ul>
+                        @endforeach
                       </ul>
+
                     </div>
                   </li>
                 </ul>
@@ -148,19 +151,28 @@
                           <option value="{{ $category->id }}"> {{ $category->name }}</option>
                       @endforeach
                   </select>
-              
+                  <br>
                   <label for="inputName" class="control-label">Sous-Categorie</label>
                   <select required id="subcategory" name="subcategory" class="form-control">
                   </select>
-                          
+                      <br>    
                   <label>Formations</label>
-                  <select required name="formation" class="form-control SlectBox">
+                  <select  name="formation" class="form-control SlectBox">
                       <!--placeholder-->
                       <option value="" selected disabled>Choisissez une formation</option>
                       @foreach ($formations as $formation)
                           <option value="{{ $formation->id }}"> {{ $formation->name }}</option>
                       @endforeach
                   </select>
+                  <br>
+                  <label>Machines</label>
+                  <select  name="machine" class="form-control SlectBox">
+                    <!--placeholder-->
+                    <option value="" selected disabled>Choisissez une machine</option>
+                    @foreach ($machines as $machine)
+                        <option value="{{ $machine->id }}"> {{ $machine->name }}</option>
+                    @endforeach
+                </select>
                     
                
                 <div class="modal-footer">
@@ -192,7 +204,7 @@
                       $('select[name="subcategory"]').empty();
                       $.each(data, function(key, value) {
                           $('select[name="subcategory"]').append('<option value="' +
-                              value + '">' + value + '</option>');
+                              key + '">' + value + '</option>');
                       });
                   },
               });
