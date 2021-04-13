@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRawMaterialsTable extends Migration
+class CreateRawmaterialsAttachmentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateRawMaterialsTable extends Migration
      */
     public function up()
     {
-        Schema::create('raw_materials', function (Blueprint $table) {
+        Schema::create('rawmaterials_attachments', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('description')->nullable();
-            $table->string('brand');
-            $table->string('price');
+            $table->string('file_name');
+            $table->unsignedBigInteger('material_id')->nullable();
+            $table->foreign('material_id')->references('id')->on('raw_materials')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateRawMaterialsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('raw_materials');
+        Schema::dropIfExists('rawmaterials_attachments');
     }
 }

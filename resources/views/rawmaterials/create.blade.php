@@ -47,36 +47,37 @@ input[type=number]::-webkit-outer-spin-button {
                                </div>
                            @endif
                                            {{-- VALIDATIONS HERE --}} 
-            <h5 class="title">Ajouter une matière première</h5>
+            <h5 class="title">Ajouter une matiére premiére</h5>
           </div>
           <div class="card-body all-icons">
             <div class="col-lg-12 col-md-12">
               <div class="card">
                   <div class="card-body">
-                      <form action="{{ route('formations.store') }}" method="post" enctype="multipart/form-data"
+                      <form action="{{ route('rawmaterials.store') }}" method="post" enctype="multipart/form-data"
                           autocomplete="off">
                           {{ csrf_field() }}
                           {{-- 1 --}}
   
                           <div class="row">
                               <div class="col">
-                                  <label for="inputName" class="control-label">Nom de la formation </label>
+                                  <label for="inputName" class="control-label">Nom de la matiére premiére </label>
                                   <input type="text" class="form-control" id="name" name="name"
                                       title="Veuillez saisir le nom de la formation" required>
                               </div>
   
+                             
                               <div class="col">
-                                  <label>Date de début</label>
-                                  <input class="form-control fc-datepicker" id="begin_date"name="begin_date" placeholder="DD-MM-YYYY"
-                                      type="text" value="{{ date('Y-m-d') }}" required>
-                              </div>
-  
+                                <label for="inputName" class="control-label">Nom de la marque </label>
+                                <input type="text" class="form-control" id="brand" name="brand"
+                                    title="Veuillez saisir le nom de la formation" required>
+                            </div>
+
                               <div class="col">
-                                  <label>Date de fin</label>
-                                  <input class="form-control fc-datepicker"  name="end_date" placeholder="DD-MM-YYYY"
-                                      type="text" value="{{ date('Y-m-d') }}"  data-provide="datepicker" required>
-                                      
+                                <label for="inputName" class="control-label">Prix</label>
+                                <input type="text" class="form-control" id="price" name="price"
+                                    title="Veuillez saisir le nom de la formation" required>
                               </div>
+
   
                           </div>
                           <span style=" margin-left: 20px;"></span>
@@ -84,22 +85,12 @@ input[type=number]::-webkit-outer-spin-button {
 
                           {{-- 2 --}}
                           <div class="row">
-                            <div class="col">
-                                <label for="inputName" class="control-label">places</label>
-                                <input  style="place-holder:none;"type="number" class="form-control" id="inputPlaces" name="places"
-                                    title="Veuillez saisir le nombre limites des places" required>
+                            <div class="col" >
+                                <label for="inputName" class="control-label">Description</label>
+                                <textarea  style="width: 500px" style="place-holder:none;" class="form-control" id="description" name="description"
+                                    title="Veuillez saisir le nombre limites des places" ></textarea>
                             </div>
 
-                            <div class="col">
-                              <label for="inputName" class="control-label">Description</label>
-                              <input type="text" class="form-control" id="description" name="description"
-                                  title="Veuillez saisir la Description">
-                          </div>
-                            <div class="col">
-                              <label for="inputName" class="control-label">Nom du formateur</label>
-                              <input type="text" class="form-control" id="trainer" name="trainer"
-                                  title="Veuillez saisir le nom du formateur">
-                          </div>
 
                          
                         </div>
@@ -114,24 +105,12 @@ input[type=number]::-webkit-outer-spin-button {
 
                         <div class="col-sm-12 col-md-12">
                             <input type="file" name="image" id="image" class="dropify" accept=".jpg, .png, image/jpeg, image/png"
-                                data-height="70" required />
+                                data-height="70"  />
                         </div><br>
-
-
-                          {{-- 4 --}}
-  
-                         
-  
-                          {{-- 5 --}}
-                        
-  
-  
 
                           <div class="d-flex justify-content-center">
                               <button type="submit" class="btn btn-primary" style="background-color:#FF3636">Save data</button>
                           </div>
-  
-  
                       </form>
                   </div>
               </div>

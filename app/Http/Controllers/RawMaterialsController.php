@@ -24,7 +24,7 @@ class RawMaterialsController extends Controller
      */
     public function create()
     {
-        //
+        return view('rawmaterials/create');
     }
 
     /**
@@ -35,7 +35,27 @@ class RawMaterialsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        rawMaterials::create([
+            'name'=>$request->name,
+            'description'=>$request->description,
+            'price'=>$request->price,
+            'brand'=>$request->brand,
+        ]);
+        if ($request->hasFile('image')) {
+            $material_id = rawMaterials::latest()->first()->id;
+            $image = $request->file('image');
+            $file_name = $image->getClientOriginalName();
+
+            $attachments = new rawmaterials_attachments();
+            $attachments->file_name = $file_name;
+            $attachments->formation_id = $formation_id;
+            $attachments->save();
+
+
+            $imageName = $request->image->getClientOriginalName();
+            $request->image->move(public_path('Attachments/Formations Attachments/' .$request->name ), $imageName);
+        }
+        return back();
     }
 
     /**

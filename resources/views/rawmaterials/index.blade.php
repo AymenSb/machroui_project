@@ -51,20 +51,12 @@ cursor:pointer;
                     <td>{{$formation->name}}</td>
                     <td>{{$formation->begin_date}}</td>
                     <td>{{$formation->places}} personnes</td>
-                    <td>{{$formation->trainer}}</td>
+                   
                   </tr>
                  
                   @endforeach --}}
                   </tbody>
-                  <tfoot>
-                  <tr>
-                    <th>id</th>
-                    <th>Nom de la formation</th>
-                    <th>Date de début</th>
-                    <th>Nombre de places</th>
-                    <th>Formateur</th>
-                  </tr>
-                  </tfoot>
+                
                 </table>
               </div>
               <!-- /.card-body -->
