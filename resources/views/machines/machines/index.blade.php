@@ -74,18 +74,7 @@ cursor:pointer;
                 
                  
                   </tbody>
-                  <tfoot>
-                    <tr style=" white-space: nowrap">
-                      <th>id</th>
-                      <th>Nom de la machines</th>
-                      
-                      <th>Etat de la machine</th>
-                      <th>prix</th>
-                      <th>Opérations</th>
-
-                      
-                      </tr>
-                  </tfoot>
+           
                 </table>
               </div>
               <!-- /.card-body -->

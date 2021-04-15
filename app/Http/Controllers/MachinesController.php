@@ -60,12 +60,14 @@ class MachinesController extends Controller
                 $destinationPath = 'Attachments/Machines Attachments/'.$request->name;
                 $file_name =$files->getClientOriginalName();
                 $files->move($destinationPath, $file_name);
-                $data[] = $file_name;
+
+                $file= new MachinesAttachments();
+                $file->file_name=$file_name;
+                $file->machine_id=$machine_id;
+                $file->save();
+                
             }
-            $file= new MachinesAttachments();
-            $file->file_name=json_encode($data);
-            $file->machine_id=$machine_id;
-            $file->save();
+            
         }
      
         session()->flash('add','La machine a été ajoutée avec succès');
@@ -80,8 +82,9 @@ class MachinesController extends Controller
      */
     public function show($id)
     {
-        $machine=machines::findOrFail($id);      
-        return view('machines/machines/show',compact('machine',));
+        $machine=machines::findOrFail($id);
+        $images=MachinesAttachments::where('machine_id',$id)->get();      
+        return view('machines/machines/show',compact('machine','images'));
     }
 
     /**
@@ -92,7 +95,7 @@ class MachinesController extends Controller
      */
     public function edit($id)
     {
-        echo('54');
+        //
         
     }
 

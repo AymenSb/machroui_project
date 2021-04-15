@@ -176,18 +176,25 @@ input[type=number]::-webkit-outer-spin-button {
                                         </thead>
                                         <tbody>
                                           <?php $i=0?>
-                                          @foreach (array_values(json_decode($machine->file->file_name , true)) as $item)
+                                          @foreach ($images as $item)
                                           <?php $i++?>
                                         <tr class="table-row" data-href="machines/{{$machine->id}}">
                                           <td>{{$i}}</td>
-                                          <td>{{$item}}</td>
-                                          <td>Operations</td>
+                                          <td>{{$item->file_name}}</td>
+                                          <td>
+                                            <a class="btn btn-outline-info btn-sm" 
+                                            href= "{{route('editmachine',$machine->id)}}"
+                                            role="button"><i class="fas fa-edit"></i>&nbsp;
+                                            Modifier</a>
+                                            
+                                        <a class="btn btn-outline-warning btn-sm"
+                                            href= "deletethemachine/{{$machine->id}}"
+                                            role="button"><i
+                                                class="fas fa-trash"></i>&nbsp;
+                                            Supprimer</a>
+                                          </td>
                                         </tr>
-                                        
-                                       
                                         @endforeach
-                                      
-                                       
                                         </tbody>
                                       </table>
                                 </div>
