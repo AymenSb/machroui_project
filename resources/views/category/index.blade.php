@@ -120,6 +120,12 @@
                         @endforeach
                       </ul>
 
+                      <ul><b>Matières premières</b>
+                        @foreach ($subcategory->materials as $material)
+                            <ul><a href="rawmaterials/{{$material->id}}">{{$material->name}}</a></ul>
+                        @endforeach
+                      </ul>
+
                     </div>
                   </li>
                 </ul>
@@ -173,6 +179,15 @@
                         <option value="{{ $machine->id }}"> {{ $machine->name }}</option>
                     @endforeach
                 </select>
+
+                <label>Matières premières</label>
+                <select  name="material" class="form-control SlectBox">
+                  <!--placeholder-->
+                  <option value="" selected disabled>Choisissez une matière première</option>
+                  @foreach ($materials as $material)
+                      <option value="{{ $material->id }}"> {{ $material->name }}</option>
+                  @endforeach
+              </select>
                     
                
                 <div class="modal-footer">

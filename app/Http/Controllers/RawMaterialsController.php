@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\rawMaterials;
+use App\Models\rawmaterials_attachments;
 use Illuminate\Http\Request;
+use File;
+
 
 class RawMaterialsController extends Controller
 {
@@ -13,8 +16,8 @@ class RawMaterialsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return view('rawmaterials/index');
+    {    $materials=rawMaterials::all();
+        return view('rawmaterials/index',compact('materials'));
     }
 
     /**
@@ -46,14 +49,14 @@ class RawMaterialsController extends Controller
             $image = $request->file('image');
             $file_name = $image->getClientOriginalName();
 
-            $attachments = new rawmaterials_attachments();
-            $attachments->file_name = $file_name;
-            $attachments->formation_id = $formation_id;
-            $attachments->save();
+            $attachment = new rawmaterials_attachments();
+            $attachment->file_name = $file_name;
+            $attachment->material_id = $material_id;
+            $attachment->save();
 
 
             $imageName = $request->image->getClientOriginalName();
-            $request->image->move(public_path('Attachments/Formations Attachments/' .$request->name ), $imageName);
+            $request->image->move(public_path('Attachments/Matières premières Attachments/' .$request->name ), $imageName);
         }
         return back();
     }
@@ -64,9 +67,10 @@ class RawMaterialsController extends Controller
      * @param  \App\Models\rawMaterials  $rawMaterials
      * @return \Illuminate\Http\Response
      */
-    public function show(rawMaterials $rawMaterials)
-    {
-        //
+    public function show($id)
+    {   $material=rawMaterials::where('id',$id)->first();
+        $image=rawmaterials_attachments::where('material_id',$id)->get();
+        return view('rawmaterials/show',compact('material','image'));
     }
 
     /**
@@ -89,7 +93,24 @@ class RawMaterialsController extends Controller
      */
     public function update(Request $request, rawMaterials $rawMaterials)
     {
-        //
+        $material=rawMaterials::findOrFail($request->id);
+        $image=rawmaterials_attachments::where('material_id',$request->id)->pluck('file_name')->first();
+        $file=$image;
+        $old_name=$material->name;
+        
+        $material->update([
+            'name'=>$request->name,
+            'brand'=>$request->brand,
+            'description'=>$request->description,
+            'price'=>$request->price,  
+        ]);
+       
+        $new_name=$material->name;
+        if($file){
+        $old_path=public_path('Attachments/Matières premières Attachments/'.$old_name,$file);
+        $new_path=public_path('Attachments/Matières premières Attachments/'.$new_name,$file);
+        File::move($old_path, $new_path);}
+        return back();
     }
 
     /**

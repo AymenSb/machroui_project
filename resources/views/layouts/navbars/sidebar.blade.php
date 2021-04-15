@@ -61,19 +61,21 @@
           <p>{{ __('Formations') }}</p>
         </a>
       </li>
+      <li class = " @if ($activePage == 'Matiéres premiéres') active @endif">
+        <a href="{{ route('rawmaterials.index') }}">
+          <i class="now-ui-icons ui-1_bell-53"></i>
+          <p>{{ __('Matiéres premiéres') }}</p>
+        </a>
+      </li>
        <li class = "@if ($activePage == 'categories') active @endif">
         <a href="{{ route('category.index') }}">
           <i class="now-ui-icons location_map-big"></i>
           <p>{{ __('Categories') }}</p>
         </a>
       </li>
+      
+     
       {{--
-      <li class = " @if ($activePage == 'notifications') active @endif">
-        <a href="{{ route('page.index','notifications') }}">
-          <i class="now-ui-icons ui-1_bell-53"></i>
-          <p>{{ __('Notifications') }}</p>
-        </a>
-      </li>
       <li class = " @if ($activePage == 'table') active @endif">
         <a href="{{ route('page.index','table') }}">
           <i class="now-ui-icons design_bullet-list-67"></i>

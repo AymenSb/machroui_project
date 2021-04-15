@@ -1,7 +1,7 @@
 @extends('layouts.app', [
-    'namePage' => 'Formations',
+    'namePage' => 'Matiéres premiéres',
     'class' => 'sidebar-mini',
-    'activePage' => 'icons',
+    'activePage' => 'Matiéres premiéres',
 ])
 @section('css')
 <link rel="stylesheet" href="../../plugins/jquery-ui/jquery-ui.min.css">
@@ -100,8 +100,7 @@ input[type=number]::-webkit-outer-spin-button {
                         
                           <hr>
 
-                        <p class="text-danger">* La format de pièce jointe est jpeg, .jpg, .png</p>
-                        <h5 class="card-title">Pièces jointes</h5>
+                        <h5 class="card-title">Ajouter une image</h5>
 
                         <div class="col-sm-12 col-md-12">
                             <input type="file" name="image" id="image" class="dropify" accept=".jpg, .png, image/jpeg, image/png"

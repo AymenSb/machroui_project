@@ -27,7 +27,6 @@ textarea::-webkit-scrollbar-thumb {
 @stop
 
 @section('content')
-
   <div class="panel-header panel-header-sm">
   </div>
   <div class="content">
@@ -36,13 +35,14 @@ textarea::-webkit-scrollbar-thumb {
         <div class="card">
           <div class="card-header">
                            {{-- VALIDATIONS HERE --}} 
-                           @if (session()->has('Add'))
-                           <div class="alert alert-success alert-dismissible fade show" role="alert">
-                             <strong>{{ session()->get('Add') }}</strong>
-                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                               <span aria-hidden="true">&times;</span>
-                             </button>
-                           </div>
+                           @if (session()->has('add'))
+                           <div class="alert alert-info alert-with-icon" data-notify="container">
+                            <button type="button" aria-hidden="true" data-dismiss="alert" class="close">
+                              <i class="now-ui-icons ui-1_simple-remove"></i>
+                            </button>
+                            <span data-notify="icon" class="now-ui-icons ui-1_bell-53"></span>
+                            <span data-notify="message">{{ session()->get('add') }}</span>
+                          </div>
                            @endif
                            
                            

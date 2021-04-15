@@ -18,5 +18,10 @@ class subcategory extends Model
     {
         return $this->belongsToMany(machines::class)->withTimestamps();
     }
+
+    public function materials()
+    {
+        return $this->belongsToMany(rawMaterials::class)->withTimestamps();
+    }
   
 }

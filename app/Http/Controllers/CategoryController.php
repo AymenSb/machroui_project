@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\formations;
 use App\Models\machines;
+use App\Models\rawMaterials;
 use App\Models\subcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB ;
@@ -22,7 +23,8 @@ class CategoryController extends Controller
         $formations=formations::all();
         $machines=machines::all();
         $subcategories=subcategory::all();
-        return view('category.index',compact('categories','formations','subcategories','machines'));
+        $materials=rawMaterials::all();
+        return view('category.index',compact('categories','formations','subcategories','machines','materials'));
     }
 
     /**

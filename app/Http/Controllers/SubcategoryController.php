@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\subcategory;
 use App\Models\formations;
 use App\Models\machines;
+use App\Models\rawMaterials;
 use Illuminate\Http\Request;
 
 class SubcategoryController extends Controller
@@ -108,6 +109,11 @@ class SubcategoryController extends Controller
             $subcategory=subcategory::where('id',$request->subcategory)->first();
             $machine=machines::where('id',$request->machine)->first();
             $subcategory->machines()->syncWithoutDetaching($machine);
+        }
+        if($request->material){
+            $subcategory=subcategory::where('id',$request->subcategory)->first();
+            $material=rawMaterials::where('id',$request->material)->first();
+            $subcategory->materials()->syncWithoutDetaching($material);
         }
     return back();
         

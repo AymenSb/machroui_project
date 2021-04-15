@@ -62,12 +62,14 @@ class MachinesController extends Controller
                 $files->move($destinationPath, $file_name);
                 $data[] = $file_name;
             }
+            $file= new MachinesAttachments();
+            $file->file_name=json_encode($data);
+            $file->machine_id=$machine_id;
+            $file->save();
         }
-        $file= new MachinesAttachments();
-        $file->file_name=json_encode($data);
-        $file->machine_id=$machine_id;
-        $file->save();
-        return back()->withSuccess('Great! Image has been successfully uploaded.');
+     
+        session()->flash('add','La machine a été ajoutée avec succès');
+        return redirect('/machines/create');
     }
 
     /**

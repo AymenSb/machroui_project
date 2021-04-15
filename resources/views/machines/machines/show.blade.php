@@ -152,23 +152,43 @@ input[type=number]::-webkit-outer-spin-button {
                             <div class="col-md pr-1">
                                 <div class="form-group">
                                     <label>{{__("Images")}}</label>
-                                    <table id="example1" class="table table-bordered table-striped">
+                                    {{-- <table id="example1" class="table table-bordered table-striped">
                                         <thead>
-                                        
-                                          
-                                          
-                                          
                                         </thead>
                                         <tbody>
-                                            <td>@foreach (array_values(json_decode($machine->file->file_name , true)) as $item)
-                                                <p>{{$item}}</p>
-                                            @endforeach
-                                           
-                                            </td>
+                                            <tr class="table-row">@if($machine->file)
+                                                @foreach (array_values(json_decode($machine->file->file_name , true)) as $item)
+                                                    <td>{{$item}}</td>
+                                                @endforeach
+
+                                                @endif
+                                            </tr>
+                                            
                                         </tbody>
                                         <tfoot>
                                          
                                         </tfoot>
+                                    </table> --}}
+                                    <table id="example1" class="table table-bordered table-striped">
+                                        <thead>
+                                        <tr style=" white-space: nowrap">
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                          <?php $i=0?>
+                                          @foreach (array_values(json_decode($machine->file->file_name , true)) as $item)
+                                          <?php $i++?>
+                                        <tr class="table-row" data-href="machines/{{$machine->id}}">
+                                          <td>{{$i}}</td>
+                                          <td>{{$item}}</td>
+                                          <td>Operations</td>
+                                        </tr>
+                                        
+                                       
+                                        @endforeach
+                                      
+                                       
+                                        </tbody>
                                       </table>
                                 </div>
                             </div>

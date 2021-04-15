@@ -1,7 +1,7 @@
 @extends('layouts.app', [
-    'namePage' => 'Formations',
+    'namePage' => 'Matiéres premiéres',
     'class' => 'sidebar-mini',
-    'activePage' => 'icons',
+    'activePage' => 'Matiéres premiéres',
 ])
 @section('css')
       <!-- DataTables -->
@@ -28,7 +28,7 @@ cursor:pointer;
               <div class="card-header">
  
                 <h3 class="card-title">
-                  <a class="btn btn-primary btn-block" href="rawmaterials/create" style="width: 260px; padding: 10px 32px; font-size: 16px;background-color:#FF3636">ajouter une formation</a>
+                  <a class="btn btn-primary btn-block" href="rawmaterials/create" style="width: 260px; padding: 10px 32px; font-size: 16px;background-color:#FF3636">Ajouter une nouvelle matière première</a>
                 </h3>
               </div>
               <!-- /.card-header -->
@@ -43,18 +43,18 @@ cursor:pointer;
                   </tr>
                   </thead>
                   <tbody>
-                    {{-- <?php $i=0?>
-                    @foreach ($formations as $formation)
+                    <?php $i=0?>
+                    @foreach ($materials as $material)
                     <?php $i++?>
-                  <tr class="table-row" data-href="formations/{{$formation->id}}">
+                  <tr class="table-row" data-href="rawmaterials/{{$material->id}}">
                     <td>{{$i}}</td>
-                    <td>{{$formation->name}}</td>
-                    <td>{{$formation->begin_date}}</td>
-                    <td>{{$formation->places}} personnes</td>
+                    <td>{{$material->name}}</td>
+                    <td>{{$material->price}}</td>
+                    <td>{{$material->brand}} personnes</td>
                    
                   </tr>
                  
-                  @endforeach --}}
+                  @endforeach
                   </tbody>
                 
                 </table>

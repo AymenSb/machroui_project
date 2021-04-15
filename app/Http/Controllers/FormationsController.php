@@ -112,39 +112,31 @@ class FormationsController extends Controller
     public function update(Request $request, formations $formations)
     {
         $id= $request->id;
-        $formations=formations::find($id);  
+        $formations=formations::findOrFail($id);  
         $old_name=$formations->name; //get old formation name
         
         //get the file name
         $attachment=formations_attachment::where('formation_id','=',$id)->first(); 
         $file_name=$attachment->file_name;     
-        if($request->name==null)
-        {
+        
             $formations->update([
                 'begin_date'=>$request->begin_date,
                 'end_date'=>$request->end_date,
                 'description'=>$request->description,
+                'name'=>$request->name,
+                'trainer'=>$request->trainer,
+                'places'=>$request->places,
             ]);
-            return redirect('formations/'.$id.'');
-
-        }
-        else
-        $formations->update([
-            'name'=>$request->name,
-            'trainer'=>$request->trainer,
-            'places'=>$request->places,
-        ]);
-       
         $new_name=$formations->name;
-
+        if($file_name){
         $old_path=public_path('Attachments/Formations Attachments/' .$old_name,$file_name);
         $new_path=public_path('Attachments/Formations Attachments/' .$new_name,$file_name);
-        File::move($old_path, $new_path);
+        File::move($old_path, $new_path);}
 
 
          return redirect('formations/'.$id.'');
 
-        echo($file_name);
+        
 
     }
 
