@@ -7,6 +7,8 @@ use App\Models\formations_attachment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB ;
 use File;
+use Illuminate\Support\Facades\Storage;
+
 
 class FormationsController extends Controller
 {
@@ -40,20 +42,23 @@ class FormationsController extends Controller
     {   
 
         $request->validate([
-            'name' => 'unique:formations|max:255',
+            'begin_date' => 'unique:formations|max:255',
         ],
             [
-                'name.unique'=>'Cette formation existe déjà',
+                'name.unique'=>'Une formation à cette date deja existe existe déjà',
             ]
         );
         
         formations::create([
             'name'=>$request->name,
             'begin_date'=>$request->begin_date,
-            'end_date'=>$request->end_date,
             'places'=>$request->places,
             'description'=>$request->description,
             'trainer'=>$request->trainer,
+            'locale'=>$request->locale,
+            'link'=>$request->link,
+            'price'=>$request->price,
+            'plan'=>$request->plan,
         ]);
 
         if ($request->hasFile('image')) {
@@ -97,9 +102,10 @@ class FormationsController extends Controller
      * @param  \App\Models\formations  $formations
      * @return \Illuminate\Http\Response
      */
-    public function edit(formations $formations)
+    public function edit($id)
     {
-        //
+        $formation=formations::findOrFail($id);
+        return view('formations/edit',compact('formation'));
     }
 
     /**
@@ -116,24 +122,28 @@ class FormationsController extends Controller
         $old_name=$formations->name; //get old formation name
         
         //get the file name
-        $attachment=formations_attachment::where('formation_id','=',$id)->first(); 
-        $file_name=$attachment->file_name;     
+        $attachment=formations_attachment::where('formation_id','=',$id)->first();
+        if($attachment){$file_name=$attachment->file_name;} 
+          
         
             $formations->update([
-                'begin_date'=>$request->begin_date,
-                'end_date'=>$request->end_date,
-                'description'=>$request->description,
                 'name'=>$request->name,
-                'trainer'=>$request->trainer,
+                'begin_date'=>$request->begin_date,
                 'places'=>$request->places,
+                'description'=>$request->description,
+                'trainer'=>$request->trainer,
+                'locale'=>$request->locale,
+                'link'=>$request->link,
+                'price'=>$request->price,
+                'plan'=>$request->plan,
             ]);
         $new_name=$formations->name;
-        if($file_name){
+        if(!empty($file_name)){
         $old_path=public_path('Attachments/Formations Attachments/' .$old_name,$file_name);
         $new_path=public_path('Attachments/Formations Attachments/' .$new_name,$file_name);
         File::move($old_path, $new_path);}
 
-
+        session()->flash('edit','la formation a été mise à jour');
          return redirect('formations/'.$id.'');
 
         
@@ -146,9 +156,19 @@ class FormationsController extends Controller
      * @param  \App\Models\formations  $formations
      * @return \Illuminate\Http\Response
      */
-    public function destroy(formations $formations)
+    public function destroy(Request $request)
     {
-        //
+        $formation=formations::findOrFail($request->formation_id);
+        $file=formations_attachment::where('formation_id',$request->formation_id)->first();
+        if(!empty($file->formation_id)){
+            echo('works');
+            Storage::disk('public_uploads')->deleteDirectory($formation->name);
+           
+            
+        }
+        $formation->delete();
+        session()->flash('delete','formation has been deleted');
+        return redirect('/formations');
     }
 
    

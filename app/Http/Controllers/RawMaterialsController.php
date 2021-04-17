@@ -6,6 +6,8 @@ use App\Models\rawMaterials;
 use App\Models\rawmaterials_attachments;
 use Illuminate\Http\Request;
 use File;
+use Illuminate\Support\Facades\Storage;
+
 
 
 class RawMaterialsController extends Controller
@@ -45,20 +47,22 @@ class RawMaterialsController extends Controller
             'brand'=>$request->brand,
         ]);
         if ($request->hasFile('image')) {
-            $material_id = rawMaterials::latest()->first()->id;
+            $material_id=rawMaterials::latest()->first()->id;
             $image = $request->file('image');
-            $file_name = $image->getClientOriginalName();
+            foreach ($image as $files) {
+                $destinationPath = 'Attachments/Raw Materials Attachments/'.$request->name;
+                $file_name =$files->getClientOriginalName();
+                $files->move($destinationPath, $file_name);
 
-            $attachment = new rawmaterials_attachments();
-            $attachment->file_name = $file_name;
-            $attachment->material_id = $material_id;
-            $attachment->save();
-
-
-            $imageName = $request->image->getClientOriginalName();
-            $request->image->move(public_path('Attachments/Matières premières Attachments/' .$request->name ), $imageName);
+                $file= new rawmaterials_attachments();
+                $file->file_name=$file_name;
+                $file->material_id=$material_id;
+                $file->save();
+                
+            }
         }
-        return back();
+        session()->flash('ADD','la matière première a été ajoutée');
+        return redirect('rawmaterials/create');
     }
 
     /**
@@ -69,8 +73,8 @@ class RawMaterialsController extends Controller
      */
     public function show($id)
     {   $material=rawMaterials::where('id',$id)->first();
-        $image=rawmaterials_attachments::where('material_id',$id)->get();
-        return view('rawmaterials/show',compact('material','image'));
+        $images=rawmaterials_attachments::where('material_id',$id)->get();
+        return view('rawmaterials/show',compact('material','images'));
     }
 
     /**
@@ -94,8 +98,7 @@ class RawMaterialsController extends Controller
     public function update(Request $request, rawMaterials $rawMaterials)
     {
         $material=rawMaterials::findOrFail($request->id);
-        $image=rawmaterials_attachments::where('material_id',$request->id)->pluck('file_name')->first();
-        $file=$image;
+        $images=rawmaterials_attachments::where('material_id',$request->id)->first();
         $old_name=$material->name;
         
         $material->update([
@@ -104,13 +107,12 @@ class RawMaterialsController extends Controller
             'description'=>$request->description,
             'price'=>$request->price,  
         ]);
-       
         $new_name=$material->name;
-        if($file){
-        $old_path=public_path('Attachments/Matières premières Attachments/'.$old_name,$file);
-        $new_path=public_path('Attachments/Matières premières Attachments/'.$new_name,$file);
-        File::move($old_path, $new_path);}
-        return back();
+            if($images){
+                Storage::disk('materials_uploads')->rename($old_name,$new_name);
+            }
+        
+       return back();
     }
 
     /**
@@ -119,8 +121,37 @@ class RawMaterialsController extends Controller
      * @param  \App\Models\rawMaterials  $rawMaterials
      * @return \Illuminate\Http\Response
      */
-    public function destroy(rawMaterials $rawMaterials)
+    public function destroy(Request $request)
     {
-        //
+        $material=rawMaterials::findOrFail($request->machine_id);
+        $file=rawmaterials_attachments::where('material_id',$request->machine_id)->first();
+        if(!empty($file->machine_id)){
+            
+            Storage::disk('materials_uploads')->deleteDirectory($material->name);     
+        }
+        $material->delete();
+        session()->flash('delete','machine has been deleted');
+        return redirect('/rawmaterials');
+    }
+
+    public function viewfile_material($material_name,$file_name){
+        
+        $file=Storage::disk('materials_uploads')->getDriver()->getAdapter()->applyPathPrefix($material_name.'/'.$file_name);
+        return response()->file($file);
+    }
+
+    public function downloadMaterial($material_name,$file_name){
+        $file=Storage::disk('materials_uploads')->getDriver()->getAdapter()->applyPathPrefix($material_name.'/'.$file_name);
+        return response()->download($file);
+    }
+
+    public function deletefile_material(Request $request){
+        $image=rawmaterials_attachments::findOrfail($request->file_id);
+        $material_name=rawMaterials::where('id',$request->machine_id)->pluck('name')->first();
+        $image->delete();
+        Storage::disk('materials_uploads')->delete($material_name.'/'.$request->file_name);
+        session()->flash('delete','La photo a été supprimée');
+        return back();
     }
 }
+

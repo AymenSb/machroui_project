@@ -81,16 +81,32 @@ input[type=number]::-webkit-outer-spin-button {
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
+                          {{-- VALIDATIONS HERE --}} 
+                          @if (session()->has('edit'))
+                          <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>{{ session()->get('edit') }}</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          @endif
+                          
+                          
+                          @if ($errors->any())
+                              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                  <ul>
+                                      @foreach ($errors->all() as $error)
+                                          <li>{{ $error }}</li>
+                                      @endforeach
+                                  </ul>
+                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                   <span aria-hidden="true">&times;</span>
+                                 </button>
+                              </div>
+                          @endif
+                          {{-- VALIDATION --}}
                         <h5 class="title">Formations/ Details</h5>
-                        <a href="#modaldemo9"
-                        data-places="{{$formation->places}}"
-                        data-trainer="{{$formation->trainer}}"
-                        data-name="{{$formation->name}}"
-                        data-begin_date="{{$formation->begin_date}}"
-                        data-end_date="{{$formation->end_date}}" 
-                        data-description="{{$formation->description}}"
-                        data-id="{{$formation->id}}"
-                        data-effect="effect-fall" data-toggle="modal"
+                        <a href="{{route('formations.edit',$formation->id)}}"
                         class="btn btn-primary btn-round" style="color: white;background-color:#FF3636;">Éditer</a>  
                     </div>
                     <div class="card-body all-icons">
@@ -99,6 +115,9 @@ input[type=number]::-webkit-outer-spin-button {
                         <!-- Tab links -->
                         <div class="tab">
                             <button class="tablinks" id='defaultOpen' onclick="openCity(event, 'London')">Détails</button>
+                            <button class="tablinks" onclick="openCity(event, 'desc')">Déscription</button>
+                            <button class="tablinks" onclick="openCity(event, 'plan')">Plan</button>
+                            <button class="tablinks" onclick="openCity(event, 'link')">Lien</button>
                             <button class="tablinks" onclick="openCity(event, 'Paris')">Image</button>
                         </div>
                         <!-- Tab content -->
@@ -135,106 +154,90 @@ input[type=number]::-webkit-outer-spin-button {
                                 </div>
                                 <div class="col-md-4 pr-1">
                                     <div class="form-group">
-                                        <label>{{__("Date de fin")}}</label>
-                                        <span class="form-control">{{$formation->end_date}}</span>
+                                        <label>{{__("Prix")}}</label>
+                                        <span class="form-control">{{$formation->price}} Dt</span>
                                       </div>
                                 </div>
                                 <div class="col-md-3 pr-1">
                                     <div class="form-group">
-                                        <label>{{__("Description")}}</label>
-                                        <span class="form-control" style="font-size: 16px">{{$formation->description}}</span>
+                                        <label>{{__("Lieux de la formation")}}</label>
+                                        <span class="form-control" style="font-size: 16px">{{$formation->locale}}</span>
                                       </div>
                               </div>
                             </div>
                       
                           
                         </div>
+                        <div id="desc" class="tabcontent">
+                            <textarea disabled name="" id="" cols="60" rows="10">{{$formation->description}}</textarea>
+                        </div>
+                        <div id="plan" class="tabcontent">
+                            <textarea disabled name="" id="" cols="60" rows="10">{{$formation->plan}}</textarea>
+                        </div>
+                        <div id="link" class="tabcontent">
+                            <textarea disabled name="" id="" cols="80" rows="1">{{$formation->link}}</textarea>
+                        </div>
 
                         <div id="Paris" class="tabcontent">
-                            <table id="example1" class="table table-bordered table-striped">
-                                <thead>
-                              
-                                </thead>
-                                <tbody>
-                                  @foreach ($attachments as $item)
+                            <div class="form-group">
+                                <label>{{__("Images")}}</label>
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
+                                    <tr style=" white-space: nowrap">
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                      <?php $i=0?>
+                                      @foreach ($attachments as $item)
+                                      <?php $i++?>
+                                    <tr>
+                                      <td>{{$i}}</td>
                                       <td>{{$item->file_name}}</td>
                                       <td>
                                         <a class="btn btn-outline-success btn-sm" target="_blank"
-                                        href= "{{ url('viewfile') }}/{{ $formation->name }}/{{ $item->file_name }}"
+                                        href= "{{route('ViewFormation',[$formation->name,$item->file_name])}}"
                                         role="button"><i class="fas fa-eye"></i>&nbsp;
-                                        Show</a></td>
+                                        Voir l'image</a></td>
                                         <td>
                                     <a class="btn btn-outline-info btn-sm"
-                                        href= "{{ url('download') }}/{{ $formation->name }}/{{ $item->file_name }}"
+                                        href= "{{route('downloadFormation',[$formation->name,$item->file_name])}}"
                                         role="button"><i
                                             class="fas fa-download"></i>&nbsp;
-                                        download</a>
+                                        Télécharger</a>
                                       </td>
-                                  @endforeach
-                            
-                                </tbody>
-                                <tfoot>
-                             
-                                </tfoot>
-                              </table>
+                                    </tr>
+                                    @endforeach
+                                    </tbody>
+                                  </table>
+                                  <div class="card-body">
+                                   
+                                    <h5 class="card-title">Changer l'images</h5>
+                                    <form method="post" action="{{ route('updateimage_formation.update',$formation->file->id) }}"
+                                        enctype="multipart/form-data">
+                                        {{ method_field('PUT') }}
+                                        {{ csrf_field() }}
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="file_name"
+                                                name="file_name" required >
+                                            <input type="hidden" id="formation_name" name="formation_name"
+                                                value="{{ $formation->name }}">
+                                            <input type="hidden" id="formation_id" name="formation_id"
+                                                value="{{ $formation->id }}">
+                                            <label class="custom-file-label"  for="file_name">Sélectionner une image
+                                                </label>
+                                        </div><br><br>
+                                        <button type="submit" class="btn btn-primary btn-sm "
+                                            name="uploadedFile">Validée</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-
+                        
                     </div>
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="modaldemo9" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-         <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modifier la formation</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action='{{ route('formations.update',$formation->id) }}' method="post">
-                {{ method_field('patch') }}
-                {{ csrf_field() }}
-                <div class="modal-body">
-                     <div class="form-group">
-                        <label for="title">Nom de la formation</label>
-                        <input type="text" class="form-control" name="name" id="name" autocomplete="off" >
-                      </div>
-
-                      <div class="form-group">
-                        <label for="title">Nom du formateur</label>
-                        <input type="text" class="form-control" name="trainer" id="trainer" autocomplete="off" >
-                      </div>
-                      <div class="form-group">
-                        <label for="title">Places</label>
-                        <input type="number" class="form-control" name="places" id="places" autocomplete="off" >
-                      </div>
-                        <div class="form-group">
-                        <label for="title">Date de début</label>
-
-                        <input type="hidden" class="form-control" name="id" id="id" value="">
-                        <input class="form-control fc-datepicker" id="begin_date"name="begin_date" placeholder="YYYY-MM-DD"
-                                      type="text" value="{{ date('Y-m-d') }}" required>
-                    </div>
-
-                    <div class="form-group">
-                      <label for="title">Date de fin</label>
-                      <input class="form-control fc-datepicker" id="end_date"name="end_date" placeholder="YYYY-MM-DD"
-                                      type="text" value="{{ date('Y-m-d') }}" required>
-                    </div>
-                  <div class="form-group">
-                    <label for="title">Description</label>
-                    <textarea type="text" class="form-control" name="description" id="description" autocomplete="off" ></textarea>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" style="background-color: #FF3636">Confirmer</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                </div>
-            </form>
-        </div>
-    </div>
+  
 </div>
 
     </div>
@@ -268,27 +271,6 @@ input[type=number]::-webkit-outer-spin-button {
 
     </script>
 
-    <script>
-	$('#modaldemo9').on('show.bs.modal', function(event) {
-		var button = $(event.relatedTarget)
-		var name = button.data('name')
-		var trainer = button.data('trainer')
-		var places = button.data('places')
-		var id = button.data('id')
-		var begin_date = button.data('begin_date')
-		var end_date = button.data('end_date')
-		var description = button.data('description')
-		var modal = $(this)
-		modal.find('.modal-body #id').val(id);
-		modal.find('.modal-body #begin_date').val(begin_date);
-		modal.find('.modal-body #end_date').val(end_date);
-		modal.find('.modal-body #description').val(description);
-		modal.find('.modal-body #name').val(name);
-		modal.find('.modal-body #trainer').val(trainer);
-		modal.find('.modal-body #places').val(places);
-        
-	})
-    </script>
 
 <script src="../../plugins/jquery-ui/jquery-ui.min.js"></script>
 <script src="../../plugins/jquery-ui/jquery-ui.js"></script>

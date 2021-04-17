@@ -24,9 +24,9 @@ input[type=number]::-webkit-outer-spin-button {
         <div class="card">
           <div class="card-header">
                            {{-- VALIDATIONS HERE --}} 
-                           @if (session()->has('Add'))
+                           @if (session()->has('ADD'))
                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                             <strong>{{ session()->get('Add') }}</strong>
+                             <strong>{{ session()->get('ADD') }}</strong>
                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                <span aria-hidden="true">&times;</span>
                              </button>
@@ -103,7 +103,7 @@ input[type=number]::-webkit-outer-spin-button {
                         <h5 class="card-title">Ajouter une image</h5>
 
                         <div class="col-sm-12 col-md-12">
-                            <input type="file" name="image" id="image" class="dropify" accept=".jpg, .png, image/jpeg, image/png"
+                            <input type="file" name="image[]" multiple id="image" class="dropify" accept=".jpg, .png, image/jpeg, image/png"
                                 data-height="70"  />
                         </div><br>
 

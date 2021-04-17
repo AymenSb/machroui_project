@@ -24,9 +24,9 @@ input[type=number]::-webkit-outer-spin-button {
         <div class="card">
           <div class="card-header">
                            {{-- VALIDATIONS HERE --}} 
-                           @if (session()->has('Add'))
+                           @if (session()->has('edit'))
                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                             <strong>{{ session()->get('Add') }}</strong>
+                             <strong>{{ session()->get('edit') }}</strong>
                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                <span aria-hidden="true">&times;</span>
                              </button>
@@ -53,33 +53,33 @@ input[type=number]::-webkit-outer-spin-button {
             <div class="col-lg-12 col-md-12">
               <div class="card">
                   <div class="card-body">
-                      <form action="{{ route('formations.store') }}" method="post" enctype="multipart/form-data"
-                          autocomplete="off">
-                          {{ csrf_field() }}
+                    <form action='{{ route('formations.update',$formation) }}' method="post">
+                        {{ method_field('patch') }}
+                        {{ csrf_field() }}
                           {{-- 1 --}}
   
                           <div class="row">
                               <div class="col">
                                   <label for="inputName" class="control-label">Nom de la formation </label>
-                                  <input type="text" class="form-control" id="name" name="name"
+                                  <input type="text" class="form-control" id="name" name="name" value="{{$formation->name}}"
                                       title="Veuillez saisir le nom de la formation" required>
                               </div>
   
                               <div class="col">
                                   <label>Date de début</label>
                                   <input class="form-control fc-datepicker" id="begin_date"name="begin_date" placeholder="DD-MM-YYYY"
-                                      type="text" value="{{ date('Y-m-d') }}" required>
+                                      type="text" value="{{$formation->begin_date}}" required>
                               </div>
   
                               <div class="col">
                                 <label for="inputName" class="control-label">places</label>
                                 <input  style="place-holder:none;"type="number" class="form-control" id="inputPlaces" name="places"
-                                    title="Veuillez saisir le nombre limites des places" required>
+                                    title="Veuillez saisir le nombre limites des places" value="{{$formation->places}}" required>
                             </div>
 
                             <div class="col">
                               <label for="inputName" class="control-label">Nom du formateur</label>
-                              <input type="text" class="form-control" id="trainer" name="trainer"
+                              <input type="text" class="form-control" value="{{$formation->trainer}}" id="trainer" name="trainer"
                                   title="Veuillez saisir le nom du formateur">
                           </div>
   
@@ -88,59 +88,59 @@ input[type=number]::-webkit-outer-spin-button {
 
 
                           {{-- 2 --}}
-                        <div class="row">
+                         <div class="row">
                             <div class="col">
                               <label for="inputName" class="control-label">Lieux de la formation</label>
-                              <textarea type="text" class="form-control" id="locale" name="locale"
-                                  title="Veuillez saisir la Description"></textarea>
+                              <textarea type="text" class="form-control"  id="locale" name="locale"
+                                  title="Veuillez saisir la Description"> {{$formation->locale}}</textarea>
                           </div>
 
                           
                             <div class="col">
                               <label for="inputName" class="control-label">Description</label>
                               <textarea type="text" class="form-control" id="description" name="description"
-                                  title="Veuillez saisir la Description"></textarea>
+                                  title="Veuillez saisir la Description">{{$formation->description}}</textarea>
                           </div>
                           
 
                           <div class="col">
                             <label for="inputName" class="control-label">Plan de la formation</label>
                             <textarea type="text" class="form-control" id="plan" name="plan"
-                                title="Veuillez saisir la Description"></textarea>
+                                title="Veuillez saisir la Description">{{$formation->plan}}</textarea>
                           </div>
-                        </div>
-                        <span style=" margin-left: 20px;"></span>
+                         </div>
+                            <span style=" margin-left: 20px;"></span>
 
-                       {{-- 3 --}}
-                       <div class="row">
-                        
-                        <div class="col-2">
+                        {{-- 3 --}}
+                        <div class="row">
+
+                            <div class="col-2">
                           <label for="inputName" class="control-label">Prix de la formation </label>
-                          <input type="text" class="form-control" id="price" name="price" 
+                          <input type="text" class="form-control" id="price" name="price" value="{{$formation->price}}"
                               title="Veuillez saisir le nom de la formation" required>
-                      </div>
+                         </div>
                       
-                      <div class="col-5">
-                        <label for="inputName" class="control-label">Lien facebook</label>
-                        <input type="text" class="form-control" id="link" name="link"
-                            title="Veuillez saisir le nom de la formation" >
-                    </div>
+                            <div class="col-5">
+                            <label for="inputName" class="control-label">Lien facebook</label>
+                            <input type="text" class="form-control" id="link" name="link" value="{{$formation->link}}"
+                            title="Veuillez saisir le nom de la formation" required>
+                            </div>
                       
 
-                    </div>
-                        <span style=" margin-left: 20px;"></span>
+                            </div>
+                         <span style=" margin-left: 20px;"></span>
 
                           {{-- 4--}}
                         
                           <hr>
 
-                        <p class="text-danger">* La photo est jpeg, .jpg, .png</p>
-                        <h5 class="card-title">Ajouter l'image ici</h5>
-
-                        <div class="col-sm-12 col-md-12">
-                            <input type="file" name="image" id="image" class="dropify" accept=".jpg, .png, image/jpeg, image/png"
-                               required data-height="70"  />
-                        </div><br>
+                            <p class="text-danger">* La format de l'image est .jpg, .png</p>
+                            <h5 class="card-title">Image</h5>
+                            <input type="hidden" name="id" id="id" value="{{$formation->id}}">
+                            <div class="col-sm-12 col-md-12">
+                                <input type="file" name="image" id="image" class="dropify" accept=".jpg, .png, image/jpeg, image/png"
+                                data-height="70"  />
+                            </div><br>
 
 
                           {{-- 4 --}}
@@ -153,10 +153,10 @@ input[type=number]::-webkit-outer-spin-button {
   
 
                           <div class="d-flex justify-content-center">
-                              <button type="submit" class="btn btn-primary" style="background-color:#FF3636">Save data</button>
+                              <button type="submit" class="btn btn-primary" style="background-color:#FF3636">Mettre à jour</button>
                           </div>
   
-  
+                            
                       </form>
                   </div>
               </div>

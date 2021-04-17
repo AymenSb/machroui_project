@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\machines;
 use App\Models\MachinesAttachments;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 
 class MachinesController extends Controller
 {
@@ -112,6 +114,8 @@ class MachinesController extends Controller
         //1 =used
         $id=$request->id;
         $machine=machines::findOrFail($id);
+        $images=MachinesAttachments::where('machine_id',$id)->get();
+        $old_name=$machine->name;
         $machine->update([
             'name'=>$request->name,
             'price'=>$request->price,
@@ -122,6 +126,10 @@ class MachinesController extends Controller
             'state'=>$request->state,
             'stateVal'=>$request->stateVal,
         ]);
+        $new_name=$machine->name;
+        if($images){
+            Storage::disk('machines_uploads')->rename($old_name,$new_name);
+        }
             $stateVal_new=2;
             $stateVal_used=1;
         if($request->state=='Nouvelle machine'){
@@ -137,7 +145,8 @@ class MachinesController extends Controller
              'stateVal'=>$stateVal_used,
             ]);
         }
-        return back();
+        session()->flash('updated',"la machine a été mise à jour");
+        return redirect('machines/'.$request->id);
         
     }
 
@@ -147,9 +156,19 @@ class MachinesController extends Controller
      * @param  \App\Models\machines  $machines
      * @return \Illuminate\Http\Response
      */
-    public function destroy(machines $machines)
+    public function destroy(Request $request) 
     {
-        
+        $machine=machines::findOrFail($request->machine_id);
+        $file=MachinesAttachments::where('machine_id',$request->machine_id)->first();
+        if(!empty($file->machine_id)){
+            echo('works');
+            Storage::disk('machines_uploads')->deleteDirectory($machine->name);
+           
+            
+        }
+        $machine->delete();
+        session()->flash('delete','machine has been deleted');
+        return redirect('/machines');
     }
 
     public function indexNew(){
@@ -170,6 +189,27 @@ class MachinesController extends Controller
     public function delete($id){
         $machine=machines::findOrFail($id);
         $machine->delete();
+        return back();
+    }
+
+
+    public function viewfile($formation_name,$file_name){
+        
+        $file=Storage::disk('machines_uploads')->getDriver()->getAdapter()->applyPathPrefix($formation_name.'/'.$file_name);
+        return response()->file($file);
+    }
+
+    public function download($formation_name,$file_name){
+        $file=Storage::disk('machines_uploads')->getDriver()->getAdapter()->applyPathPrefix($formation_name.'/'.$file_name);
+        return response()->download($file);
+    }
+
+    public function deletefile(Request $request){
+        $image=MachinesAttachments::findOrfail($request->file_id);
+        $machine_name=machines::where('id',$request->machine_id)->pluck('name')->first();
+        $image->delete();
+        Storage::disk('machines_uploads')->delete($machine_name.'/'.$request->file_name);
+        session()->flash('delete','La photo a été supprimée');
         return back();
     }
 }

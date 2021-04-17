@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\formations_attachment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class FormationsAttachmentController extends Controller
 {
@@ -69,10 +70,24 @@ class FormationsAttachmentController extends Controller
      */
     public function update(Request $request, formations_attachment $formations_attachment)
     {
-        $id=$request->id;
-        $image=$request->File('image');
-        $file=$image->getClientOriginalName();
-        echo($image);
+        
+         $image=$request->File('file_name');
+         $new_file=$image->getClientOriginalName();
+
+        $formation_id=$request->formation_id;
+        $formation_name=$request->formation_name;
+        $attachment=formations_attachment::where('formation_id',$formation_id)->first();
+        $old_file=$attachment->file_name;
+        
+        $attachment->update([
+            'file_name'=>$new_file,
+        ]);
+        if(!empty($old_file)){
+            Storage::disk('public_uploads')->delete($formation_name.'/'.$old_file);
+        }
+        $request->file_name->move(public_path('Attachments/Formations Attachments/' .$formation_name ), $new_file);
+
+        return back();
     }
 
     /**

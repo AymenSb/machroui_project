@@ -81,6 +81,49 @@ input[type=number]::-webkit-outer-spin-button {
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
+                         {{-- VALIDATIONS HERE --}} 
+                         @if (session()->has('delete'))
+                         <div class="alert alert-warning alert-with-icon" data-notify="container">
+                          <button type="button" aria-hidden="true" data-dismiss="alert" class="close">
+                            <i class="now-ui-icons ui-1_simple-remove"></i>
+                          </button>
+                          <span data-notify="icon" class="now-ui-icons ui-1_bell-53"></span>
+                          <span data-notify="message">{{ session()->get('delete') }}</span>
+                        </div>
+                         @endif
+
+                         @if (session()->has('created'))
+                         <div class="alert alert-info alert-with-icon" data-notify="container">
+                          <button type="button" aria-hidden="true" data-dismiss="alert" class="close">
+                            <i class="now-ui-icons ui-1_simple-remove"></i>
+                          </button>
+                          <span data-notify="icon" class="now-ui-icons ui-1_bell-53"></span>
+                          <span data-notify="message">{{ session()->get('created') }}</span>
+                        </div>
+                         @endif
+                         @if (session()->has('updated'))
+                         <div class="alert alert-info alert-with-icon" data-notify="container">
+                          <button type="button" aria-hidden="true" data-dismiss="alert" class="close">
+                            <i class="now-ui-icons ui-1_simple-remove"></i>
+                          </button>
+                          <span data-notify="icon" class="now-ui-icons ui-1_bell-53"></span>
+                          <span data-notify="message">{{ session()->get('updated') }}</span>
+                        </div>
+                         @endif
+                         
+                         
+                         @if ($errors->any())
+                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                 <ul>
+                                     @foreach ($errors->all() as $error)
+                                         <li>{{ $error }}</li>
+                                     @endforeach
+                                 </ul>
+                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                             </div>
+                         @endif
                         <h5 class="title">Matières premières/ Details</h5>
                         <a href="#modaldemo9"
                         data-price="{{$material->price}}"
@@ -139,38 +182,109 @@ input[type=number]::-webkit-outer-spin-button {
                         </div>
 
                         <div id="Paris" class="tabcontent">
-                            <table id="example1" class="table table-bordered table-striped">
-                                <thead>
-                              
-                                </thead>
-                                <tbody>
-                                   @foreach ($image as $item)
-                                      <td>{{$item->file_name}}</td>
-                                      <td>
-                                        <a class="btn btn-outline-success btn-sm" target="_blank"
-                                        href= ""
-                                        role="button"><i class="fas fa-eye"></i>&nbsp;
-                                        Show</a></td>
-                                        <td>
-                                    <a class="btn btn-outline-info btn-sm"
-                                        href= ""
-                                        role="button"><i
-                                            class="fas fa-download"></i>&nbsp;
-                                        download</a>
-                                      </td>
-                                  @endforeach 
-                            
-                                </tbody>
-                                <tfoot>
-                             
-                                </tfoot>
-                              </table>
+                            <div class="col-md pr-1">
+                                <div class="form-group">
+                                    <label>{{__("Images")}}</label>
+                                    <table id="example1" class="table table-bordered table-striped">
+                                        <thead>
+                                        <tr style=" white-space: nowrap">
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                          <?php $i=0?>
+                                          @foreach ($images as $item)
+                                          <?php $i++?>
+                                        <tr>
+                                          <td>{{$i}}</td>
+                                          <td>{{$item->file_name}}</td>
+                                          <td>
+                                            <a class="btn btn-outline-success btn-sm" target="_blank"
+                                            href= "{{ url('viewfile_material') }}/{{ $material->name }}/{{ $item->file_name }}"
+                                            role="button"><i class="fas fa-eye"></i>&nbsp;
+                                            Voir l'image</a></td>
+                                            <td>
+                                        <a class="btn btn-outline-info btn-sm"
+                                            href= "{{ url('download_material') }}/{{ $material->name }}/{{ $item->file_name }}"
+                                            role="button"><i
+                                                class="fas fa-download"></i>&nbsp;
+                                            Télécharger</a>
+                                          </td>
+                                         <td>
+                                            <button class="btn btn-outline-danger btn-sm"
+                                            data-toggle="modal"
+                                            data-file_name="{{ $item->file_name }}"
+                                            data-material_id="{{ $item->material_id }}"
+                                            data-file_id="{{ $item->id }}"
+                                            data-target="#delete_file">
+                                            <i class="fas fa-trash"></i>&nbsp;Effacer</button>
+                                         </td>
+                                        </tr>
+                                        @endforeach
+                                        </tbody>
+                                      </table>
+                                      <div class="card-body">
+                                        <p class="text-danger">Image de type .jpg, .png </p>
+                                        <h5 class="card-title">Ajouter images</h5>
+                                        <form method="post" action="{{ route('addimage_material.store') }}"
+                                            enctype="multipart/form-data">
+                                            {{ csrf_field() }}
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="file_name"
+                                                    name="file_name[]" required multiple>
+                                                <input type="hidden" id="material_name" name="material_name"
+                                                    value="{{ $material->name }}">
+                                                <input type="hidden" id="material_id" name="material_id"
+                                                    value="{{ $material->id }}">
+                                                <label class="custom-file-label"  for="file_name">Select images
+                                                    </label>
+                                            </div><br><br>
+                                            <button type="submit" class="btn btn-primary btn-sm "
+                                                name="uploadedFile">Ajouter</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
                 </div>
             </div>
         </div>
+
+         <!-- delete image-->
+				 <div class="modal fade" id="delete_file" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+				 aria-hidden="true">
+				 <div class="modal-dialog" role="document">
+					 <div class="modal-content">
+						 <div class="modal-header">
+							 <h5 class="modal-title" id="exampleModalLabel">Supprimer l'image</h5>
+							 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								 <span aria-hidden="true">&times;</span>
+							 </button>
+						 </div>
+						 <form action="{{ route('DFMaterials') }}" method="post">
+							 {{ csrf_field() }}
+							 <div class="modal-body">
+								 <p class="text-center">
+								 <h6 style="color:red">Voulez-vous vraiment supprimer cette image</h6>
+								 </p>
+		 
+								 <input type="hidden" name="file_id" id="file_id" value="">
+								 <input type="hidden" name="file_name" id="file_name" value="">
+								 <input type="hidden" name="material_id" id="material_id" value="">
+		 
+							 </div>
+							 <div class="modal-footer">
+                                <button type="submit" class="btn btn-danger">Confirmer</button>
+								 <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+								 
+							 </div>
+						 </form>
+					 </div>
+                 </div>
+                 </div>
+
+
         <div class="modal fade" id="modaldemo9" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
          <div class="modal-dialog" role="document">
@@ -270,5 +384,18 @@ input[type=number]::-webkit-outer-spin-button {
  var date = $('.fc-datepicker').datepicker({
             dateFormat: 'yy-mm-dd'
         }).val();
+</script>
+
+<script>
+	$('#delete_file').on('show.bs.modal', function(event) {
+		var button = $(event.relatedTarget)
+		var file_id = button.data('file_id')
+		var file_name = button.data('file_name')
+		var material_id = button.data('material_id')
+		var modal = $(this)
+		modal.find('.modal-body #file_id').val(file_id);
+		modal.find('.modal-body #file_name').val(file_name);
+		modal.find('.modal-body #material_id').val(material_id);
+	})
 </script>
 @endsection

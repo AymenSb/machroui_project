@@ -9,6 +9,8 @@ use App\Http\Controllers\RequestedMachinesController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\RawMaterialsController;
+use App\Http\Controllers\MachinesAttachmentsController;
+use App\Http\Controllers\RawmaterialsAttachmentsController;
 
 
 /*
@@ -34,10 +36,12 @@ Route::resource('rawmaterials',RawMaterialsController::class);
 Route::resource('machinesrequests',RequestedMachinesController::class);
 Route::resource('category',CategoryController::class);
 Route::resource('subcategory',SubcategoryController::class);
+Route::resource('addimage_machine',MachinesAttachmentsController::class);
+Route::resource('updateimage_formation',FormationsAttachmentController::class);
+Route::resource('addimage_material',RawmaterialsAttachmentsController::class);
 
 Route::get('getsubcategory/{id}',[CategoryController::class,'getsubcategory']);
 Route::post('addToSub',[SubcategoryController::class,'addToSub'])->name('addToSub');
-Route::get('deletethemachine/{machine_id}',[MachinesController::class,'delete'])->name('deletethemachine');
 Route::get('editmachine/{machine_id}',[MachinesController::class,'editpage'])->name('editmachine');
 Route::get('acceptMachine/{machine_id}',[RequestedMachinesController::class,'accept'])->name('accept');
 Route::get('deleteMachine/{machine_id}',[RequestedMachinesController::class,'delete'])->name('deleteMachine');
@@ -59,6 +63,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('{page}', ['as' => 'page.index', 'uses' => 'App\Http\Controllers\PageController@index']);
 });
 
-Route::get('viewfile/{formation_id}/{file_id}',[FormationDetailsController::class,'viewfile']);
-Route::get('download/{formation_id}/{file_id}',[FormationDetailsController::class,'download']);
+Route::get('viewfile/{formation_id}/{file_id}',[FormationDetailsController::class,'viewfile'])->name('ViewFormation');
+Route::get('download/{formation_id}/{file_id}',[FormationDetailsController::class,'download'])->name('downloadFormation');
+
+Route::get('viewfile_machines/{machine_id}/{file_id}',[MachinesController::class,'viewfile']);
+Route::get('download_machines/{machine_id}/{file_id}',[MachinesController::class,'download']);
+Route::post('deletefile_machine',[MachinesController::class,'deletefile'])->name('deletefile_machine');
+
+Route::get('viewfile_material/{machine_id}/{file_id}',[RawMaterialsController::class,'viewfile_material']);
+Route::get('download_material/{machine_id}/{file_id}',[RawMaterialsController::class,'downloadMaterial']);
+Route::post('deletefile_material',[RawMaterialsController::class,'deletefile_material'])->name('DFMaterials');
 

@@ -15,12 +15,15 @@ class CreateFormationsTable extends Migration
     {
         Schema::create('formations', function (Blueprint $table) {
             $table->id();
-            $table->string('name',256);
-            $table->date('begin_date')->nullable();
-            $table->date('end_date')->nullable();
-            $table->string('places',10);
+            $table->string('name');
+            $table->date('begin_date');
+            $table->string('places')->nullable();
             $table->text('description')->nullable();
-            $table->string('trainer',256);
+            $table->string('trainer')->nullable();
+            $table->text('locale')->nullable();
+            $table->text('plan')->nullable();
+            $table->text('link')->nullable();
+            $table->integer('price')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

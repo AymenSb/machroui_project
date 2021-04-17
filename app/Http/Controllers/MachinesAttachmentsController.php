@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MachinesAttachments;
+use App\Models\machines;
 use Illuminate\Http\Request;
 
 class MachinesAttachmentsController extends Controller
@@ -14,7 +15,6 @@ class MachinesAttachmentsController extends Controller
      */
     public function index()
     {
-        //
     }
 
     /**
@@ -35,7 +35,24 @@ class MachinesAttachmentsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if ($request->hasFile('file_name')) {
+            $machine_name=$request->machine_name;
+            $machine_id=$request->machine_id;
+            $image = $request->file('file_name');
+         
+            foreach($image as $files){
+            $destinationPath = 'Attachments/Machines Attachments/'.$machine_name;
+            $file_name =$files->getClientOriginalName();
+            $files->move($destinationPath, $file_name);
+
+            $file= new MachinesAttachments();
+            $file->file_name=$file_name;
+            $file->machine_id=$machine_id;
+            $file->save();
+            }
+            session()->flash('created',"L'image a été créée");
+            return back();
+        }
     }
 
     /**

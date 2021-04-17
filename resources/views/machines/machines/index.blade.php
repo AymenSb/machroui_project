@@ -50,26 +50,61 @@ cursor:pointer;
                     <?php $i=0?>
                     @foreach ($machines as $machine)
                     <?php $i++?>
-                  <tr class="table-row" data-href="machines/{{$machine->id}}">
-                    <td>{{$i}}</td>
-                    <td>{{$machine->name}}</td>
-                    <td>{{$machine->state}}</td>
-                    <td>{{$machine->price}}</td>
-                    <td>
+                  <tr>
+                    <td  class="table-row" data-href="machines/{{$machine->id}}">{{$i}}</td>
+                    <td  class="table-row" data-href="machines/{{$machine->id}}">{{$machine->name}}</td>
+                    <td  class="table-row" data-href="machines/{{$machine->id}}">{{$machine->state}}</td>
+                    <td  class="table-row" data-href="machines/{{$machine->id}}">{{$machine->price}}</td>
+                    <td >
                       <a class="btn btn-outline-info btn-sm" 
                       href= "{{route('editmachine',$machine->id)}}"
                       role="button"><i class="fas fa-edit"></i>&nbsp;
                       Modifier</a>
                       
-                  <a class="btn btn-outline-warning btn-sm"
-                      href= "deletethemachine/{{$machine->id}}"
-                      role="button"><i
-                          class="fas fa-trash"></i>&nbsp;
-                      Supprimer</a>
+                      <button class="btn btn-outline-danger btn-sm"
+                      data-toggle="modal"
+                      
+                      data-machine_id="{{ $machine->id }}"
+                    
+                      data-target="#delete_file">
+                      <i class="fas fa-trash"></i>&nbsp;Effacer</button>
                     </td>
-                    </td>
+                    
                   </tr>
-                 
+                    <!-- delete image-->
+      <div class="modal fade" id="delete_file" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Supprimer la machine</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form action="{{ route('machines.destroy',$machine->id) }}" method="post">
+            {{ method_field('delete') }}
+            {{ csrf_field() }}
+            <div class="modal-body">
+              <p class="text-center">
+              <h6 style="color:red">Voulez-vous vraiment supprimer cette machine</h6>
+              </p>
+  
+            
+              <input type="hidden" name="machine_id" id="machine_id" value="">
+  
+            </div>
+            <div class="modal-footer">
+                             <button type="submit" class="btn btn-danger">Confirmer</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+              
+            </div>
+          </form>
+          
+        </div>
+
+      </div>
+      </div>
                   @endforeach
                 
                  
@@ -81,6 +116,8 @@ cursor:pointer;
             </div>
       </div>
     </div>
+    
+   
   </div>
  
 @stop
@@ -117,4 +154,15 @@ cursor:pointer;
 });
 
 </script>
+<script>
+	$('#delete_file').on('show.bs.modal', function(event) {
+		var button = $(event.relatedTarget)
+	
+		var machine_id = button.data('machine_id')
+		var modal = $(this)
+	
+		modal.find('.modal-body #machine_id').val(machine_id);
+	})
+</script>
+
 @stop

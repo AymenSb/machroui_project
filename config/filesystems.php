@@ -38,6 +38,15 @@ return [
             'driver' =>'local',
             'root' => public_path() . '/Attachments/Formations Attachments',
         ],
+
+        'machines_uploads'=>[
+            'driver'=>'local',
+            'root'=> public_path().'/Attachments/Machines Attachments',
+        ],
+        'materials_uploads'=>[
+            'driver'=>'local',
+            'root'=> public_path().'/Attachments/Raw Materials Attachments',
+        ],
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
