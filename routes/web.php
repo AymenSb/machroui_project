@@ -11,6 +11,8 @@ use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\RawMaterialsController;
 use App\Http\Controllers\MachinesAttachmentsController;
 use App\Http\Controllers\RawmaterialsAttachmentsController;
+use App\Http\Controllers\AdsController;
+
 
 
 /*
@@ -39,6 +41,7 @@ Route::resource('subcategory',SubcategoryController::class);
 Route::resource('addimage_machine',MachinesAttachmentsController::class);
 Route::resource('updateimage_formation',FormationsAttachmentController::class);
 Route::resource('addimage_material',RawmaterialsAttachmentsController::class);
+Route::resource('ads',AdsController::class);
 
 Route::get('getsubcategory/{id}',[CategoryController::class,'getsubcategory']);
 Route::post('addToSub',[SubcategoryController::class,'addToSub'])->name('addToSub');

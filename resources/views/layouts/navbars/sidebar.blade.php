@@ -75,13 +75,13 @@
       </li>
       
      
-      {{--
-      <li class = " @if ($activePage == 'table') active @endif">
-        <a href="{{ route('page.index','table') }}">
+      
+      <li class = " @if ($activePage == 'Ads') active @endif">
+        <a href="{{ route('ads.index') }}">
           <i class="now-ui-icons design_bullet-list-67"></i>
-          <p>{{ __('Table List') }}</p>
+          <p>{{ __('Gestion des pubs') }}</p>
         </a>
-      </li>
+      </li>{{--
       <li class = "@if ($activePage == 'typography') active @endif">
         <a href="{{ route('page.index','typography') }}">
           <i class="now-ui-icons text_caps-small"></i>
