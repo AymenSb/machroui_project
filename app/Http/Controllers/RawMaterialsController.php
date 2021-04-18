@@ -108,9 +108,12 @@ class RawMaterialsController extends Controller
             'price'=>$request->price,  
         ]);
         $new_name=$material->name;
+        if($old_name!=$new_name){
             if($images){
                 Storage::disk('materials_uploads')->rename($old_name,$new_name);
             }
+        }
+           
         
        return back();
     }

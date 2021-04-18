@@ -12,6 +12,8 @@ use App\Http\Controllers\RawMaterialsController;
 use App\Http\Controllers\MachinesAttachmentsController;
 use App\Http\Controllers\RawmaterialsAttachmentsController;
 use App\Http\Controllers\AdsController;
+use App\Http\Controllers\ServicesController;
+use App\Http\Controllers\ServicesAttachmentsController;
 
 
 
@@ -42,6 +44,9 @@ Route::resource('addimage_machine',MachinesAttachmentsController::class);
 Route::resource('updateimage_formation',FormationsAttachmentController::class);
 Route::resource('addimage_material',RawmaterialsAttachmentsController::class);
 Route::resource('ads',AdsController::class);
+Route::resource('services',ServicesController::class);
+Route::resource('add_image',ServicesAttachmentsController::class);
+
 
 Route::get('getsubcategory/{id}',[CategoryController::class,'getsubcategory']);
 Route::post('addToSub',[SubcategoryController::class,'addToSub'])->name('addToSub');
@@ -77,3 +82,10 @@ Route::get('viewfile_material/{machine_id}/{file_id}',[RawMaterialsController::c
 Route::get('download_material/{machine_id}/{file_id}',[RawMaterialsController::class,'downloadMaterial']);
 Route::post('deletefile_material',[RawMaterialsController::class,'deletefile_material'])->name('DFMaterials');
 
+Route::get('viewfile_ad/{ad_id}/{file_name}',[AdsController::class,'viewfile_ad'])->name('viewfile_ad');
+Route::get('downloadAd/{ad_id}/{file_name}',[AdsController::class,'downloadAd'])->name('downloadAd');       
+Route::post('updatePIC/{ad_id}',[AdsController::class,'updatePIC'])->name('updatePIC');  
+
+Route::get('viewfile_service/{service_id}/{file_id}',[ServicesController::class,'viewfile_service'])->name('viewfile_service');
+Route::get('download_service/{service_id}/{file_id}',[ServicesController::class,'download_service'])->name('download_service');
+Route::post('deletefile_service',[ServicesController::class,'deletefile_service'])->name('deletefile_service');

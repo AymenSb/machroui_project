@@ -47,6 +47,15 @@ return [
             'driver'=>'local',
             'root'=> public_path().'/Attachments/Raw Materials Attachments',
         ],
+        'ads_uploads'=>[
+            'driver'=>'local',
+            'root'=> public_path().'/Attachments/Ads Attachments',
+        ],
+        'services_uploads'=>[
+            'driver'=>'local',
+            'root'=> public_path().'/Attachments/Services Attachments',
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

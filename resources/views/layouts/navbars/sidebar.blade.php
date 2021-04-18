@@ -81,13 +81,13 @@
           <i class="now-ui-icons design_bullet-list-67"></i>
           <p>{{ __('Gestion des pubs') }}</p>
         </a>
-      </li>{{--
-      <li class = "@if ($activePage == 'typography') active @endif">
-        <a href="{{ route('page.index','typography') }}">
+      </li>
+      <li class = "@if ($activePage == 'Services') active @endif">
+        <a href="{{ route('services.index') }}">
           <i class="now-ui-icons text_caps-small"></i>
-          <p>{{ __('Typography') }}</p>
+          <p>{{ __('Gestion des services') }}</p>
         </a>
-      </li> --}}
+      </li> 
       
     </ul>
   </div>

@@ -1,7 +1,7 @@
 @extends('layouts.app', [
-    'namePage' => 'Publicités',
+    'namePage' => 'Services',
     'class' => 'sidebar-mini',
-    'activePage' => 'Ads',
+    'activePage' => 'Services',
 ])
 @section('css')
       <!-- DataTables -->
@@ -28,7 +28,7 @@ cursor:pointer;
               <div class="card-header">
  
                 <h3 class="card-title">
-                  <a class="btn btn-primary btn-block" href="ads/create" style="width: 260px; padding: 10px 32px; font-size: 16px;background-color:#FF3636">ajouter une publicité</a>
+                  <a class="btn btn-primary btn-block" href="services/create" style="width: 260px; padding: 10px 32px; font-size: 16px;background-color:#FF3636">Ajouter une service</a>
                 </h3>
               </div>
               <!-- /.card-header -->
@@ -37,57 +37,53 @@ cursor:pointer;
                   <thead>
                   <tr style=" white-space: nowrap">
                     <th>id</th>
-                    <th>Nom de publicité</th>
-                    <th>Visbilité</th>
-                    <th>Date de creation</th>
-                    <th>Opérations</th>
+                    <th>Nom du service</th>
+                    <th>type</th>
+                    <th>opérations</th>
                   </tr>
                   </thead>
                   <tbody>
                     <?php $i=0?>
-                    @foreach ($ads as $ad)
+                    @foreach ($services as $service)
                     <?php $i++?>
                   <tr >
-                    <td class="table-row" data-href="{{route('ads.edit',$ad->id)}}">{{$i}}</td>
-                    <td class="table-row" data-href="{{route('ads.edit',$ad->id)}}">{{$ad->name}}</td>
-                    <td class="table-row" data-href="{{route('ads.edit',$ad->id)}}">
-                      @if ($ad->is_Visible==true)
-                        <a  class="text-success">Visible</a>
-                      @else
-                          <a  class="text-danger">Cachée</a>
-                      @endif
-                    </td>
-                    <td>{{$ad->created_at}}</td>
-                    <td>   
+                    <td class="table-row" data-href="services/{{$service->id}}">{{$i}}</td>
+                    <td class="table-row" data-href="services/{{$service->id}}">{{$service->name}}</td>
+                    <td class="table-row" data-href="services/{{$service->id}}">{{$service->type}}</td>
+                    <td >
+                     
+                      
                       <button class="btn btn-danger btn-sm"
                       data-toggle="modal"
                       
-                      data-ad_id="{{ $ad->id }}"
+                      data-service_id="{{ $service->id }}"
                     
                       data-target="#delete_file">
-                      <i class="fas fa-trash"></i>&nbsp;Effacer</button></td>
+                      <i class="fas fa-trash"></i>&nbsp;Effacer</button>
+                    </td>
                     
+                   
                   </tr>
-                  <div class="modal fade" id="delete_file" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                <div class="modal fade" id="delete_file" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                   aria-hidden="true">
                   <div class="modal-dialog" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Supprimer la publicité</h5>
+                      <h5 class="modal-title" id="exampleModalLabel">Supprimer</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
-                    <form action="{{ route('ads.destroy',$ad->id) }}" method="post">
+                    <form action="{{ route('services.destroy',$service->id) }}" method="post">
                       {{ method_field('delete') }}
                       {{ csrf_field() }}
                       <div class="modal-body">
                         <p class="text-center">
-                        <h6 style="color:red">Voulez-vous vraiment supprimer cette publicité</h6>
+                        <h6 style="color:red">Voulez-vous vraiment supprimer ce service</h6>
                         </p>
             
                       
-                        <input type="hidden" name="ad_id" id="ad_id" value="">
+                        <input type="hidden" name="service_id" id="service_id" value="">
             
                       </div>
                       <div class="modal-footer">
@@ -104,13 +100,11 @@ cursor:pointer;
                   @endforeach
                   </tbody>
                 
-                  
                 </table>
               </div>
               <!-- /.card-body -->
             </div>
       </div>
-      
     </div>
   </div>
  
@@ -153,10 +147,10 @@ cursor:pointer;
 	$('#delete_file').on('show.bs.modal', function(event) {
 		var button = $(event.relatedTarget)
 	
-		var ad_id = button.data('ad_id')
+		var service_id = button.data('service_id')
 		var modal = $(this)
 	
-		modal.find('.modal-body #ad_id').val(ad_id);
+		modal.find('.modal-body #service_id').val(service_id);
 	})
 </script>
 @stop
