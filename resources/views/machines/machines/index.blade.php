@@ -26,13 +26,16 @@ cursor:pointer;
       <div class="col-md-12">
          <div class="card">
               <div class="card-header">
- 
+                @can('crée machine')
                 <h3 class="card-title">
                   <a class="btn btn-primary btn-block" href="{{route('machines.create')}}" style="width: 260px; padding: 10px 32px; font-size: 16px;background-color:#FF3636">Ajouter une machines</a>
                 </h3>
+                @endcan
               </div>
               <!-- /.card-header -->
               <div class="card-body">
+                    @can('toutes les machine')
+
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                   <tr style=" white-space: nowrap">
@@ -56,11 +59,13 @@ cursor:pointer;
                     <td  class="table-row" data-href="machines/{{$machine->id}}">{{$machine->state}}</td>
                     <td  class="table-row" data-href="machines/{{$machine->id}}">{{$machine->price}}</td>
                     <td >
+                      @can('modifer machine')
                       <a class="btn btn-outline-info btn-sm" 
                       href= "{{route('editmachine',$machine->id)}}"
                       role="button"><i class="fas fa-edit"></i>&nbsp;
                       Modifier</a>
-                      
+                      @endcan
+                      @can('effacer machine')
                       <button class="btn btn-outline-danger btn-sm"
                       data-toggle="modal"
                       
@@ -68,11 +73,13 @@ cursor:pointer;
                     
                       data-target="#delete_file">
                       <i class="fas fa-trash"></i>&nbsp;Effacer</button>
+                      @endcan
                     </td>
                     
                   </tr>
                     <!-- delete image-->
-      <div class="modal fade" id="delete_file" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+
+                    <div class="modal fade" id="delete_file" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -111,6 +118,7 @@ cursor:pointer;
                   </tbody>
            
                 </table>
+                @endcan
               </div>
               <!-- /.card-body -->
             </div>

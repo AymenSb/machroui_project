@@ -61,6 +61,7 @@ textarea::-webkit-scrollbar-thumb {
                                            {{-- VALIDATIONS HERE --}} 
             <h5 class="title">Ajouter une machine</h5>
           </div>
+          @can('crée machine')
           <div class="card-body all-icons">
             <div class="col-lg-12 col-md-12">
               <div class="card">
@@ -149,8 +150,9 @@ textarea::-webkit-scrollbar-thumb {
                       </form>
                   </div>
               </div>
+            </div>
           </div>
-          </div>
+          @endcan
         </div>
       </div>
     </div>

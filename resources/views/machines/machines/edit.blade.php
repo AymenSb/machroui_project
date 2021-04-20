@@ -61,6 +61,7 @@ textarea::-webkit-scrollbar-thumb {
                                            {{-- VALIDATIONS HERE --}} 
             <h5 class="title">modifier la machine</h5>
           </div>
+          @can('modifer machine')
           <div class="card-body all-icons">
             <div class="col-lg-12 col-md-12">
               <div class="card">
@@ -123,28 +124,6 @@ textarea::-webkit-scrollbar-thumb {
                         </div>
                         <span style=" margin-left: 20px;"></span>
 
-                          {{-- 3 --}}
-                        
-                          {{-- <hr>
-
-                        <p class="text-danger">* La format de pièce jointe est jpeg, .jpg, .png</p>
-                        <h5 class="card-title">Pièces jointes</h5>
-
-                        <div class="col-sm-12 col-md-12">
-                            <input type="file" name="image[]" id="images" class="dropify" accept=".jpg, .png, image/jpeg, image/png"
-                                data-height="70"    multiple/>
-                        </div><br> --}}
-
-
-                          {{-- 4 --}}
-  
-                         
-  
-                          {{-- 5 --}}
-                        
-  
-  
-
                           <div class="d-flex justify-content-center">
                               <button type="submit" class="btn btn-primary" style="background-color:#FF3636">mettre à jour</button>
                           </div>
@@ -153,8 +132,9 @@ textarea::-webkit-scrollbar-thumb {
                       </form>
                   </div>
               </div>
+           </div>
           </div>
-          </div>
+          @endcan
         </div>
       </div>
     </div>

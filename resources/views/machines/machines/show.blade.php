@@ -125,19 +125,27 @@ input[type=number]::-webkit-outer-spin-button {
                              </div>
                          @endif
                         <h3 class="title">Machine/ Details</h3>
+                        @can('modifer machine')
                         <a href= "{{route('editmachine',$machine->id)}}"class="btn btn-primary btn-round" style="color: white;background-color:#FF3636;">Éditer</a>  
+                         @endcan    
                     </div>
                     <div class="card-body all-icons">
                         {{-- place content here --}}
 
                         <!-- Tab links -->
+                        @can('afficher machine')
                         <div class="tab">
+                       
                             <button class="tablinks" id='defaultOpen' onclick="openCity(event, 'London')">Information géneral</button>
                             <button class="tablinks" onclick="openCity(event, 'Paris')">Détails</button>
                             <button class="tablinks" onclick="openCity(event, 'char')">Charactéristique</button>
                             <button class="tablinks" onclick="openCity(event, 'mark')">Détails de la marque</button>
+                            @can('modifer machine')
                             <button class="tablinks" onclick="openCity(event, 'images')">Images</button>
+                            @endcan
+                       
                         </div>
+                        @endcan
                         <!-- Tab content -->
                         <div id="London" class="tabcontent">
                             {{-- 1 --}}
