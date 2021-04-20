@@ -13,7 +13,6 @@ input[type=number]::-webkit-outer-spin-button {
 }
 </style>
 @stop
-test
 @section('content')
 
   <div class="panel-header panel-header-sm">

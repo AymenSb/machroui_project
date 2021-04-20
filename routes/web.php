@@ -14,6 +14,8 @@ use App\Http\Controllers\RawmaterialsAttachmentsController;
 use App\Http\Controllers\AdsController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\ServicesAttachmentsController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\RoleController;
 
 
 
@@ -56,7 +58,6 @@ Route::get('deleteMachine/{machine_id}',[RequestedMachinesController::class,'del
 Route::get('NewMachines',[MachinesController::class,'indexNew'])->name('new');
 Route::get('UsedMachines',[MachinesController::class,'indexUsed'])->name('used');
 
-Auth::routes(['register' => false]);
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Auth::routes();
@@ -64,11 +65,14 @@ Auth::routes();
 Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home');
 
 Route::group(['middleware' => 'auth'], function () {
+    Route::resource('roles',RoleController::class);
+    Route::resource('users',UserController::class);
     Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
     Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
     Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
     Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
     Route::get('{page}', ['as' => 'page.index', 'uses' => 'App\Http\Controllers\PageController@index']);
+
 });
 
 Route::get('viewfile/{formation_id}/{file_id}',[FormationDetailsController::class,'viewfile'])->name('ViewFormation');
