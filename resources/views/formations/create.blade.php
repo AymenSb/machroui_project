@@ -52,6 +52,7 @@ input[type=number]::-webkit-outer-spin-button {
           <div class="card-body all-icons">
             <div class="col-lg-12 col-md-12">
               <div class="card">
+                @can('crée formation')
                   <div class="card-body">
                       <form action="{{ route('formations.store') }}" method="post" enctype="multipart/form-data"
                           autocomplete="off">
@@ -159,6 +160,7 @@ input[type=number]::-webkit-outer-spin-button {
   
                       </form>
                   </div>
+                  @endcan
               </div>
           </div>
           </div>

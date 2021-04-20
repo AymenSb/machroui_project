@@ -113,13 +113,17 @@ input[type=number]::-webkit-outer-spin-button {
                         {{-- place content here --}}
 
                         <!-- Tab links -->
+                        @can('afficher formation')
                         <div class="tab">
                             <button class="tablinks" id='defaultOpen' onclick="openCity(event, 'London')">Détails</button>
                             <button class="tablinks" onclick="openCity(event, 'desc')">Déscription</button>
                             <button class="tablinks" onclick="openCity(event, 'plan')">Plan</button>
                             <button class="tablinks" onclick="openCity(event, 'link')">Lien</button>
+                            @can('modfier formation')
                             <button class="tablinks" onclick="openCity(event, 'Paris')">Image</button>
+                            @endcan
                         </div>
+                        @endcan
                         <!-- Tab content -->
                         <div id="London" class="tabcontent">
                             {{-- 1 --}}

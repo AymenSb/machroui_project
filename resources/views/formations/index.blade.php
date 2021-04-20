@@ -28,11 +28,14 @@ cursor:pointer;
               <div class="card-header">
  
                 <h3 class="card-title">
+                  @can('crée formation')
                   <a class="btn btn-primary btn-block" href="formations/create" style="width: 260px; padding: 10px 32px; font-size: 16px;background-color:#FF3636">ajouter une formation</a>
+                  @endcan
                 </h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
+                @can('formations')
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                   <tr style=" white-space: nowrap">
@@ -53,11 +56,14 @@ cursor:pointer;
                     <td class="table-row" data-href="formations/{{$formation->id}}">{{$formation->begin_date}}</td>
                     <td class="table-row" data-href="formations/{{$formation->id}}">{{$formation->price}}</td>
                     <td >
+                      @can('modfier formation')
                       <a class="btn btn-outline-info btn-sm" 
                       href= "{{route('formations.edit',$formation->id)}}"
                       role="button"><i class="fas fa-edit"></i>&nbsp;
                       Modifier</a>
-                      
+                      @endcan
+
+                      @can('effacer formation')
                       <button class="btn btn-outline-danger btn-sm"
                       data-toggle="modal"
                       
@@ -65,6 +71,7 @@ cursor:pointer;
                     
                       data-target="#delete_file">
                       <i class="fas fa-trash"></i>&nbsp;Effacer</button>
+                      @endcan
                     </td>
                   </tr>
                 <div class="modal fade" id="delete_file" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -105,6 +112,7 @@ cursor:pointer;
                 
                   
                 </table>
+                @endcan
               </div>
               <!-- /.card-body -->
             </div>

@@ -32,6 +32,7 @@ cursor:pointer;
               </div>
               <!-- /.card-header -->
               <div class="card-body">
+                @can('requetes des machines en attend')
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                   <tr style=" white-space: nowrap">
@@ -56,17 +57,21 @@ cursor:pointer;
                     <td>{{$machine->price}}</td>
                     <td>{{$machine->Vendor}}</td>
                     <td>
+                      @can('accept machine')
                       <a class="btn btn-outline-success btn-sm" 
                       href= "acceptMachine/{{$machine->id}}"
                       role="button"><i class="fas fa-plus"></i>&nbsp;
                       Ajouter</a>
-                      
-                  <a class="btn btn-outline-danger btn-sm"
+                      @endcan
+
+                      @can('rejeter machine')
+                      <a class="btn btn-outline-danger btn-sm"
                       href= "deleteMachine/{{$machine->id}}"
                       role="button"><i
                           class="fas fa-trash"></i>&nbsp;
                       Supprimer</a>
                     </td>
+                    @endcan
                   </tr>
                  
                   @endforeach
@@ -85,6 +90,7 @@ cursor:pointer;
                       </tr>
                   </tfoot>
                 </table>
+                @endcan
               </div>
               <!-- /.card-body -->
             </div>
