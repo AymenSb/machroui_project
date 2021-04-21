@@ -17,7 +17,7 @@
                                 href="{{ route('users.index') }}">Retoure</a>
                         </div>
                     </div>
-                    @can('crées utilisateur privé')
+                    @can('crées utilisateur')
                     <div class="card-body">
                         <br><br>
                         <div class="col-lg-12 margin-tb">

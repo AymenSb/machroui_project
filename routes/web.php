@@ -60,8 +60,7 @@ Route::get('UsedMachines',[MachinesController::class,'indexUsed'])->name('used')
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Auth::routes();
 
-Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home');
-
+Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home')->middleware('permission:accès au tableau de bord');
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('roles',RoleController::class);
     Route::resource('users',UserController::class);

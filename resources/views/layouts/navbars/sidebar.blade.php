@@ -1,7 +1,8 @@
-<div class="sidebar" data-color="red">
+<div class="sidebar" data-color="test">
   <!--
     Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
 -->
+{{-- TO MODIFY COLORS public\assets\css\now-ui-dashboard.css --}}
   <div class="logo">
     <a  class="simple-text logo-mini">
       {{-- PLACE LOGO HERE --}}

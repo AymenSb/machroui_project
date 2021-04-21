@@ -10,8 +10,8 @@ class UserController extends Controller
 {
     function __construct()
     {
-    $this->middleware('permission:gestion des utilisateurs|crées utilisateur privé|crées utilisateur normal|mofider utilisateur|supprimer utilisateur', ['only' => ['index','show']]);
-    $this->middleware('permission:crées utilisateur privé|crées utilisateur normal', ['only' => ['create','store']]);
+    $this->middleware('permission:gestion des utilisateurs|crées utilisateur|mofider utilisateur|supprimer utilisateur', ['only' => ['index','show']]);
+    $this->middleware('permission:crées utilisateur', ['only' => ['create','store']]);
     $this->middleware('permission:mofider utilisateur', ['only' => ['edit','update']]);
     $this->middleware('supprimer utilisateur', ['only' => ['destroy']]);
     }
@@ -22,7 +22,7 @@ class UserController extends Controller
 */
 public function index(Request $request)
 {
-$data = User::orderBy('id','DESC')->paginate(5);
+$data = User::orderBy('id','DESC')->paginate(10);
 return view('users.index',compact('data'))
 ->with('i', ($request->input('page', 1) - 1) * 5);
 }
@@ -96,7 +96,7 @@ $this->validate($request, [
 'name' => 'required',
 'email' => 'required|email|unique:users,email,'.$id,
 'password' => 'same:confirm-password',
-'roles' => 'required'
+'roles_name' => 'required'
 ]);
 $input = $request->all();
 if(!empty($input['password'])){
@@ -123,4 +123,5 @@ User::find($id)->delete();
 return redirect()->route('users.index')
 ->with('success','User deleted successfully');
 }
+
 }

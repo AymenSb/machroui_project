@@ -13,6 +13,7 @@ class PermissionTableSeeder extends Seeder
 public function run()
 {
 $permissions = [
+    'accès au tableau de bord',
     'machines',
     'toutes les machine',
     'requetes des machines en attend',
@@ -52,8 +53,7 @@ $permissions = [
     'effacer service',
 
     'gestion des utilisateurs',
-    'crées utilisateur privé',
-    'crées utilisateur normal',
+    'crées utilisateur',
     'mofider utilisateur',
     'supprimer utilisateur',
 
@@ -61,6 +61,8 @@ $permissions = [
     'crée role',
     'modifier  role',
     'supprimer role',
+
+    'Aucune',
 
 // 'role-list',
 // 'role-create',

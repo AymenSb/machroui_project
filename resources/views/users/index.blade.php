@@ -28,7 +28,7 @@
                     <div class="card-header">
 
                         <h3 class="card-title">
-                          @can('crées utilisateur privé')
+                          @can('crées utilisateur')
                             <a class="btn btn-primary" href="users/create"
                                 style="width: 260px; padding: 10px 32px; font-size: 16px;background-color:#FF3636">ajouter une utilisateur</a>
                           @endcan
@@ -57,10 +57,15 @@
 
                                             <td style="text-align: center">
                                                 @if (!empty($user->getRoleNames()))
-                                                    @foreach ($user->getRoleNames() as $v)
+                                                @foreach ($user->roles_name as $role)
+                                                <label class="badge badge-success"
+                                                style="color: antiquewhite;">{{ $role}}</label>
+
+                                                @endforeach
+                                                    {{-- @foreach ($user->getRoleNames() as $v)
                                                         <label class="badge badge-success"
                                                             style="color: antiquewhite;">{{ $v }}</label>
-                                                    @endforeach
+                                                    @endforeach --}}
                                                 @endif
                                             </td>
 

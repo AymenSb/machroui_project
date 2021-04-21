@@ -4081,6 +4081,22 @@ Created using IcoMoon - icomoon.io
     color: #18ce0f;
 }
 
+/*  */
+.sidebar[data-color="test"]:after,
+.off-canvas-sidebar[data-color="test"]:after {
+    background: #2E343A;
+}
+
+.sidebar[data-color="test"] .nav li.active>a:not([data-toggle="collapse"]),
+.off-canvas-sidebar[data-color="test"] .nav li.active>a:not([data-toggle="collapse"]) {
+    color: #2E343A;
+}
+
+.sidebar[data-color="test"] .nav li.active>a:not([data-toggle="collapse"]) i,
+.off-canvas-sidebar[data-color="test"] .nav li.active>a:not([data-toggle="collapse"]) i {
+    color: #2E343A;
+}
+/*  */
 .sidebar[data-color="orange"]:after,
 .off-canvas-sidebar[data-color="orange"]:after {
     background: #f96332;
@@ -4184,7 +4200,7 @@ Created using IcoMoon - icomoon.io
     padding-top: 80px;
     padding-bottom: 45px;
     background: #141E30;
-    /* fallback for old browsers */
+    /* fallback for old browsers 2E343A -> 525260  -> 738285*/
     background: linear-gradient(to right, #0c2646 0%, #204065 60%, #2a5788 100%);
     position: relative;
     overflow: hidden;
