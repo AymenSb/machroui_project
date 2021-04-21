@@ -106,14 +106,16 @@ input[type=number]::-webkit-outer-spin-button {
                           @endif
                           {{-- VALIDATION --}}
                         <h5 class="title">Formations/ Details</h5>
+                        @can('modfier formation')
                         <a href="{{route('formations.edit',$formation->id)}}"
                         class="btn btn-primary btn-round" style="color: white;background-color:#FF3636;">Éditer</a>  
+                            @endcan
                     </div>
                     <div class="card-body all-icons">
                         {{-- place content here --}}
 
                         <!-- Tab links -->
-                        @can('afficher formation')
+                        @can('formation')
                         <div class="tab">
                             <button class="tablinks" id='defaultOpen' onclick="openCity(event, 'London')">Détails</button>
                             <button class="tablinks" onclick="openCity(event, 'desc')">Déscription</button>

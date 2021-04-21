@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\Storage;
 
 class ServicesController extends Controller
 {
+    function __construct()
+    {
+    $this->middleware('permission:gestion des services|crée service|modfier service|effacer service', ['only' => ['index','show']]);
+    $this->middleware('permission:crée service', ['only' => ['create','store']]);
+    $this->middleware('permission:modfier service', ['only' => ['edit','update']]);
+    $this->middleware('effacer service', ['only' => ['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      *

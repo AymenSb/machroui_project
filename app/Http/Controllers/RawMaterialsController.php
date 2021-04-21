@@ -12,6 +12,14 @@ use Illuminate\Support\Facades\Storage;
 
 class RawMaterialsController extends Controller
 {
+
+    function __construct()
+    {
+    $this->middleware('permission:matières premières|crée matière première|modfier matière première|effacer matière première', ['only' => ['index','show']]);
+    $this->middleware('permission:crée matière première', ['only' => ['create','store']]);
+    $this->middleware('permission:modfier matière première', ['only' => ['edit','update']]);
+    $this->middleware('effacer matière première', ['only' => ['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      *

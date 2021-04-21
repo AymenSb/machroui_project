@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Storage;
 
 class MachinesController extends Controller
 {
+    function __construct()
+    {
+    $this->middleware('permission:machine|toutes les machine|requetes des machines en attend|nouvelles machines|machines occasions|crée machine|modifer machine|effacer machine|accept machine|rejeter machine', ['only' => ['index','show']]);
+    $this->middleware('permission:crée machine', ['only' => ['create','store']]);
+    $this->middleware('permission:modfier machine', ['only' => ['edit','update']]);
+    $this->middleware('effacer machine', ['only' => ['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -97,7 +104,8 @@ class MachinesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $machine=machines::findOrfail($id);
+        return view('machines/machines/edit',compact('machine'));
         
     }
 
@@ -181,10 +189,7 @@ class MachinesController extends Controller
         return view('machines/machines/indexUsed',compact('Usedmachines'));
     }
 
-    public function editpage($id){
-        $machine=machines::findOrfail($id);
-        return view('machines/machines/edit',compact('machine'));
-    }
+  
 
     public function delete($id){
         $machine=machines::findOrFail($id);

@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Storage;
 
 class AdsController extends Controller
 {
+    function __construct()
+    {
+    $this->middleware('permission:gestion des pubs|crée pub|modfier pub|effacer pub', ['only' => ['index','show']]);
+    $this->middleware('permission:crée pub', ['only' => ['create','store']]);
+    $this->middleware('permission:modfier pub', ['only' => ['edit','update']]);
+    $this->middleware('effacer pub', ['only' => ['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      *

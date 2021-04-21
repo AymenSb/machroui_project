@@ -17,7 +17,7 @@
 
                         </p>
                     </div>
-                    @can('afficher role')
+                    @can('gestion des roles')
                     <div class="card-body">
                         <div class="main-content-label mg-b-5">
 

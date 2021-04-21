@@ -142,7 +142,7 @@ input[type=number]::-webkit-outer-spin-button {
                         {{-- place content here --}}
 
                         <!-- Tab links -->
-                        @can('afficher matière première')
+                        @can('matières premières')
                         <div class="tab">
                             <button class="tablinks" id='defaultOpen' onclick="openCity(event, 'London')">Détails</button>
                             <button class="tablinks" id='defaultOpen' onclick="openCity(event, 'description')">Description</button>

@@ -59,7 +59,7 @@ cursor:pointer;
                     <td >
                       @can('modifer machine')
                       <a class="btn btn-outline-info btn-sm" 
-                      href= "{{route('editmachine',$machine->id)}}"
+                      href= "{{route('machines.edit',$machine->id)}}"
                       role="button"><i class="fas fa-edit"></i>&nbsp;
                       Modifier</a>
                       @endcan

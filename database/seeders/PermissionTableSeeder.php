@@ -20,7 +20,6 @@ $permissions = [
     'machines occasions',
     'crée machine',
     'modifer machine',
-    'afficher machine',
     'effacer machine',
     'accept machine',
     'rejeter machine',
@@ -29,36 +28,30 @@ $permissions = [
     'formations',
     'crée formation',
     'modfier formation',
-    'afficher formation',
     'effacer formation',
 
 
     'matières premières',
     'crée matière première',
     'modfier matière première',
-    'afficher matière première',
     'effacer matière première',
 
     'categories',
     'crée categorie',
     'modifer categorie',
-    'afficher categorie',
     'effacer categorie',
 
     'gestion des pubs',
     'crée pub',
     'modifer pub',
-    'afficher pub',
     'effacer pub',
     
     'gestion des services',
     'crée service',
     'modifer service',
-    'afficher service',
     'effacer service',
 
     'gestion des utilisateurs',
-    'afficher les utilisateurs',
     'crées utilisateur privé',
     'crées utilisateur normal',
     'mofider utilisateur',
@@ -66,7 +59,6 @@ $permissions = [
 
     'gestion des roles',
     'crée role',
-    'afficher role',
     'modifier  role',
     'supprimer role',
 

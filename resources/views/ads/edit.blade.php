@@ -127,7 +127,7 @@ input[type=number]::-webkit-outer-spin-button {
                         {{-- place content here --}}
 
                         <!-- Tab links -->
-                        @can('afficher pub')
+                        @can('gestion des pubs')
                         <div class="tab">
                             <button class="tablinks" id='defaultOpen' onclick="openCity(event, 'London')">Détails</button>
                             <button class="tablinks" onclick="openCity(event, 'Paris')">Image</button>

@@ -8,6 +8,13 @@ use DB;
 use Hash;
 class UserController extends Controller
 {
+    function __construct()
+    {
+    $this->middleware('permission:gestion des utilisateurs|crées utilisateur privé|crées utilisateur normal|mofider utilisateur|supprimer utilisateur', ['only' => ['index','show']]);
+    $this->middleware('permission:crées utilisateur privé|crées utilisateur normal', ['only' => ['create','store']]);
+    $this->middleware('permission:mofider utilisateur', ['only' => ['edit','update']]);
+    $this->middleware('supprimer utilisateur', ['only' => ['destroy']]);
+    }
 /**
 * Display a listing of the resource.
 *
@@ -58,8 +65,10 @@ return redirect()->route('users.index')
 */
 public function show($id)
 {
-$user = User::find($id);
-return view('users.show',compact('user'));
+// $user = User::find($id);
+// return view('users.show',compact('user'));
+
+return back();
 }
 /**
 * Show the form for editing the specified resource.

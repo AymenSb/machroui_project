@@ -49,14 +49,12 @@ Route::resource('ads',AdsController::class);
 Route::resource('services',ServicesController::class);
 Route::resource('add_image',ServicesAttachmentsController::class);
 
-
 Route::get('getsubcategory/{id}',[CategoryController::class,'getsubcategory']);
 Route::post('addToSub',[SubcategoryController::class,'addToSub'])->name('addToSub');
-Route::get('editmachine/{machine_id}',[MachinesController::class,'editpage'])->name('editmachine');
-Route::get('acceptMachine/{machine_id}',[RequestedMachinesController::class,'accept'])->name('accept');
-Route::get('deleteMachine/{machine_id}',[RequestedMachinesController::class,'delete'])->name('deleteMachine');
-Route::get('NewMachines',[MachinesController::class,'indexNew'])->name('new');
-Route::get('UsedMachines',[MachinesController::class,'indexUsed'])->name('used');
+Route::get('acceptMachine/{machine_id}',[RequestedMachinesController::class,'accept'])->name('accept')->middleware('permission:accept machine');
+Route::get('deleteMachine/{machine_id}',[RequestedMachinesController::class,'delete'])->name('deleteMachine')->middleware('permission:rejeter machine');;
+Route::get('NewMachines',[MachinesController::class,'indexNew'])->name('new')->middleware('permission:nouvelles machines');
+Route::get('UsedMachines',[MachinesController::class,'indexUsed'])->name('used')->middleware('permission:machines occasions');
 
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
