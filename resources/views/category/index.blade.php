@@ -17,7 +17,8 @@
   </div>
   <div class="content">
     <div class="row">
-
+@can('categories')
+      @can('crée categorie')
       <div class="col-md-6">
         <div class="card" style="height: 323px" >
           <div class="card-header">
@@ -38,7 +39,9 @@
           </div>
         </div>
       </div>
+      @endcan
 
+      @can('crée categorie')
       <div class="col-md-6">
         <div class="card">
           <div class="card-header">
@@ -64,16 +67,18 @@
               <div class="form-group">
                 <button type="submit" class="btn btn-primary">Create</button>
                  &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+                 @can('modifer categorie')
                  <a href="#modaldemo9"
               data-effect="effect-fall" data-toggle="modal"
               class="btn btn-secendary" style="color: white;background-color:#FF3636;">Gestion des sous-catégories
-                </a>  
+                @endcan    
+            </a>  
               </div>
             </form>
           </div>
         </div>
       </div>
-
+      @endcan
 
       
 
@@ -200,6 +205,9 @@
       </div>
     </div>
   </div>
+  @endcan
+  </div>
+</div>
 @stop
 
 @section('js')

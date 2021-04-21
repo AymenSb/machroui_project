@@ -53,6 +53,8 @@ input[type=number]::-webkit-outer-spin-button {
             <div class="col-lg-12 col-md-12">
               <div class="card">
                   <div class="card-body">
+                    @can('crée matière première')
+
                       <form action="{{ route('rawmaterials.store') }}" method="post" enctype="multipart/form-data"
                           autocomplete="off">
                           {{ csrf_field() }}
@@ -111,6 +113,7 @@ input[type=number]::-webkit-outer-spin-button {
                               <button type="submit" class="btn btn-primary" style="background-color:#FF3636">Save data</button>
                           </div>
                       </form>
+                      @endcan
                   </div>
               </div>
           </div>

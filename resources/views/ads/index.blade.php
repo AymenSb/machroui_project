@@ -26,13 +26,15 @@ cursor:pointer;
       <div class="col-md-12">
          <div class="card">
               <div class="card-header">
- 
+                @can('crée pub')
                 <h3 class="card-title">
                   <a class="btn btn-primary btn-block" href="ads/create" style="width: 260px; padding: 10px 32px; font-size: 16px;background-color:#FF3636">ajouter une publicité</a>
                 </h3>
+                @endcan
               </div>
               <!-- /.card-header -->
               <div class="card-body">
+                @can('gestion des pubs')
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                   <tr style=" white-space: nowrap">
@@ -59,6 +61,7 @@ cursor:pointer;
                     </td>
                     <td>{{$ad->created_at}}</td>
                     <td>   
+                      @can('effacer pub')
                       <button class="btn btn-danger btn-sm"
                       data-toggle="modal"
                       
@@ -66,7 +69,7 @@ cursor:pointer;
                     
                       data-target="#delete_file">
                       <i class="fas fa-trash"></i>&nbsp;Effacer</button></td>
-                    
+                      @endcan
                   </tr>
                   <div class="modal fade" id="delete_file" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                   aria-hidden="true">
@@ -106,6 +109,7 @@ cursor:pointer;
                 
                   
                 </table>
+                @endcan
               </div>
               <!-- /.card-body -->
             </div>

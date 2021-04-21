@@ -132,27 +132,7 @@ input[type=number]::-webkit-outer-spin-button {
                          <span style=" margin-left: 20px;"></span>
 
                           {{-- 4--}}
-                        
                           <hr>
-
-                            <p class="text-danger">* La format de l'image est .jpg, .png</p>
-                            <h5 class="card-title">Image</h5>
-                            <input type="hidden" name="id" id="id" value="{{$formation->id}}">
-                            <div class="col-sm-12 col-md-12">
-                                <input type="file" name="image" id="image" class="dropify" accept=".jpg, .png, image/jpeg, image/png"
-                                data-height="70"  />
-                            </div><br>
-
-
-                          {{-- 4 --}}
-  
-                         
-  
-                          {{-- 5 --}}
-                        
-  
-  
-
                           <div class="d-flex justify-content-center">
                               <button type="submit" class="btn btn-primary" style="background-color:#FF3636">Mettre à jour</button>
                           </div>

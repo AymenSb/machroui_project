@@ -228,6 +228,7 @@ input[type=number]::-webkit-outer-spin-button {
                                             Télécharger</a>
                                           </td>
                                          <td>
+                                             @can('modifer machine')
                                             <button class="btn btn-outline-danger btn-sm"
                                             data-toggle="modal"
                                             data-file_name="{{ $item->file_name }}"
@@ -235,11 +236,13 @@ input[type=number]::-webkit-outer-spin-button {
                                             data-file_id="{{ $item->id }}"
                                             data-target="#delete_file">
                                             <i class="fas fa-trash"></i>&nbsp;Effacer</button>
-                                         </td>
+                                            @endcan
+                                        </td>
                                         </tr>
                                         @endforeach
                                         </tbody>
                                       </table>
+                                      @can('modifer machine')
                                       <div class="card-body">
                                         <p class="text-danger">Image de type .jpg, .png </p>
                                         <h5 class="card-title">Ajouter images</h5>
@@ -260,6 +263,7 @@ input[type=number]::-webkit-outer-spin-button {
                                                 name="uploadedFile">Ajouter</button>
                                         </form>
                                     </div>
+                                    @endcan
                                 </div>
                             </div>
                         </div>

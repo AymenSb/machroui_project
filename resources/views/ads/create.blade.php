@@ -48,6 +48,7 @@ input[type=number]::-webkit-outer-spin-button {
                                            {{-- VALIDATIONS HERE --}} 
             <h5 class="title">Ajouter une publicité</h5>
           </div>
+          @can('modifer pub')
           <div class="card-body all-icons">
             <div class="col-lg-12 col-md-12">
               <div class="card">
@@ -103,6 +104,7 @@ input[type=number]::-webkit-outer-spin-button {
               </div>
           </div>
           </div>
+          @endcan
         </div>
       </div>
     </div>

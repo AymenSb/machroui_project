@@ -26,14 +26,16 @@ cursor:pointer;
       <div class="col-md-12">
          <div class="card">
               <div class="card-header">
- 
+                @can('crée service')
                 <h3 class="card-title">
                   <a class="btn btn-primary btn-block" href="services/create" style="width: 260px; padding: 10px 32px; font-size: 16px;background-color:#FF3636">Ajouter une service</a>
                 </h3>
+                @endcan
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
+                @can('gestion des services')
+               <table id="example1" class="table table-bordered table-striped">
                   <thead>
                   <tr style=" white-space: nowrap">
                     <th>id</th>
@@ -52,7 +54,7 @@ cursor:pointer;
                     <td class="table-row" data-href="services/{{$service->id}}">{{$service->type}}</td>
                     <td >
                      
-                      
+                      @can('effacer service')
                       <button class="btn btn-danger btn-sm"
                       data-toggle="modal"
                       
@@ -60,6 +62,7 @@ cursor:pointer;
                     
                       data-target="#delete_file">
                       <i class="fas fa-trash"></i>&nbsp;Effacer</button>
+                      @endcan
                     </td>
                     
                    
@@ -101,6 +104,7 @@ cursor:pointer;
                   </tbody>
                 
                 </table>
+                @endcan
               </div>
               <!-- /.card-body -->
             </div>

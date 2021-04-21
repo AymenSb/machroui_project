@@ -28,11 +28,14 @@ cursor:pointer;
               <div class="card-header">
  
                 <h3 class="card-title">
+                  @can('crée matière première')
                   <a class="btn btn-primary btn-block" href="rawmaterials/create" style="width: 260px; padding: 10px 32px; font-size: 16px;background-color:#FF3636">Ajouter une nouvelle matière première</a>
+                  @endcan
                 </h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
+                @can('matières premières')
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                   <tr style=" white-space: nowrap">
@@ -53,7 +56,7 @@ cursor:pointer;
                     <td class="table-row" data-href="rawmaterials/{{$material->id}}">{{$material->brand}}</td>
                     <td >
                      
-                      
+                      @can('effacer matière première')
                       <button class="btn btn-outline-danger btn-sm"
                       data-toggle="modal"
                       
@@ -61,6 +64,7 @@ cursor:pointer;
                     
                       data-target="#delete_file">
                       <i class="fas fa-trash"></i>&nbsp;Effacer</button>
+                      @endcan
                     </td>
                     
                    
@@ -102,6 +106,7 @@ cursor:pointer;
                   </tbody>
                 
                 </table>
+                @endcan
               </div>
               <!-- /.card-body -->
             </div>

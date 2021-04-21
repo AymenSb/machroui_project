@@ -119,9 +119,7 @@ input[type=number]::-webkit-outer-spin-button {
                             <button class="tablinks" onclick="openCity(event, 'desc')">Déscription</button>
                             <button class="tablinks" onclick="openCity(event, 'plan')">Plan</button>
                             <button class="tablinks" onclick="openCity(event, 'link')">Lien</button>
-                            @can('modfier formation')
                             <button class="tablinks" onclick="openCity(event, 'Paris')">Image</button>
-                            @endcan
                         </div>
                         @endcan
                         <!-- Tab content -->
@@ -214,7 +212,7 @@ input[type=number]::-webkit-outer-spin-button {
                                     </tbody>
                                   </table>
                                   <div class="card-body">
-                                   
+                                    @can('modfier formation')
                                     <h5 class="card-title">Changer l'images</h5>
                                     <form method="post" action="{{ route('updateimage_formation.update',$formation->file->id) }}"
                                         enctype="multipart/form-data">
@@ -233,6 +231,7 @@ input[type=number]::-webkit-outer-spin-button {
                                         <button type="submit" class="btn btn-primary btn-sm "
                                             name="uploadedFile">Validée</button>
                                     </form>
+                                    @endcan
                                 </div>
                             </div>
                         </div>

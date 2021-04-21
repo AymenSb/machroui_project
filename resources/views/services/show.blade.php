@@ -124,7 +124,8 @@ input[type=number]::-webkit-outer-spin-button {
                                 </button>
                              </div>
                          @endif
-                        <h5 class="title">Matières premières/ Details</h5>
+                        <h5 class="title">Service / Details</h5>
+                        @can('modifer service')
                         <a href="#modaldemo9"
                         data-type="{{$service->type}}"
                         data-description="{{$service->description}}"
@@ -132,16 +133,19 @@ input[type=number]::-webkit-outer-spin-button {
                         data-id="{{$service->id}}" 
                         data-effect="effect-fall" data-toggle="modal"
                         class="btn btn-primary btn-round" style="color: white;background-color:#FF3636;">Éditer</a>  
+                        @endcan
                     </div>
                     <div class="card-body all-icons">
                         {{-- place content here --}}
 
                         <!-- Tab links -->
+                        @can('afficher service')
                         <div class="tab">
                             <button class="tablinks" id='defaultOpen' onclick="openCity(event, 'London')">Détails</button>
                             <button class="tablinks" id='defaultOpen' onclick="openCity(event, 'description')">Description</button>
                             <button class="tablinks" onclick="openCity(event, 'Paris')">Image</button>
                         </div>
+                        @endcan
                         <!-- Tab content -->
                         <div id="London" class="tabcontent">
                             {{-- 1 --}}
@@ -204,6 +208,7 @@ input[type=number]::-webkit-outer-spin-button {
                                             Télécharger</a>
                                           </td>
                                          <td>
+                                             @can('modifer service')
                                             <button class="btn btn-outline-danger btn-sm"
                                             data-toggle="modal"
                                             data-file_name="{{ $item->file_name }}"
@@ -211,11 +216,13 @@ input[type=number]::-webkit-outer-spin-button {
                                             data-file_id="{{ $item->id }}"
                                             data-target="#delete_file">
                                             <i class="fas fa-trash"></i>&nbsp;Effacer</button>
-                                         </td>
+                                            @endcan
+                                        </td>
                                         </tr>
                                         @endforeach
                                         </tbody>
                                       </table>
+                                      @can('modifer service')
                                       <div class="card-body">
                                         <p class="text-danger">Image de type .jpg, .png </p>
                                         <h5 class="card-title">Ajouter images</h5>
@@ -236,6 +243,7 @@ input[type=number]::-webkit-outer-spin-button {
                                                 name="uploadedFile">Ajouter</button>
                                         </form>
                                     </div>
+                                    @endcan
                                 </div>
                             </div>
                         </div>
