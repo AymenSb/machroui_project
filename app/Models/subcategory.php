@@ -11,17 +11,17 @@ class subcategory extends Model
 
     public function formations()
     {
-        return $this->belongsToMany(formations::class)->withTimestamps();
+        return $this->belongsToMany(formations::class);
     }
 
     public function machines()
     {
-        return $this->belongsToMany(machines::class)->withTimestamps();
+        return $this->belongsToMany(machines::class);
     }
 
     public function materials()
     {
-        return $this->belongsToMany(rawMaterials::class)->withTimestamps();
+        return $this->belongsToMany(rawMaterials::class);
     }
   
 }

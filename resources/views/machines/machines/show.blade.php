@@ -125,8 +125,8 @@ input[type=number]::-webkit-outer-spin-button {
                              </div>
                          @endif
                         <h3 class="title">Machine/ Details</h3>
-                        @can('modifer machine')
-                        <a href= "{{route('editmachine',$machine->id)}}"class="btn btn-primary btn-round" style="color: white;background-color:#FF3636;">Éditer</a>  
+                        @can('modifier machine')
+                        <a href= "{{route('machines.edit',$machine->id)}}"class="btn btn-primary btn-round" style="color: white;background-color:#FF3636;">Éditer</a>  
                          @endcan    
                     </div>
                     <div class="card-body all-icons">
@@ -140,7 +140,7 @@ input[type=number]::-webkit-outer-spin-button {
                             <button class="tablinks" onclick="openCity(event, 'Paris')">Détails</button>
                             <button class="tablinks" onclick="openCity(event, 'char')">Charactéristique</button>
                             <button class="tablinks" onclick="openCity(event, 'mark')">Détails de la marque</button>
-                            @can('modifer machine')
+                            @can('modifier machine')
                             <button class="tablinks" onclick="openCity(event, 'images')">Images</button>
                             @endcan
                        
@@ -228,7 +228,7 @@ input[type=number]::-webkit-outer-spin-button {
                                             Télécharger</a>
                                           </td>
                                          <td>
-                                             @can('modifer machine')
+                                             @can('modifier machine')
                                             <button class="btn btn-outline-danger btn-sm"
                                             data-toggle="modal"
                                             data-file_name="{{ $item->file_name }}"
@@ -242,7 +242,7 @@ input[type=number]::-webkit-outer-spin-button {
                                         @endforeach
                                         </tbody>
                                       </table>
-                                      @can('modifer machine')
+                                      @can('modifier machine')
                                       <div class="card-body">
                                         <p class="text-danger">Image de type .jpg, .png </p>
                                         <h5 class="card-title">Ajouter images</h5>

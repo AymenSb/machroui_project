@@ -26,6 +26,40 @@ cursor:pointer;
       <div class="col-md-12">
          <div class="card">
               <div class="card-header">
+                 {{-- VALIDATIONS HERE --}} 
+                 @if (session()->has('add'))
+                 <div class="alert alert-info alert-with-icon" data-notify="container">
+                  <button type="button" aria-hidden="true" data-dismiss="alert" class="close">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                  </button>
+                  <span data-notify="icon" class="now-ui-icons ui-1_bell-53"></span>
+                  <span data-notify="message">{{ session()->get('add') }}</span>
+                </div>
+                 @endif
+                 @if (session()->has('updated'))
+                 <div class="alert alert-info alert-with-icon" data-notify="container">
+                  <button type="button" aria-hidden="true" data-dismiss="alert" class="close">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                  </button>
+                  <span data-notify="icon" class="now-ui-icons ui-1_bell-53"></span>
+                  <span data-notify="message">{{ session()->get('updated') }}</span>
+                </div>
+                 @endif
+                 
+                 
+                 @if ($errors->any())
+                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                         <ul>
+                             @foreach ($errors->all() as $error)
+                                 <li>{{ $error }}</li>
+                             @endforeach
+                         </ul>
+                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                     </div>
+                 @endif
+                                 {{-- VALIDATIONS HERE --}} 
                 @can('crée machine')
                 <h3 class="card-title">
                   <a class="btn btn-primary btn-block" href="{{route('machines.create')}}" style="width: 260px; padding: 10px 32px; font-size: 16px;background-color:#FF3636">Ajouter une machines</a>
@@ -59,7 +93,7 @@ cursor:pointer;
                     <td  class="table-row" data-href="machines/{{$machine->id}}">{{$machine->state}}</td>
                     <td  class="table-row" data-href="machines/{{$machine->id}}">{{$machine->price}}</td>
                     <td >
-                      @can('modifer machine')
+                      @can('modifier machine')
                       <a class="btn btn-outline-info btn-sm" 
                       href= "{{route('machines.edit',$machine->id)}}"
                       role="button"><i class="fas fa-edit"></i>&nbsp;

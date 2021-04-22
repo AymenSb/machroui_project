@@ -26,7 +26,47 @@ cursor:pointer;
       <div class="col-md-12">
          <div class="card">
               <div class="card-header">
- 
+      {{-- VALIDATIONS HERE --}} 
+      @if (session()->has('Add'))
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>{{ session()->get('Add') }}</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      @endif
+
+      @if (session()->has('edit'))
+      <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <strong>{{ session()->get('edit') }}</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      @endif
+      @if (session()->has('delete'))
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>{{ session()->get('delete') }}</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      @endif
+      
+      
+      @if ($errors->any())
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <ul>
+                  @foreach ($errors->all() as $error)
+                      <li>{{ $error }}</li>
+                  @endforeach
+              </ul>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+      @endif
+                      {{-- VALIDATIONS HERE --}} 
                 <h3 class="card-title">
                   @can('crée formation')
                   <a class="btn btn-primary btn-block" href="formations/create" style="width: 260px; padding: 10px 32px; font-size: 16px;background-color:#FF3636">ajouter une formation</a>

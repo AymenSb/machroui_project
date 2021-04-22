@@ -56,7 +56,6 @@ Route::get('deleteMachine/{machine_id}',[RequestedMachinesController::class,'del
 Route::get('NewMachines',[MachinesController::class,'indexNew'])->name('new')->middleware('permission:nouvelles machines');
 Route::get('UsedMachines',[MachinesController::class,'indexUsed'])->name('used')->middleware('permission:machines occasions');
 
-
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Auth::routes();
 

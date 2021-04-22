@@ -20,7 +20,7 @@ $permissions = [
     'nouvelles machines',
     'machines occasions',
     'crée machine',
-    'modifer machine',
+    'modifier machine',
     'effacer machine',
     'accept machine',
     'rejeter machine',
@@ -64,10 +64,6 @@ $permissions = [
 
     'Aucune',
 
-// 'role-list',
-// 'role-create',
-// 'role-edit',
-// 'role-delete',
 ];
 foreach ($permissions as $permission) {
 Permission::create(['name' => $permission]);

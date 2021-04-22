@@ -26,7 +26,29 @@ cursor:pointer;
       <div class="col-md-12">
          <div class="card">
               <div class="card-header">
- 
+   {{-- VALIDATIONS HERE --}} 
+   @if (session()->has('add'))
+   <div class="alert alert-success alert-dismissible fade show" role="alert">
+     <strong>{{ session()->get('add') }}</strong>
+     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+       <span aria-hidden="true">&times;</span>
+     </button>
+   </div>
+   @endif
+   
+   
+   @if ($errors->any())
+       <div class="alert alert-danger alert-dismissible fade show" role="alert">
+           <ul>
+               @foreach ($errors->all() as $error)
+                   <li>{{ $error }}</li>
+               @endforeach
+           </ul>
+           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+       </div>
+   @endif
                 <h3 class="card-title">
                   @can('crée matière première')
                   <a class="btn btn-primary btn-block" href="rawmaterials/create" style="width: 260px; padding: 10px 32px; font-size: 16px;background-color:#FF3636">Ajouter une nouvelle matière première</a>

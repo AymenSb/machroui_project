@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\subcategory;
 use App\Models\machines;
 use App\Models\MachinesAttachments;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-
 class MachinesController extends Controller
 {
-    function __construct()
+    public function __construct()
     {
-    $this->middleware('permission:machine|toutes les machine|requetes des machines en attend|nouvelles machines|machines occasions|crée machine|modifer machine|effacer machine|accept machine|rejeter machine', ['only' => ['index','show']]);
-    $this->middleware('permission:crée machine', ['only' => ['create','store']]);
-    $this->middleware('permission:modfier machine', ['only' => ['edit','update']]);
-    $this->middleware('effacer machine', ['only' => ['destroy']]);
+        $this->middleware('permission:machine|toutes les machine|requetes des machines en attend|nouvelles machines|machines occasions|crée machine|modifier machine|effacer machine|accept machine|rejeter machine', ['only' => ['index', 'show']]);
+        $this->middleware('permission:crée machine', ['only' => ['create', 'store']]);
+        $this->middleware('permission:modifier machine', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:effacer machine', ['only' => ['destroy']]);
     }
     /**
      * Display a listing of the resource.
@@ -23,9 +24,9 @@ class MachinesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $machines=machines::all();
-        return view('machines/machines/index',compact('machines'));
+    {$categories = Category::all();
+        $machines = machines::all();
+        return view('machines/machines/index', compact('machines', 'categories'));
     }
 
     /**
@@ -34,8 +35,8 @@ class MachinesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        return view('machines/machines/create');
+    {$categories = Category::all();
+        return view('machines/machines/create', compact('categories'));
     }
 
     /**
@@ -46,41 +47,47 @@ class MachinesController extends Controller
      */
     public function store(Request $request)
     {
-        if($request->state=='Nouvelle machine'){
-                $statVal=2;
-        }
-        else {
-            $statVal=1;
+        if ($request->state == 'Nouvelle machine') {
+            $statVal = 2;
+        } else {
+            $statVal = 1;
         }
         machines::create([
-            'name'=>$request->name,
-            'price'=>$request->price,
-            'details'=>$request->details,
-            'characteristics'=>$request->characteristics,
-            'markDetails'=>$request->markDetails,
-            'state'=>$request->state,
-            'stateVal'=>$statVal,
-           
+            'name' => $request->name,
+            'price' => $request->price,
+            'details' => $request->details,
+            'characteristics' => $request->characteristics,
+            'markDetails' => $request->markDetails,
+            'state' => $request->state,
+            'stateVal' => $statVal,
+
         ]);
         if ($request->hasFile('image')) {
-            $machine_id=machines::latest()->first()->id;
+            $machine_id = machines::latest()->first()->id;
             $image = $request->file('image');
             foreach ($image as $files) {
-                $destinationPath = 'Attachments/Machines Attachments/'.$request->name;
-                $file_name =$files->getClientOriginalName();
+                $destinationPath = 'Attachments/Machines Attachments/' . $request->name;
+                $file_name = $files->getClientOriginalName();
                 $files->move($destinationPath, $file_name);
 
-                $file= new MachinesAttachments();
-                $file->file_name=$file_name;
-                $file->machine_id=$machine_id;
+                $file = new MachinesAttachments();
+                $file->file_name = $file_name;
+                $file->machine_id = $machine_id;
                 $file->save();
-                
+
             }
-            
+
         }
-     
-        session()->flash('add','La machine a été ajoutée avec succès');
-        return redirect('/machines/create');
+        if($request->category){
+            if($request->subcategory){
+              $subcategory=subcategory::where('id',$request->subcategory)->first();
+              $machine=machines::latest()->first();
+              $subcategory->machines()->syncWithoutDetaching($machine);
+            }
+        }
+
+        session()->flash('add', 'La machine a été ajoutée avec succès');
+        return redirect('/machines');
     }
 
     /**
@@ -91,9 +98,9 @@ class MachinesController extends Controller
      */
     public function show($id)
     {
-        $machine=machines::findOrFail($id);
-        $images=MachinesAttachments::where('machine_id',$id)->get();      
-        return view('machines/machines/show',compact('machine','images'));
+        $machine = machines::findOrFail($id);
+        $images = MachinesAttachments::where('machine_id', $id)->get();
+        return view('machines/machines/show', compact('machine', 'images'));
     }
 
     /**
@@ -103,10 +110,9 @@ class MachinesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        $machine=machines::findOrfail($id);
-        return view('machines/machines/edit',compact('machine'));
-        
+    {   $categories=Category::all();
+        $machine = machines::findOrfail($id);
+        return view('machines/machines/edit', compact('machine','categories'));
     }
 
     /**
@@ -120,42 +126,51 @@ class MachinesController extends Controller
     { //2 = new
 
         //1 =used
-        $id=$request->id;
-        $machine=machines::findOrFail($id);
-        $images=MachinesAttachments::where('machine_id',$id)->get();
-        $old_name=$machine->name;
+        $id = $request->id;
+        $machine = machines::findOrFail($id);
+        $images = MachinesAttachments::where('machine_id', $id)->get();
+        $old_name = $machine->name;
         $machine->update([
-            'name'=>$request->name,
-            'price'=>$request->price,
-            'Vendor'=>$request->Vendor,
-            'details'=>$request->details,
-            'characteristics'=>$request->characteristics,
-            'markDetails'=>$request->markDetails,
-            'state'=>$request->state,
-            'stateVal'=>$request->stateVal,
+            'name' => $request->name,
+            'price' => $request->price,
+            'Vendor' => $request->Vendor,
+            'details' => $request->details,
+            'characteristics' => $request->characteristics,
+            'markDetails' => $request->markDetails,
+            'state' => $request->state,
+            'stateVal' => $request->stateVal,
         ]);
-        $new_name=$machine->name;
-        if($images){
-            Storage::disk('machines_uploads')->rename($old_name,$new_name);
+        $new_name = $machine->name;
+        if (!empty($images)) {
+            if(Storage::disk('machines_uploads')->files($old_name)){
+                if($old_name!=$new_name)
+            Storage::disk('machines_uploads')->rename($old_name, $new_name);}
         }
-            $stateVal_new=2;
-            $stateVal_used=1;
-        if($request->state=='Nouvelle machine'){
-           $machine->update([
-            'stateVal'=>$stateVal_new,
-           ]);
-
-        }
-
-        else {
-            $stateVal=1;
+        $stateVal_new = 2;
+        $stateVal_used = 1;
+        if ($request->state == 'Nouvelle machine') {
             $machine->update([
-             'stateVal'=>$stateVal_used,
+                'stateVal' => $stateVal_new,
+            ]);
+
+        } else {
+            $stateVal = 1;
+            $machine->update([
+                'stateVal' => $stateVal_used,
             ]);
         }
-        session()->flash('updated',"la machine a été mise à jour");
-        return redirect('machines/'.$request->id);
+
         
+        if($request->category){
+            if($request->subcategory){
+            $subcategory=subcategory::where('id',$request->subcategory)->first();
+             $machine=machines::where('id',$request->id)->first();
+             $subcategory->machines()->sync($machine);
+            }
+        }
+        session()->flash('updated', "la machine a été mise à jour");
+        return redirect('/machines');
+
     }
 
     /**
@@ -164,57 +179,59 @@ class MachinesController extends Controller
      * @param  \App\Models\machines  $machines
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request) 
+    public function destroy(Request $request)
     {
-        $machine=machines::findOrFail($request->machine_id);
-        $file=MachinesAttachments::where('machine_id',$request->machine_id)->first();
-        if(!empty($file->machine_id)){
-            echo('works');
+        $machine = machines::findOrFail($request->machine_id);
+        $file = MachinesAttachments::where('machine_id', $request->machine_id)->first();
+        if (!empty($file->machine_id)) {
+            echo ('works');
             Storage::disk('machines_uploads')->deleteDirectory($machine->name);
-           
-            
+
         }
         $machine->delete();
-        session()->flash('delete','machine has been deleted');
+        session()->flash('delete', 'machine has been deleted');
         return redirect('/machines');
     }
 
-    public function indexNew(){
-        $Newmachines=machines::where('stateVal',2)->get();
-        return view('machines/machines/indexNew',compact('Newmachines'));
+    public function indexNew()
+    {
+        $Newmachines = machines::where('stateVal', 2)->get();
+        return view('machines/machines/indexNew', compact('Newmachines'));
     }
 
-    public function indexUsed(){
-        $Usedmachines=machines::where('stateVal',1)->get();
-        return view('machines/machines/indexUsed',compact('Usedmachines'));
+    public function indexUsed()
+    {
+        $Usedmachines = machines::where('stateVal', 1)->get();
+        return view('machines/machines/indexUsed', compact('Usedmachines'));
     }
 
-  
-
-    public function delete($id){
-        $machine=machines::findOrFail($id);
+    public function delete($id)
+    {
+        $machine = machines::findOrFail($id);
         $machine->delete();
         return back();
     }
 
+    public function viewfile($formation_name, $file_name)
+    {
 
-    public function viewfile($formation_name,$file_name){
-        
-        $file=Storage::disk('machines_uploads')->getDriver()->getAdapter()->applyPathPrefix($formation_name.'/'.$file_name);
+        $file = Storage::disk('machines_uploads')->getDriver()->getAdapter()->applyPathPrefix($formation_name . '/' . $file_name);
         return response()->file($file);
     }
 
-    public function download($formation_name,$file_name){
-        $file=Storage::disk('machines_uploads')->getDriver()->getAdapter()->applyPathPrefix($formation_name.'/'.$file_name);
+    public function download($formation_name, $file_name)
+    {
+        $file = Storage::disk('machines_uploads')->getDriver()->getAdapter()->applyPathPrefix($formation_name . '/' . $file_name);
         return response()->download($file);
     }
 
-    public function deletefile(Request $request){
-        $image=MachinesAttachments::findOrfail($request->file_id);
-        $machine_name=machines::where('id',$request->machine_id)->pluck('name')->first();
+    public function deletefile(Request $request)
+    {
+        $image = MachinesAttachments::findOrfail($request->file_id);
+        $machine_name = machines::where('id', $request->machine_id)->pluck('name')->first();
         $image->delete();
-        Storage::disk('machines_uploads')->delete($machine_name.'/'.$request->file_name);
-        session()->flash('delete','La photo a été supprimée');
+        Storage::disk('machines_uploads')->delete($machine_name . '/' . $request->file_name);
+        session()->flash('delete', 'La photo a été supprimée');
         return back();
     }
 }

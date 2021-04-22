@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\subcategory;
 use App\Models\formations;
 use App\Models\formations_attachment;
 use Illuminate\Http\Request;
@@ -17,7 +19,7 @@ class FormationsController extends Controller
  $this->middleware('permission:formations|crée formation|modfier formation|effacer formation', ['only' => ['index','show']]);
  $this->middleware('permission:crée formation', ['only' => ['create','store']]);
  $this->middleware('permission:modfier formation', ['only' => ['edit','update']]);
- $this->middleware('effacer formation', ['only' => ['destroy']]);
+ $this->middleware('permission:effacer formation', ['only' => ['destroy']]);
  }
     /**
      * Display a listing of the resource.
@@ -35,8 +37,8 @@ class FormationsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        return view('formations.create');
+    {   $categories=Category::all();
+        return view('formations.create',compact('categories'));
     }
 
     /**
@@ -82,9 +84,18 @@ class FormationsController extends Controller
             $imageName = $request->image->getClientOriginalName();
             $request->image->move(public_path('Attachments/Formations Attachments/' .$request->name ), $imageName);
         }
+        if($request->category){
+            if($request->subcategory){
+               $subcategory=subcategory::where('id',$request->subcategory)->first();
+             $formation=Formations::latest()->first();
+
+             echo $subcategory->id.'-----'.$formation->id;
+               $subcategory->formations()->syncWithoutDetaching($formation);
+            }
+        }
 
         session()->flash('Add', 'Formation ajoutée avec succès');
-        return redirect('formations/create');
+        return redirect('formations');
     }
 
     /**
@@ -110,9 +121,10 @@ class FormationsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
+    {      
+        $categories=Category::all();
         $formation=formations::findOrFail($id);
-        return view('formations/edit',compact('formation'));
+        return view('formations/edit',compact('formation','categories'));
     }
 
     /**
@@ -123,8 +135,9 @@ class FormationsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, formations $formations)
-    {
+     {
         $id= $request->id;
+        echo $id;
         $formations=formations::findOrFail($id);  
         $old_name=$formations->name; //get old formation name
         
@@ -146,15 +159,24 @@ class FormationsController extends Controller
             ]);
         $new_name=$formations->name;
         if(!empty($file_name)){
-        $old_path=public_path('Attachments/Formations Attachments/' .$old_name,$file_name);
-        $new_path=public_path('Attachments/Formations Attachments/' .$new_name,$file_name);
-        File::move($old_path, $new_path);}
+            if(Storage::disk('public_uploads')->files($old_name)){
+                if($old_name=!$new_name)
+                Storage::disk('public_uploads')->rename($old_name, $new_name);
+            }
+        }
 
-        session()->flash('edit','la formation a été mise à jour');
-         return redirect('formations/'.$id.'');
+ 
 
+         if($request->category){
+            if($request->subcategory){
+            $subcategory=subcategory::where('id',$request->subcategory)->first();
+             $formation=Formations::where('id',$request->id)->first();
+             $subcategory->formations()->sync($formation);
+            }
+        }
         
-
+        session()->flash('edit','la formation a été mise à jour');
+        return redirect('formations/');
     }
 
     /**

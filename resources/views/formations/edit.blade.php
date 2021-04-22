@@ -131,9 +131,31 @@ input[type=number]::-webkit-outer-spin-button {
                             </div>
                          <span style=" margin-left: 20px;"></span>
 
+                         <br><br>
+                         <div class="row">
+                           <div class="col-3">
+                             <label for="inputName" class="contro-label">Selectionnez une categorie</label>
+                             <select  name="category" class="form-control SlectBox" onclick="console.log($(this).val())"
+                             onchange="console.log('change is firing')">
+                             <!--placeholder-->
+                             <option value="" selected disabled>Choisissez une catégorie</option>
+                             @foreach ($categories as $category)
+                                 <option value="{{ $category->id }}"> {{ $category->name }}</option>
+                             @endforeach
+                             </select>
+                           </div>
+                         
+                           <div class="colo-3">
+                             <label for="inputName" class="control-label">Sous-Categorie</label>
+                             <select  id="subcategory" name="subcategory" class="form-control">
+                               <option value="" selected disabled>Choisissez une sous-catégorie</option>
+                             </select>
+                           </div>
+                         </div>
                           {{-- 4--}}
                           <hr>
                           <div class="d-flex justify-content-center">
+                              <input type="hidden" name="id" id="id" value="{{$formation->id}}" class="form-group">
                               <button type="submit" class="btn btn-primary" style="background-color:#FF3636">Mettre à jour</button>
                           </div>
   
@@ -160,5 +182,30 @@ input[type=number]::-webkit-outer-spin-button {
  var date = $('.fc-datepicker').datepicker({
             dateFormat: 'yy-mm-dd'
         }).val();
+</script>
+
+
+<script>
+  $(document).ready(function() {
+      $('select[name="category"]').on('change', function() {
+          var id = $(this).val();
+          if (id) {
+              $.ajax({
+                  url: "{{ URL::to('getsubcategory') }}/" + id,
+                  type: "GET",
+                  dataType: "json",
+                  success: function(data) {
+                      $('select[name="subcategory"]').empty();
+                      $.each(data, function(key, value) {
+                          $('select[name="subcategory"]').append('<option value="' +
+                              key + '">' + value + '</option>');
+                      });
+                  },
+              });
+          } else {
+              console.log('AJAX load did not work');
+          }
+      });
+  });
 </script>
 @stop

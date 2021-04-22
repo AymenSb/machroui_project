@@ -20,7 +20,7 @@ class CategoryController extends Controller
     $this->middleware('permission:categories|crée categorie|modfier categorie|afficher categorie|effacer categorie', ['only' => ['index','show']]);
     $this->middleware('permission:crée categorie', ['only' => ['create','store']]);
     $this->middleware('permission:modfier categorie', ['only' => ['edit','update']]);
-    $this->middleware('effacer categorie', ['only' => ['destroy']]);
+    $this->middleware('permission:effacer categorie', ['only' => ['destroy']]);
     }
     /**
      * Display a listing of the resource.

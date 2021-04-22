@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\subcategory;
 use App\Models\rawMaterials;
 use App\Models\rawmaterials_attachments;
 use Illuminate\Http\Request;
@@ -18,7 +20,7 @@ class RawMaterialsController extends Controller
     $this->middleware('permission:matières premières|crée matière première|modfier matière première|effacer matière première', ['only' => ['index','show']]);
     $this->middleware('permission:crée matière première', ['only' => ['create','store']]);
     $this->middleware('permission:modfier matière première', ['only' => ['edit','update']]);
-    $this->middleware('effacer matière première', ['only' => ['destroy']]);
+    $this->middleware('permission:effacer matière première', ['only' => ['destroy']]);
     }
     /**
      * Display a listing of the resource.
@@ -36,8 +38,9 @@ class RawMaterialsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        return view('rawmaterials/create');
+    {     
+        $categories = Category::all();
+        return view('rawmaterials/create',compact('categories'));
     }
 
     /**
@@ -69,8 +72,16 @@ class RawMaterialsController extends Controller
                 
             }
         }
-        session()->flash('ADD','la matière première a été ajoutée');
-        return redirect('rawmaterials/create');
+
+        if($request->category){
+            if($request->subcategory){
+              $subcategory=subcategory::where('id',$request->subcategory)->first();
+              $material=rawMaterials::latest()->first();
+              $subcategory->materials()->syncWithoutDetaching($material);
+            }
+        }
+        session()->flash('add','la matière première a été ajoutée');
+        return redirect('rawmaterials');
     }
 
     /**
@@ -80,9 +91,11 @@ class RawMaterialsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {   $material=rawMaterials::where('id',$id)->first();
+    {   
+        $categories=Category::all();
+        $material=rawMaterials::where('id',$id)->first();
         $images=rawmaterials_attachments::where('material_id',$id)->get();
-        return view('rawmaterials/show',compact('material','images'));
+        return view('rawmaterials/show',compact('material','images','categories'));
     }
 
     /**
@@ -121,9 +134,15 @@ class RawMaterialsController extends Controller
                 Storage::disk('materials_uploads')->rename($old_name,$new_name);
             }
         }
-           
+        if($request->category){
+            if($request->subcategory){
+            $subcategory=subcategory::where('id',$request->subcategory)->first();
+             $material=rawMaterials::where('id',$request->id)->first();    
+              $material->subcategory()->sync($material);
+            }
+        }
         
-       return back();
+        return back();
     }
 
     /**

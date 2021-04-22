@@ -115,7 +115,7 @@ input[type=number]::-webkit-outer-spin-button {
                         {{-- place content here --}}
 
                         <!-- Tab links -->
-                        @can('formation')
+                        @can('formations')
                         <div class="tab">
                             <button class="tablinks" id='defaultOpen' onclick="openCity(event, 'London')">Détails</button>
                             <button class="tablinks" onclick="openCity(event, 'desc')">Déscription</button>
@@ -285,4 +285,6 @@ input[type=number]::-webkit-outer-spin-button {
             dateFormat: 'yy-mm-dd'
         }).val();
 </script>
+
+
 @endsection

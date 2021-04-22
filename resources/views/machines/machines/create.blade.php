@@ -34,31 +34,7 @@ textarea::-webkit-scrollbar-thumb {
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-                           {{-- VALIDATIONS HERE --}} 
-                           @if (session()->has('add'))
-                           <div class="alert alert-info alert-with-icon" data-notify="container">
-                            <button type="button" aria-hidden="true" data-dismiss="alert" class="close">
-                              <i class="now-ui-icons ui-1_simple-remove"></i>
-                            </button>
-                            <span data-notify="icon" class="now-ui-icons ui-1_bell-53"></span>
-                            <span data-notify="message">{{ session()->get('add') }}</span>
-                          </div>
-                           @endif
-                           
-                           
-                           @if ($errors->any())
-                               <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                   <ul>
-                                       @foreach ($errors->all() as $error)
-                                           <li>{{ $error }}</li>
-                                       @endforeach
-                                   </ul>
-                                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                  </button>
-                               </div>
-                           @endif
-                                           {{-- VALIDATIONS HERE --}} 
+                          
             <h5 class="title">Ajouter une machine</h5>
           </div>
           @can('crée machine')
@@ -118,9 +94,31 @@ textarea::-webkit-scrollbar-thumb {
 
                          
                         </div>
+                                {{-- 3 --}}
+                                <br><br>
+                        <div class="row">
+                          <div class="col-3">
+                            <label for="inputName" class="contro-label">Selectionnez une categorie</label>
+                            <select  name="category" class="form-control SlectBox" onclick="console.log($(this).val())"
+                            onchange="console.log('change is firing')">
+                            <!--placeholder-->
+                            <option value="" selected disabled>Choisissez une catégorie</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}"> {{ $category->name }}</option>
+                            @endforeach
+                            </select>
+                          </div>
+                        
+                          <div class="colo-3">
+                            <label for="inputName" class="control-label">Sous-Categorie</label>
+                            <select  id="subcategory" name="subcategory" class="form-control">
+                              <option value="" selected disabled>Choisissez une sous-catégorie</option>
+                            </select>
+                          </div>
+                        </div>
                         <span style=" margin-left: 20px;"></span>
 
-                          {{-- 3 --}}
+                          {{-- 4 --}}
                         
                           <hr>
 
@@ -171,5 +169,27 @@ textarea::-webkit-scrollbar-thumb {
         }).val();
 </script>
 
-
+<script>
+  $(document).ready(function() {
+      $('select[name="category"]').on('change', function() {
+          var id = $(this).val();
+          if (id) {
+              $.ajax({
+                  url: "{{ URL::to('getsubcategory') }}/" + id,
+                  type: "GET",
+                  dataType: "json",
+                  success: function(data) {
+                      $('select[name="subcategory"]').empty();
+                      $.each(data, function(key, value) {
+                          $('select[name="subcategory"]').append('<option value="' +
+                              key + '">' + value + '</option>');
+                      });
+                  },
+              });
+          } else {
+              console.log('AJAX load did not work');
+          }
+      });
+  });
+</script>
 @stop

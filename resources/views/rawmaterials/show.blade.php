@@ -330,7 +330,26 @@ input[type=number]::-webkit-outer-spin-button {
                     <textarea type="text" class="form-control" name="description" id="description" autocomplete="off" ></textarea>
                   </div>
                   <input hidden name="id" id="id" value="">
+                  <div class="form-group">
+                    
+                          <label for="title" >Selectionnez une categorie</label>
+                          <select  name="category" class="form-control SlectBox" onclick="console.log($(this).val())"
+                          onchange="console.log('change is firing')">
+                          <!--placeholder-->
+                          <option value="" selected disabled>Choisissez une catégorie</option>
+                          @foreach ($categories as $category)
+                              <option value="{{ $category->id }}"> {{ $category->name }}</option>
+                          @endforeach
+                          </select>
+                      
+                          <label for="title">Sous-Categorie</label>
+                          <select  id="subcategory" name="subcategory" class="form-control">
+                            <option value="" selected disabled>Choisissez une sous-catégorie</option>
+                          </select>
+                      
+                    </div>
                 </div>
+                
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary" style="background-color: #FF3636">Confirmer</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
@@ -410,4 +429,28 @@ input[type=number]::-webkit-outer-spin-button {
 		modal.find('.modal-body #material_id').val(material_id);
 	})
 </script>
+
+<script>
+    $(document).ready(function() {
+        $('select[name="category"]').on('change', function() {
+            var id = $(this).val();
+            if (id) {
+                $.ajax({
+                    url: "{{ URL::to('getsubcategory') }}/" + id,
+                    type: "GET",
+                    dataType: "json",
+                    success: function(data) {
+                        $('select[name="subcategory"]').empty();
+                        $.each(data, function(key, value) {
+                            $('select[name="subcategory"]').append('<option value="' +
+                                key + '">' + value + '</option>');
+                        });
+                    },
+                });
+            } else {
+                console.log('AJAX load did not work');
+            }
+        });
+    });
+  </script>
 @endsection
