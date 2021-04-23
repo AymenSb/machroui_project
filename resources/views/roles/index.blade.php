@@ -1,7 +1,7 @@
 @extends('layouts.app', [
-    'namePage' => 'Icons',
+    'namePage' => 'Les rôles',
     'class' => 'sidebar-mini',
-    'activePage' => 'icons',
+    'activePage' => 'roles',
 ])
 
 @section('content')

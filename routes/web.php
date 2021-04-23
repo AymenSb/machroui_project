@@ -16,6 +16,8 @@ use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\ServicesAttachmentsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ProjectAttachmentsController;
 
 
 
@@ -45,9 +47,11 @@ Route::resource('subcategory',SubcategoryController::class);
 Route::resource('addimage_machine',MachinesAttachmentsController::class);
 Route::resource('updateimage_formation',FormationsAttachmentController::class);
 Route::resource('addimage_material',RawmaterialsAttachmentsController::class);
+Route::resource('addimage_project',ProjectAttachmentsController::class);
 Route::resource('ads',AdsController::class);
 Route::resource('services',ServicesController::class);
 Route::resource('add_image',ServicesAttachmentsController::class);
+Route::resource('project',ProjectController::class);
 
 Route::get('getsubcategory/{id}',[CategoryController::class,'getsubcategory']);
 Route::post('addToSub',[SubcategoryController::class,'addToSub'])->name('addToSub');
@@ -89,3 +93,8 @@ Route::post('updatePIC/{ad_id}',[AdsController::class,'updatePIC'])->name('updat
 Route::get('viewfile_service/{service_id}/{file_id}',[ServicesController::class,'viewfile_service'])->name('viewfile_service');
 Route::get('download_service/{service_id}/{file_id}',[ServicesController::class,'download_service'])->name('download_service');
 Route::post('deletefile_service',[ServicesController::class,'deletefile_service'])->name('deletefile_service');
+
+
+Route::get('viewfile_project/{id}/{file_id}',[ProjectController::class,'viewfile_project'])->name('viewfile_project');
+Route::get('download_project/{id}/{file_id}',[ProjectController::class,'download_project'])->name('download_project');
+Route::post('deletefile_project',[ProjectController::class,'deletefile_project'])->name('deletefile_project');

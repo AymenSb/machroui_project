@@ -16,9 +16,9 @@ class FormationsController extends Controller
 {   
      function __construct()
  {
- $this->middleware('permission:formations|crée formation|modfier formation|effacer formation', ['only' => ['index','show']]);
+ $this->middleware('permission:formations|crée formation|modifier formation|effacer formation', ['only' => ['index','show']]);
  $this->middleware('permission:crée formation', ['only' => ['create','store']]);
- $this->middleware('permission:modfier formation', ['only' => ['edit','update']]);
+ $this->middleware('permission:modifier formation', ['only' => ['edit','update']]);
  $this->middleware('permission:effacer formation', ['only' => ['destroy']]);
  }
     /**

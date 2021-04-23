@@ -106,7 +106,7 @@ input[type=number]::-webkit-outer-spin-button {
                           @endif
                           {{-- VALIDATION --}}
                         <h5 class="title">Formations/ Details</h5>
-                        @can('modfier formation')
+                        @can('modifier formation')
                         <a href="{{route('formations.edit',$formation->id)}}"
                         class="btn btn-primary btn-round" style="color: white;background-color:#FF3636;">Éditer</a>  
                             @endcan
@@ -214,7 +214,7 @@ input[type=number]::-webkit-outer-spin-button {
                                     </tbody>
                                   </table>
                                   <div class="card-body">
-                                    @can('modfier formation')
+                                    @can('modifier formation')
                                     <h5 class="card-title">Changer l'images</h5>
                                     <form method="post" action="{{ route('updateimage_formation.update',$formation->file->id) }}"
                                         enctype="multipart/form-data">

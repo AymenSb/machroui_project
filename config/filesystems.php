@@ -55,6 +55,10 @@ return [
             'driver'=>'local',
             'root'=> public_path().'/Attachments/Services Attachments',
         ],
+        'projects_uploads'=>[
+            'driver'=>'local',
+            'root'=> public_path().'/Attachments/Projects Attachments',
+        ],
 
         'public' => [
             'driver' => 'local',

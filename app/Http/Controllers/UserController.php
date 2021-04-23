@@ -10,9 +10,9 @@ class UserController extends Controller
 {
     function __construct()
     {
-    $this->middleware('permission:gestion des utilisateurs|crées utilisateur|mofider utilisateur|supprimer utilisateur', ['only' => ['index','show']]);
+    $this->middleware('permission:gestion des utilisateurs|crées utilisateur|modifier utilisateur|supprimer utilisateur', ['only' => ['index','show']]);
     $this->middleware('permission:crées utilisateur', ['only' => ['create','store']]);
-    $this->middleware('permission:mofider utilisateur', ['only' => ['edit','update']]);
+    $this->middleware('permission:modifier utilisateur', ['only' => ['edit','update']]);
     $this->middleware('permission:supprimer utilisateur', ['only' => ['destroy']]);
     }
 /**

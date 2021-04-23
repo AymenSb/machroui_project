@@ -1,7 +1,7 @@
 @extends('layouts.app', [
-'namePage' => 'Icons',
+'namePage' => 'les utilisateurs',
 'class' => 'sidebar-mini',
-'activePage' => 'icons',
+'activePage' => 'users',
 ])
 
 @section('content')
@@ -64,7 +64,7 @@
                                 <div class="col-xs-12 col-md-12">
                                     <div class="form-group">
                                         <label class="form-label" aria-required> Privilèges d'utilisateur</label>
-                                        {!! Form::select('roles_name[]', $roles, [], ['class' => 'form-control', 'multiple']) !!}
+                                        {!! Form::select('roles_name[]', $roles, [], ['class' => 'form-control', ]) !!}
                                     </div>
                                 </div>
                             </div>

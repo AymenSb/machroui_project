@@ -67,7 +67,7 @@
               <div class="form-group">
                 <button type="submit" class="btn btn-primary">Create</button>
                  &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
-                 @can('modifer categorie')
+                 @can('modifier categorie')
                  <a href="#modaldemo9"
               data-effect="effect-fall" data-toggle="modal"
               class="btn btn-secendary" style="color: white;background-color:#FF3636;">Gestion des sous-catégories

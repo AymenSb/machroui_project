@@ -1,7 +1,7 @@
 @extends('layouts.app', [
-'namePage' => 'User',
+'namePage' => 'les utilisateurs',
 'class' => 'sidebar-mini',
-'activePage' => 'User',
+'activePage' => 'user',
 ])
 @section('css')
     <!-- DataTables -->
@@ -70,7 +70,7 @@
                                             </td>
 
                                             <td>
-                                                @can('mofider utilisateur')
+                                                @can('modifier utilisateur')
                                                     <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-info"
                                                         title="edit"><i class="fas fa-pen"></i>&nbsp;&nbsp;Éditer</a>
 

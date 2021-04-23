@@ -28,33 +28,38 @@ $permissions = [
 
     'formations',
     'crée formation',
-    'modfier formation',
+    'modifier formation',
     'effacer formation',
 
 
     'matières premières',
     'crée matière première',
-    'modfier matière première',
+    'modifier matière première',
     'effacer matière première',
+
+    'projet',
+    'crée projet',
+    'modifier projet',
+    'effacer projet',
 
     'categories',
     'crée categorie',
-    'modifer categorie',
+    'modifier categorie',
     'effacer categorie',
 
     'gestion des pubs',
     'crée pub',
-    'modifer pub',
+    'modifier pub',
     'effacer pub',
     
     'gestion des services',
     'crée service',
-    'modifer service',
+    'modifier service',
     'effacer service',
 
     'gestion des utilisateurs',
     'crées utilisateur',
-    'mofider utilisateur',
+    'modifier utilisateur',
     'supprimer utilisateur',
 
     'gestion des roles',

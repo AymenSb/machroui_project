@@ -96,7 +96,7 @@ cursor:pointer;
                     <td class="table-row" data-href="formations/{{$formation->id}}">{{$formation->begin_date}}</td>
                     <td class="table-row" data-href="formations/{{$formation->id}}">{{$formation->price}}</td>
                     <td >
-                      @can('modfier formation')
+                      @can('modifier formation')
                       <a class="btn btn-outline-info btn-sm" 
                       href= "{{route('formations.edit',$formation->id)}}"
                       role="button"><i class="fas fa-edit"></i>&nbsp;

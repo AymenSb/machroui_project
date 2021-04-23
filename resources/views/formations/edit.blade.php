@@ -52,7 +52,7 @@ input[type=number]::-webkit-outer-spin-button {
           <div class="card-body all-icons">
             <div class="col-lg-12 col-md-12">
               <div class="card">
-                @can('modfier formation')
+                @can('modifier formation')
                   <div class="card-body">
                     <form action='{{ route('formations.update',$formation) }}' method="post">
                         {{ method_field('patch') }}

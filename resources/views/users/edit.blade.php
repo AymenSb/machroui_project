@@ -1,7 +1,7 @@
 @extends('layouts.app', [
 'namePage' => 'Modifier utilisateur',
 'class' => 'sidebar-mini',
-'activePage' => 'Users',
+'activePage' => 'users',
 ])
 @section('css')
 <!-- DataTables -->
@@ -32,7 +32,7 @@
                             href="{{ route('users.index') }}">Retoure</a>
                         </p>
                     </div>
-                    @can('mofider utilisateur')
+                    @can('modifier utilisateur')
                     <div class="card-body">
                         <div class="col-lg-12 margin-tb">
                             <div class="pull-right">
@@ -55,25 +55,28 @@
                             </div>
 
                         </div>
-
+                        @foreach ($user->roles_name as $role)
+                        @if ($role=='Client'||$role=='Vendeur')
                         <div class="row mg-b-20">
                             <div class="parsley-input col-md-6 mg-t-20 mg-md-t-0" id="lnWrapper">
                                 <label>Mot de passe <span class="text-danger">*</span></label>
                                 {!! Form::password('password', ['class' => 'form-control', 'required']) !!}
                             </div>
-
                             <div class="parsley-input col-md-6 mg-t-20 mg-md-t-0" id="lnWrapper">
                                 <label>Confirmer le mot de passe: <span class="text-danger">*</span></label>
                                 {!! Form::password('confirm-password', ['class' => 'form-control', 'required']) !!}
                             </div>
-                        </div>
-
-
+                        </div> 
+                        @endif 
+                        @endforeach
+                        <br>
                         <div class="row mg-b-20">
                             <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="form-group">
                                     <strong>Type d'utilisateur</strong>
-                                    {!! Form::select('roles[]', $roles, $userRole, ['class' => 'form-control', 'multiple']) !!}
+                                    <br>
+                                    <br>
+                                    {!! Form::select('roles[]', $roles, $userRole, ['class' => 'form-control']) !!}
                                 </div>
                             </div>
                         </div>

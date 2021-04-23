@@ -56,7 +56,7 @@ cursor:pointer;
                     <td class="table-row" data-href="machines/{{$machine->id}}" >{{$machine->state}}</td>
                     <td  class="table-row" data-href="machines/{{$machine->id}}">{{$machine->price}}</td>
                     <td >
-                      @can('modifer machine')
+                      @can('modifier machine')
                       <a class="btn btn-outline-info btn-sm" 
                       href= "{{route('machines.edit',$machine->id)}}"
                       role="button"><i class="fas fa-edit"></i>&nbsp;

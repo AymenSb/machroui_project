@@ -114,7 +114,7 @@ input[type=number]::-webkit-outer-spin-button {
                           @endif
                           {{-- VALIDATION --}}
                         <h5 class="title">Publicite/ Editer</h5>
-                        @can('modifer pub')
+                        @can('modifier pub')
                         <a href="#modal1"
                         data-name="{{$ad->name}}"
                         data-id="{{$ad->id}}" 
@@ -197,7 +197,7 @@ input[type=number]::-webkit-outer-spin-button {
                                     </tbody>
                                   </table>
                                   <div class="card-body">
-                                   @can('modifer pub')
+                                   @can('modifier pub')
                                     <h5 class="card-title">Changer l'images</h5>
                                     <form method="post" action="{{ route('updatePIC',$ad->file_name) }}"
                                         enctype="multipart/form-data">

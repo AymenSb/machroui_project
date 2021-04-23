@@ -12,9 +12,9 @@ class AdsController extends Controller
 {
     function __construct()
     {
-    $this->middleware('permission:gestion des pubs|crée pub|modfier pub|effacer pub', ['only' => ['index','show']]);
+    $this->middleware('permission:gestion des pubs|crée pub|modifier pub|effacer pub', ['only' => ['index','show']]);
     $this->middleware('permission:crée pub', ['only' => ['create','store']]);
-    $this->middleware('permission:modfier pub', ['only' => ['edit','update']]);
+    $this->middleware('permission:modifier pub', ['only' => ['edit','update']]);
     $this->middleware('permission:effacer pub', ['only' => ['destroy']]);
     }
     /**

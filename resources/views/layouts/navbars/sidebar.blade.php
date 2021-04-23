@@ -87,6 +87,13 @@
         </a>
       </li>
       @endcan
+
+      <li class="@if ($activePage == 'project') active @endif">
+        <a href="{{ route('project.index') }}">
+          <i class="now-ui-icons education_atom"></i>
+          <p>{{ __('Les projets') }}</p>
+        </a>
+      </li>
       
       @can('categories')
        <li class = "@if ($activePage == 'categories') active @endif">
@@ -128,16 +135,16 @@
         <div class="collapse" id="users">
           <ul class="nav">
             @can('gestion des utilisateurs')
-            <li class="@if ($activePage == 'Uses') active @endif">
+            <li class="@if ($activePage == 'users') active @endif">
               <a href="{{ route('users.index') }}">
                 <i class="now-ui-icons users_single-02"></i>
-                <p> {{ __("Toutes les users") }} </p>
+                <p> {{ __("Toutes les utilisateurs") }} </p>
               </a>
             </li>
             @endcan
 
             @can('gestion des roles')
-            <li class="@if ($activePage == 'Utilisateurs') active @endif">
+            <li class="@if ($activePage == 'roles') active @endif">
               <a href="{{ route('roles.index') }}">
                 <i class="now-ui-icons users_single-02"></i>
                 <p> {{ __("gestion des rôles") }} </p>

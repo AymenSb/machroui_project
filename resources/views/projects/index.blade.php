@@ -1,7 +1,7 @@
 @extends('layouts.app', [
-    'namePage' => 'Machines',
+    'namePage' => 'Les projets',
     'class' => 'sidebar-mini',
-    'activePage' => 'Machines',
+    'activePage' => 'project',
 ])
 @section('css')
       <!-- DataTables -->
@@ -26,22 +26,58 @@ cursor:pointer;
       <div class="col-md-12">
          <div class="card">
               <div class="card-header">
- 
+                 {{-- VALIDATIONS HERE --}} 
+                 @if (session()->has('add'))
+                 <div class="alert alert-info alert-with-icon" data-notify="container">
+                  <button type="button" aria-hidden="true" data-dismiss="alert" class="close">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                  </button>
+                  <span data-notify="icon" class="now-ui-icons ui-1_bell-53"></span>
+                  <span data-notify="message">{{ session()->get('add') }}</span>
+                </div>
+                 @endif
+                 @if (session()->has('updated'))
+                 <div class="alert alert-info alert-with-icon" data-notify="container">
+                  <button type="button" aria-hidden="true" data-dismiss="alert" class="close">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                  </button>
+                  <span data-notify="icon" class="now-ui-icons ui-1_bell-53"></span>
+                  <span data-notify="message">{{ session()->get('updated') }}</span>
+                </div>
+                 @endif
+                 
+                 
+                 @if ($errors->any())
+                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                         <ul>
+                             @foreach ($errors->all() as $error)
+                                 <li>{{ $error }}</li>
+                             @endforeach
+                         </ul>
+                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                     </div>
+                 @endif
+                                 {{-- VALIDATIONS HERE --}} 
+                @can('crée machine')
                 <h3 class="card-title">
+                  <a class="btn btn-primary btn-block" href="{{route('project.create')}}" style="width: 260px; padding: 10px 32px; font-size: 16px;background-color:#FF3636">Ajouter un projet</a>
                 </h3>
+                @endcan
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                @can('toutes les machine')
+                    @can('toutes les machine')
 
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                   <tr style=" white-space: nowrap">
                     <th>id</th>
-                    <th>Nom de la machines</th>
+                    <th>Nom du projet</th>
                     
-                    <th>Etat de la machine</th>
-                    <th>prix</th>
+                    <th>Type de projet</th>
+                    
                     <th>Opérations</th>
                     
                     
@@ -49,36 +85,31 @@ cursor:pointer;
                   </thead>
                   <tbody>
                     <?php $i=0?>
-                    @foreach ($Usedmachines as $machine)
+                    @foreach ($projects as $project)
                     <?php $i++?>
-                  <tr >
-                    <td class="table-row" data-href="machines/{{$machine->id}}" >{{$i}}</td>
-                    <td  class="table-row" data-href="machines/{{$machine->id}}">{{$machine->name}}</td>
-                    <td class="table-row" data-href="machines/{{$machine->id}}" >{{$machine->state}}</td>
-                    <td  class="table-row" data-href="machines/{{$machine->id}}">{{$machine->price}}</td>
+                  <tr>
+                    <td  class="table-row" data-href="project/{{$project->id}}">{{$i}}</td>
+                    <td  class="table-row" data-href="project/{{$project->id}}">{{$project->name}}</td>
+                    <td  class="table-row" data-href="project/{{$project->id}}">{{$project->type}}</td>
                     <td >
-                      @can('modifier machine')
-                      <a class="btn btn-outline-info btn-sm" 
-                      href= "{{route('machines.edit',$machine->id)}}"
-                      role="button"><i class="fas fa-edit"></i>&nbsp;
-                      Modifier</a>
-                      @endcan
-                      
+                    
                       @can('effacer machine')
                       <button class="btn btn-outline-danger btn-sm"
                       data-toggle="modal"
                       
-                      data-machine_id="{{ $machine->id }}"
+                      data-project_id="{{ $project->id }}"
                     
                       data-target="#delete_file">
                       <i class="fas fa-trash"></i>&nbsp;Effacer</button>
+                      @endcan
                     </td>
-                    @endcan
+                    
                   </tr>
                     <!-- delete image-->
-      <div class="modal fade" id="delete_file" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-      aria-hidden="true">
-      <div class="modal-dialog" role="document">
+
+                    <div class="modal fade" id="delete_file" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Supprimer la machine</h5>
@@ -86,7 +117,7 @@ cursor:pointer;
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form action="{{ route('machines.destroy',$machine->id) }}" method="post">
+          <form action="{{ route('project.destroy',$project->id) }}" method="post">
             {{ method_field('delete') }}
             {{ csrf_field() }}
             <div class="modal-body">
@@ -95,7 +126,7 @@ cursor:pointer;
               </p>
   
             
-              <input type="hidden" name="machine_id" id="machine_id" value="">
+              <input type="text" name="project_id" id="project_id" value="">
   
             </div>
             <div class="modal-footer">
@@ -159,15 +190,15 @@ cursor:pointer;
 });
 
 </script>
-
 <script>
 	$('#delete_file').on('show.bs.modal', function(event) {
 		var button = $(event.relatedTarget)
 	
-		var machine_id = button.data('machine_id')
+		var project_id = button.data('project_id')
 		var modal = $(this)
 	
-		modal.find('.modal-body #machine_id').val(machine_id);
+		modal.find('.modal-body #project_id').val(project_id);
 	})
 </script>
+
 @stop

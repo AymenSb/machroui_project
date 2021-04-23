@@ -1,7 +1,7 @@
 @extends('layouts.app', [
-'namePage' => 'Matiéres premiéres',
+'namePage' => 'Detail Du projet',
 'class' => 'sidebar-mini',
-'activePage' => 'Matiéres premiéres',
+'activePage' => 'project',
 ])
 @section('css')
     <style>
@@ -124,18 +124,17 @@ input[type=number]::-webkit-outer-spin-button {
                                 </button>
                              </div>
                          @endif
-                        <h5 class="title">Matières premières/ Details</h5>
+                        <h5 class="title">Projet/ Details</h5>
                   
                     </div>
                     
                     <div class="card-body all-icons">
-                        @can('modifier matière première')
+                        @can('modfier matière première')
                         <a href="#modaldemo9"
-                        data-price="{{$material->price}}"
-                        data-description="{{$material->description}}"
-                        data-name="{{$material->name}}"
-                        data-id="{{$material->id}}" 
-                        data-brand="{{$material->brand}}" 
+                        data-type="{{$project->type}}"
+                        data-informations="{{$project->informations}}"
+                        data-name="{{$project->name}}"
+                        data-id="{{$project->id}}" 
                         data-effect="effect-fall" data-toggle="modal"
                         class="btn btn-primary btn-round" style="color: white;background-color:#FF3636;">Éditer</a> 
                         @endcan
@@ -146,7 +145,7 @@ input[type=number]::-webkit-outer-spin-button {
                         <div class="tab">
                             <button class="tablinks" id='defaultOpen' onclick="openCity(event, 'London')">Détails</button>
                             <button class="tablinks" id='defaultOpen' onclick="openCity(event, 'description')">Description</button>
-                            @can('modifier matière première')    
+                            @can('modfier matière première')    
                             <button class="tablinks" onclick="openCity(event, 'Paris')">Image</button>
                             @endcan
                         </div>
@@ -157,22 +156,17 @@ input[type=number]::-webkit-outer-spin-button {
                             <div class="row">
                                 <div class="col-md-3 pr-1">
                                     <div class="form-group">
-                                        <label>{{__("Nom de la matiére premiére")}}</label>
-                                        <span type="text" name="name" class="form-control" >{{$material->name}}</span>
+                                        <label>{{__("Nom du projet")}}</label>
+                                        <span type="text" name="name" class="form-control" >{{$project->name}}</span>
                                     </div>
                                 </div>
                                 <div class="col-md-2 pr-1">
                                   <div class="form-group">
-                                    <label for="exampleInputEmail1">{{__("Prix")}}</label>
-                                    <span type="text" name="trainer" class="form-control">{{$material->price}}<span>
+                                    <label for="exampleInputEmail1">{{__("Type")}}</label>
+                                    <span type="text" name="type" class="form-control">{{$project->type}}<span>
                                   </div>
                                 </div>
-                                <div class="col-md-3 pr-1">
-                                  <div class="form-group">
-                                      <label>{{__("Marque")}}</label>
-                                      <span type="text" name="name" class="form-control" >{{$material->brand}}</span>
-                                  </div>
-                              </div>
+                               
                             </div>
                         </div>
 
@@ -182,7 +176,7 @@ input[type=number]::-webkit-outer-spin-button {
                                
                                 <div class="col-md-5 pr-3">
                                   <div class="form-group">
-                                    <textarea  disabled type="text" name="trainer" class="form-control">{{$material->description}}</textarea>
+                                    <textarea  disabled type="text" name="informations" class="form-control">{{$project->informations}}</textarea>
                                   </div>
                                 </div>
                             
@@ -207,22 +201,22 @@ input[type=number]::-webkit-outer-spin-button {
                                           <td>{{$item->file_name}}</td>
                                           <td>
                                             <a class="btn btn-outline-success btn-sm" target="_blank"
-                                            href= "{{ url('viewfile_material') }}/{{ $material->name }}/{{ $item->file_name }}"
+                                             href= "{{ url('viewfile_project') }}/{{ $project->name }}/{{ $item->file_name }}" 
                                             role="button"><i class="fas fa-eye"></i>&nbsp;
                                             Voir l'image</a></td>
                                             <td>
                                         <a class="btn btn-outline-info btn-sm"
-                                            href= "{{ url('download_material') }}/{{ $material->name }}/{{ $item->file_name }}"
+                                            href= "{{ url('download_project') }}/{{ $project->name }}/{{ $item->file_name }}" 
                                             role="button"><i
                                                 class="fas fa-download"></i>&nbsp;
                                             Télécharger</a>
                                           </td>
                                          <td>
-                                             @can('modifier matière première')
+                                             @can('modfier matière première')
                                             <button class="btn btn-outline-danger btn-sm"
                                             data-toggle="modal"
                                             data-file_name="{{ $item->file_name }}"
-                                            data-material_id="{{ $item->material_id }}"
+                                            data-project_id="{{ $item->project_id }}"
                                             data-file_id="{{ $item->id }}"
                                             data-target="#delete_file">
                                             <i class="fas fa-trash"></i>&nbsp;Effacer</button>
@@ -232,20 +226,20 @@ input[type=number]::-webkit-outer-spin-button {
                                         @endforeach
                                         </tbody>
                                       </table>
-                                      @can('modifier matière première')
+                                      @can('modfier matière première')
                                       <div class="card-body">
                                         <p class="text-danger">Image de type .jpg, .png </p>
                                         <h5 class="card-title">Ajouter images</h5>
-                                        <form method="post" action="{{ route('addimage_material.store') }}"
+                                        <form method="post" action="{{ route('addimage_project.store') }}"
                                             enctype="multipart/form-data">
                                             {{ csrf_field() }}
                                             <div class="custom-file">
                                                 <input type="file" class="custom-file-input" id="file_name"
                                                     name="file_name[]" required multiple>
-                                                <input type="hidden" id="material_name" name="material_name"
-                                                    value="{{ $material->name }}">
-                                                <input type="hidden" id="material_id" name="material_id"
-                                                    value="{{ $material->id }}">
+                                                <input type="hidden" id="project_name" name="project_name"
+                                                    value="{{ $project->name }}">
+                                                <input type="hidden" id="project_id" name="project_id"
+                                                    value="{{ $project->id }}">
                                                 <label class="custom-file-label"  for="file_name">Select images
                                                     </label>
                                             </div><br><br>
@@ -274,7 +268,7 @@ input[type=number]::-webkit-outer-spin-button {
 								 <span aria-hidden="true">&times;</span>
 							 </button>
 						 </div>
-						 <form action="{{ route('DFMaterials') }}" method="post">
+						 <form action="{{ route('deletefile_project') }}" method="post">
 							 {{ csrf_field() }}
 							 <div class="modal-body">
 								 <p class="text-center">
@@ -283,7 +277,7 @@ input[type=number]::-webkit-outer-spin-button {
 		 
 								 <input type="hidden" name="file_id" id="file_id" value="">
 								 <input type="hidden" name="file_name" id="file_name" value="">
-								 <input type="hidden" name="material_id" id="material_id" value="">
+								 <input type="hidden" name="project_id" id="project_id" value="">
 		 
 							 </div>
 							 <div class="modal-footer">
@@ -307,7 +301,7 @@ input[type=number]::-webkit-outer-spin-button {
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action='{{ route('rawmaterials.update',$material->id) }}' method="post">
+            <form action='{{ route('project.update',$project->id) }}' method="post">
                 {{ method_field('patch') }}
                 {{ csrf_field() }}
                 <div class="modal-body">
@@ -317,37 +311,16 @@ input[type=number]::-webkit-outer-spin-button {
                       </div>
 
                       <div class="form-group">
-                        <label for="title">Prix</label>
-                        <input type="number" class="form-control" name="price" id="price" autocomplete="off" >
+                        <label for="title">Type</label>
+                        <input type="number" class="form-control" name="type" id="type" autocomplete="off" >
                       </div>
-                      <div class="form-group">
-                        <label for="title">Marque</label>
-                        <input type="text" class="form-control" name="brand" id="brand" autocomplete="off" >
-                      </div>
-
+                 
                   <div class="form-group">
-                    <label for="title">Description</label>
-                    <textarea type="text" class="form-control" name="description" id="description" autocomplete="off" ></textarea>
+                    <label for="title">Informations</label>
+                    <textarea type="text" class="form-control" name="informations" id="informations" autocomplete="off" ></textarea>
                   </div>
                   <input hidden name="id" id="id" value="">
-                  <div class="form-group">
-                    
-                          <label for="title" >Selectionnez une categorie</label>
-                          <select  name="category" class="form-control SlectBox" onclick="console.log($(this).val())"
-                          onchange="console.log('change is firing')">
-                          <!--placeholder-->
-                          <option value="" selected disabled>Choisissez une catégorie</option>
-                          @foreach ($categories as $category)
-                              <option value="{{ $category->id }}"> {{ $category->name }}</option>
-                          @endforeach
-                          </select>
-                      
-                          <label for="title">Sous-Categorie</label>
-                          <select  id="subcategory" name="subcategory" class="form-control">
-                            <option value="" selected disabled>Choisissez une sous-catégorie</option>
-                          </select>
-                      
-                    </div>
+             
                 </div>
                 
                 <div class="modal-footer">
@@ -394,16 +367,14 @@ input[type=number]::-webkit-outer-spin-button {
 	$('#modaldemo9').on('show.bs.modal', function(event) {
 		var button = $(event.relatedTarget)
 		var name = button.data('name')
-		var brand = button.data('brand')
-		var price = button.data('price')
+		var type = button.data('type')
+		var informations = button.data('informations')
 		var id = button.data('id')
-		var description = button.data('description')
 		var modal = $(this)
 		modal.find('.modal-body #name').val(name);
-		modal.find('.modal-body #brand').val(brand);
-		modal.find('.modal-body #price').val(price);
+		modal.find('.modal-body #type').val(type);
+		modal.find('.modal-body #informations').val(informations);
 		modal.find('.modal-body #id').val(id);
-		modal.find('.modal-body #description').val(description);
 	
 	})
     </script>
@@ -422,11 +393,11 @@ input[type=number]::-webkit-outer-spin-button {
 		var button = $(event.relatedTarget)
 		var file_id = button.data('file_id')
 		var file_name = button.data('file_name')
-		var material_id = button.data('material_id')
+		var project_id = button.data('project_id')
 		var modal = $(this)
 		modal.find('.modal-body #file_id').val(file_id);
 		modal.find('.modal-body #file_name').val(file_name);
-		modal.find('.modal-body #material_id').val(material_id);
+		modal.find('.modal-body #project_id').val(project_id);
 	})
 </script>
 
