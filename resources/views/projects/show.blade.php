@@ -129,7 +129,7 @@ input[type=number]::-webkit-outer-spin-button {
                     </div>
                     
                     <div class="card-body all-icons">
-                        @can('modfier matière première')
+                        @can('modifier projet')
                         <a href="#modaldemo9"
                         data-type="{{$project->type}}"
                         data-informations="{{$project->informations}}"
@@ -141,13 +141,12 @@ input[type=number]::-webkit-outer-spin-button {
                         {{-- place content here --}}
 
                         <!-- Tab links -->
-                        @can('matières premières')
+                        @can('projet')
                         <div class="tab">
                             <button class="tablinks" id='defaultOpen' onclick="openCity(event, 'London')">Détails</button>
                             <button class="tablinks" id='defaultOpen' onclick="openCity(event, 'description')">Description</button>
-                            @can('modfier matière première')    
                             <button class="tablinks" onclick="openCity(event, 'Paris')">Image</button>
-                            @endcan
+                            
                         </div>
                         @endcan
                         <!-- Tab content -->
@@ -212,7 +211,7 @@ input[type=number]::-webkit-outer-spin-button {
                                             Télécharger</a>
                                           </td>
                                          <td>
-                                             @can('modfier matière première')
+                                             @can('modifier projet')
                                             <button class="btn btn-outline-danger btn-sm"
                                             data-toggle="modal"
                                             data-file_name="{{ $item->file_name }}"
@@ -226,7 +225,7 @@ input[type=number]::-webkit-outer-spin-button {
                                         @endforeach
                                         </tbody>
                                       </table>
-                                      @can('modfier matière première')
+                                      @can('modifier projet')
                                       <div class="card-body">
                                         <p class="text-danger">Image de type .jpg, .png </p>
                                         <h5 class="card-title">Ajouter images</h5>

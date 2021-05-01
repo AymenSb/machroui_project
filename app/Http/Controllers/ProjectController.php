@@ -11,6 +11,14 @@ use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
+
+    function __construct()
+    {
+    $this->middleware('permission:projet|crée projet|modifier projet|effacer projet', ['only' => ['index','show']]);
+    $this->middleware('permission:crée projet', ['only' => ['create','store']]);
+    $this->middleware('permission:modifier projet', ['only' => ['edit','update']]);
+    $this->middleware('permission:effacer projet', ['only' => ['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      *

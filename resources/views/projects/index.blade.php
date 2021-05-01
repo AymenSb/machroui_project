@@ -60,7 +60,7 @@ cursor:pointer;
                      </div>
                  @endif
                                  {{-- VALIDATIONS HERE --}} 
-                @can('crée machine')
+                @can('crée projet')
                 <h3 class="card-title">
                   <a class="btn btn-primary btn-block" href="{{route('project.create')}}" style="width: 260px; padding: 10px 32px; font-size: 16px;background-color:#FF3636">Ajouter un projet</a>
                 </h3>
@@ -68,7 +68,7 @@ cursor:pointer;
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                    @can('toutes les machine')
+                    @can('projet')
 
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
@@ -93,7 +93,7 @@ cursor:pointer;
                     <td  class="table-row" data-href="project/{{$project->id}}">{{$project->type}}</td>
                     <td >
                     
-                      @can('effacer machine')
+                      @can('effacer projet')
                       <button class="btn btn-outline-danger btn-sm"
                       data-toggle="modal"
                       

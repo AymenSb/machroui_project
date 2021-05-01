@@ -87,14 +87,14 @@
         </a>
       </li>
       @endcan
-
+      @can('projet')
       <li class="@if ($activePage == 'project') active @endif">
         <a href="{{ route('project.index') }}">
           <i class="now-ui-icons education_atom"></i>
           <p>{{ __('Les projets') }}</p>
         </a>
       </li>
-      
+      @endcan
       @can('categories')
        <li class = "@if ($activePage == 'categories') active @endif">
         <a href="{{ route('category.index') }}">

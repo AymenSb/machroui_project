@@ -76,7 +76,7 @@
                                     <strong>Type d'utilisateur</strong>
                                     <br>
                                     <br>
-                                    {!! Form::select('roles[]', $roles, $userRole, ['class' => 'form-control']) !!}
+                                    {!! Form::select('roles_names[]', $roles, $userRole, ['class' => 'form-control']) !!}
                                 </div>
                             </div>
                         </div>

@@ -35,11 +35,12 @@ textarea::-webkit-scrollbar-thumb {
         <div class="card">
           <div class="card-header">
                           
-            <h5 class="title">Ajouter une machine</h5>
+            <h5 class="title">Ajouter une projet</h5>
           </div>
           <div class="card-body all-icons">
             <div class="col-lg-12 col-md-12">
               <div class="card">
+                @can('crée projet')
                   <div class="card-body">
                       <form action="{{ route('project.store') }}" method="post" enctype="multipart/form-data"
                           autocomplete="off">
@@ -79,26 +80,7 @@ textarea::-webkit-scrollbar-thumb {
                         </div>
                                 {{-- 3 --}}
                                 <br><br>
-                        <div class="row">
-                          <div class="col-3">
-                            <label for="inputName" class="contro-label">Selectionnez une categorie</label>
-                            <select  name="category" class="form-control SlectBox" onclick="console.log($(this).val())"
-                            onchange="console.log('change is firing')">
-                            <!--placeholder-->
-                            <option value="" selected disabled>Choisissez une catégorie</option>
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->id }}"> {{ $category->name }}</option>
-                            @endforeach
-                            </select>
-                          </div>
-                        
-                          <div class="colo-3">
-                            <label for="inputName" class="control-label">Sous-Categorie</label>
-                            <select  id="subcategory" name="subcategory" class="form-control">
-                              <option value="" selected disabled>Choisissez une sous-catégorie</option>
-                            </select>
-                          </div>
-                        </div>
+                       
                         <span style=" margin-left: 20px;"></span>
 
                           {{-- 4 --}}
@@ -131,6 +113,7 @@ textarea::-webkit-scrollbar-thumb {
                       </form>
                   </div>
               </div>
+              @endcan
             </div>
           </div>
         </div>
