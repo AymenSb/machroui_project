@@ -63,15 +63,24 @@ class ProjectController extends Controller
                 $destinationPath = 'Attachments/Projects Attachments/' . $request->name;
                 $file_name = $files->getClientOriginalName();
                 $files->move($destinationPath, $file_name);
-
-                $file = new ProjectAttachments();
-                $file->file_name = $file_name;
-                $file->project_id = $project_id;
-                $file->save();
-
+                $data[]=$file_name;
             }
 
+            $file = new ProjectAttachments();
+            $file->file_name = $data;
+            $file->project_id = $project_id;
+            $file->save();
+
         }
+
+        else {
+            $project_id = project::latest()->first()->id;   
+            $file = new ProjectAttachments();
+            $file->file_name = [];
+            $file->project_id = $project_id;
+            $file->save();
+        }
+
 
         session()->flash('add', 'Le projet a été ajoutée avec succès');
         return redirect('/project');
@@ -86,7 +95,7 @@ class ProjectController extends Controller
     public function show($id)
     {   $categories=Category::all();
         $project = project::findOrFail($id);
-        $images = ProjectAttachments::where('project_id', $id)->get();
+        $images = ProjectAttachments::where('project_id', $id)->first();
         return view('projects/show', compact('project', 'images','categories'));
     }
 
@@ -163,10 +172,16 @@ class ProjectController extends Controller
     public function deletefile_project(Request $request){
         $image=ProjectAttachments::findOrfail($request->file_id);
         $project_name=project::where('id',$request->project_id)->pluck('name')->first();
-        $image->delete();
+        $data= $image->file_name;
         Storage::disk('projects_uploads')->delete($project_name.'/'.$request->file_name);
+      
+        if (($key = array_search($request->file_name, $data)) !== false) {
+            unset($data[$key]);
+        }
+        $image->update([
+            'file_name'=>$data,
+        ]);
         session()->flash('delete','La photo a été supprimée');
         return back();
-
     }
 }

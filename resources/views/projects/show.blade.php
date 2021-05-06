@@ -186,45 +186,49 @@ input[type=number]::-webkit-outer-spin-button {
                             <div class="col-md pr-1">
                                 <div class="form-group">
                                     <label>{{__("Images")}}</label>
-                                    <table id="example1" class="table table-bordered table-striped">
-                                        <thead>
-                                        <tr style=" white-space: nowrap">
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                          <?php $i=0?>
-                                          @foreach ($images as $item)
-                                          <?php $i++?>
-                                        <tr>
-                                          <td>{{$i}}</td>
-                                          <td>{{$item->file_name}}</td>
-                                          <td>
-                                            <a class="btn btn-outline-success btn-sm" target="_blank"
-                                             href= "{{ url('viewfile_project') }}/{{ $project->name }}/{{ $item->file_name }}" 
-                                            role="button"><i class="fas fa-eye"></i>&nbsp;
-                                            Voir l'image</a></td>
-                                            <td>
-                                        <a class="btn btn-outline-info btn-sm"
-                                            href= "{{ url('download_project') }}/{{ $project->name }}/{{ $item->file_name }}" 
-                                            role="button"><i
-                                                class="fas fa-download"></i>&nbsp;
-                                            Télécharger</a>
-                                          </td>
-                                         <td>
-                                             @can('modifier projet')
-                                            <button class="btn btn-outline-danger btn-sm"
-                                            data-toggle="modal"
-                                            data-file_name="{{ $item->file_name }}"
-                                            data-project_id="{{ $item->project_id }}"
-                                            data-file_id="{{ $item->id }}"
-                                            data-target="#delete_file">
-                                            <i class="fas fa-trash"></i>&nbsp;Effacer</button>
-                                            @endcan
-                                        </td>
-                                        </tr>
-                                        @endforeach
-                                        </tbody>
-                                      </table>
+                                   {{-- place table here --}}
+                                   @if ($images)
+                                   <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
+                                    <tr style=" white-space: nowrap">
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                      <?php $i=0?>
+                                      @foreach ($images->file_name as $image)
+                                      <?php $i++?>
+                                    <tr>
+                                      <td>{{$i}}</td>
+                                      <td>{{$image}}</td>
+                                      <td>
+                                        <a class="btn btn-outline-success btn-sm" target="_blank"
+                                         href= "{{ url('viewfile_project') }}/{{ $project->name }}/{{ $image }}" 
+                                        role="button"><i class="fas fa-eye"></i>&nbsp;
+                                        Voir l'image</a></td>
+                                        <td>
+                                    <a class="btn btn-outline-info btn-sm"
+                                        href= "{{ url('download_project') }}/{{ $project->name }}/{{ $image }}" 
+                                        role="button"><i
+                                            class="fas fa-download"></i>&nbsp;
+                                        Télécharger</a>
+                                      </td>
+                                     <td>
+                                         @can('modifier projet')
+                                        <button class="btn btn-outline-danger btn-sm"
+                                        data-toggle="modal"
+                                        data-file_name="{{ $image }}"
+                                        data-project_id="{{ $images->project_id }}"
+                                        data-file_id="{{ $images->id }}"
+                                        data-target="#delete_file">
+                                        <i class="fas fa-trash"></i>&nbsp;Effacer</button>
+                                        @endcan
+                                    </td>
+                                    </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                                   @endif
+                                    
                                       @can('modifier projet')
                                       <div class="card-body">
                                         <p class="text-danger">Image de type .jpg, .png </p>
@@ -234,7 +238,7 @@ input[type=number]::-webkit-outer-spin-button {
                                             {{ csrf_field() }}
                                             <div class="custom-file">
                                                 <input type="file" class="custom-file-input" id="file_name"
-                                                    name="file_name[]" required multiple>
+                                                    name="file_name[]" required multiple accept=".jpg, .png, image/jpeg, image/png">
                                                 <input type="hidden" id="project_name" name="project_name"
                                                     value="{{ $project->name }}">
                                                 <input type="hidden" id="project_id" name="project_id"

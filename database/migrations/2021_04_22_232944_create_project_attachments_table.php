@@ -15,7 +15,7 @@ class CreateProjectAttachmentsTable extends Migration
     {
         Schema::create('project_attachments', function (Blueprint $table) {
             $table->id();
-            $table->string('file_name');
+            $table->text('file_name');
             $table->unsignedBigInteger('project_id')->nullable();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->timestamps();

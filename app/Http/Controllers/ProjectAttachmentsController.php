@@ -38,23 +38,25 @@ class ProjectAttachmentsController extends Controller
         if ($request->hasFile('file_name')) {
             $project_name=$request->project_name;
             $project_id=$request->project_id;
+            $project_attachments=ProjectAttachments::where('project_id',$project_id)->first();
+            $old_data=$project_attachments->file_name;
             $image = $request->file('file_name');
          
             foreach($image as $files){
             $destinationPath = 'Attachments/Projects Attachments/'.$project_name;
             $file_name =$files->getClientOriginalName();
             $files->move($destinationPath, $file_name);
+            $data[]=$file_name;
 
-            $file= new ProjectAttachments();
-            $file->file_name=$file_name;
-            $file->project_id=$project_id;
-            $file->save();
             }
-            session()->flash('created',"L'image a été créée");
-            return back();
+            $new_data=array_unique(array_merge($data,$old_data),SORT_REGULAR);
+            $project_attachments->update([
+                'file_name'=>$new_data
+            ]);              
         }
+        session()->flash('created',"L'image a été créée");
+        return back();
     }
-
     /**
      * Display the specified resource.
      *

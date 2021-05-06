@@ -91,7 +91,7 @@ textarea::-webkit-scrollbar-thumb {
                         <h5 class="card-title">Pièces jointes</h5>
 
                         <div class="col-sm-12 col-md-12">
-                            <input type="file" name="image[]" id="images" class="dropify" accept=".jpg, .png, image/jpeg, image/png"
+                            <input type="file" name="image[]" multiple id="images" class="dropify" accept=".jpg, .png, image/jpeg, image/png"
                                 data-height="70"    multiple/>
                         </div><br>
 
