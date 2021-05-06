@@ -19,4 +19,8 @@ class machines extends Model
         return $this->belongsToMany(subcategory::class)->withTimestamps();
     }
 
+    protected $casts = [
+        'file_name' => 'array',
+        ];
+
 }

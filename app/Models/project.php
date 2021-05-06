@@ -13,5 +13,9 @@ class project extends Model
     {
         return $this->hasOne(ProjectAttachments::class,'machine_id','id');
     }
+
+    protected $casts = [
+        'file_name' => 'array',
+        ];
 }
 

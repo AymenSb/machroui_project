@@ -15,7 +15,7 @@ class CreateRawmaterialsAttachmentsTable extends Migration
     {
         Schema::create('rawmaterials_attachments', function (Blueprint $table) {
             $table->id();
-            $table->string('file_name');
+            $table->text('file_name');
             $table->unsignedBigInteger('material_id')->nullable();
             $table->foreign('material_id')->references('id')->on('raw_materials')->onDelete('cascade');
             $table->timestamps();
