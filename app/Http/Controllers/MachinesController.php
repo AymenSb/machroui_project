@@ -69,15 +69,24 @@ class MachinesController extends Controller
                 $destinationPath = 'Attachments/Machines Attachments/' . $request->name;
                 $file_name = $files->getClientOriginalName();
                 $files->move($destinationPath, $file_name);
-
-                $file = new MachinesAttachments();
-                $file->file_name = $file_name;
-                $file->machine_id = $machine_id;
-                $file->save();
-
+                $data[]=$file_name;
+                
             }
-
+            $file = new MachinesAttachments();
+            $file->file_name = $data;
+            $file->machine_id = $machine_id;
+            $file->save();
+           
         }
+
+        else{
+            $machine_id = machines::latest()->first()->id;
+            $file = new MachinesAttachments();
+            $file->file_name = [];
+            $file->machine_id = $machine_id;
+            $file->save();
+        }
+
         if($request->category){
             if($request->subcategory){
               $subcategory=subcategory::where('id',$request->subcategory)->first();
@@ -99,7 +108,7 @@ class MachinesController extends Controller
     public function show($id)
     {
         $machine = machines::findOrFail($id);
-        $images = MachinesAttachments::where('machine_id', $id)->get();
+        $images = MachinesAttachments::where('machine_id', $id)->first();
         return view('machines/machines/show', compact('machine', 'images'));
     }
 
@@ -229,9 +238,16 @@ class MachinesController extends Controller
     {
         $image = MachinesAttachments::findOrfail($request->file_id);
         $machine_name = machines::where('id', $request->machine_id)->pluck('name')->first();
-        $image->delete();
+        $data= $image->file_name;
         Storage::disk('machines_uploads')->delete($machine_name . '/' . $request->file_name);
-        session()->flash('delete', 'La photo a été supprimée');
+     
+        if (($key = array_search($request->file_name, $data)) !== false) {
+            unset($data[$key]);
+        }
+        $image->update([
+            'file_name'=>array_values($data),
+        ]);
+        session()->flash('delete','La photo a été supprimée');
         return back();
     }
 }

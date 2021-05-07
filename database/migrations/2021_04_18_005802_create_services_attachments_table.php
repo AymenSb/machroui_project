@@ -15,7 +15,7 @@ class CreateServicesAttachmentsTable extends Migration
     {
         Schema::create('services_attachments', function (Blueprint $table) {
             $table->id();
-            $table->string('file_name');
+            $table->text('file_name');
             $table->unsignedBigInteger('service_id')->nullable();
             $table->foreign('service_id')->references('id')->on('services')->onDelete('cascade');
             $table->timestamps();

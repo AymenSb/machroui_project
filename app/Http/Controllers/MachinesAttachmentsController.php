@@ -38,18 +38,22 @@ class MachinesAttachmentsController extends Controller
         if ($request->hasFile('file_name')) {
             $machine_name=$request->machine_name;
             $machine_id=$request->machine_id;
+            $machinesAttachments=MachinesAttachments::where('machine_id',$machine_id)->first();
+            $old_data=$machinesAttachments->file_name;
             $image = $request->file('file_name');
          
             foreach($image as $files){
             $destinationPath = 'Attachments/Machines Attachments/'.$machine_name;
             $file_name =$files->getClientOriginalName();
             $files->move($destinationPath, $file_name);
-
-            $file= new MachinesAttachments();
-            $file->file_name=$file_name;
-            $file->machine_id=$machine_id;
-            $file->save();
+            $data[]=$file_name;
             }
+
+            $new_data=array_unique(array_merge($data,$old_data),SORT_REGULAR);
+            $machinesAttachments->update([
+                'file_name'=>$new_data
+            ]);
+
             session()->flash('created',"L'image a été créée");
             return back();
         }

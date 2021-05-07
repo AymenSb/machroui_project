@@ -203,45 +203,47 @@ input[type=number]::-webkit-outer-spin-button {
                             <div class="col-md pr-1">
                                 <div class="form-group">
                                     <label>{{__("Images")}}</label>
-                                    <table id="example1" class="table table-bordered table-striped">
-                                        <thead>
-                                        <tr style=" white-space: nowrap">
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                          <?php $i=0?>
-                                          @foreach ($images as $item)
-                                          <?php $i++?>
-                                        <tr class="table-row" data-href="machines/{{$machine->id}}">
-                                          <td>{{$i}}</td>
-                                          <td>{{$item->file_name}}</td>
-                                          <td>
-                                            <a class="btn btn-outline-success btn-sm" target="_blank"
-                                            href= "{{ url('viewfile_machines') }}/{{ $machine->name }}/{{ $item->file_name }}"
-                                            role="button"><i class="fas fa-eye"></i>&nbsp;
-                                            Voir l'image</a></td>
-                                            <td>
-                                        <a class="btn btn-outline-info btn-sm"
-                                            href= "{{ url('download_machines') }}/{{ $machine->name }}/{{ $item->file_name }}"
-                                            role="button"><i
-                                                class="fas fa-download"></i>&nbsp;
-                                            Télécharger</a>
-                                          </td>
-                                         <td>
-                                             @can('modifier machine')
-                                            <button class="btn btn-outline-danger btn-sm"
-                                            data-toggle="modal"
-                                            data-file_name="{{ $item->file_name }}"
-                                            data-machine_id="{{ $item->machine_id }}"
-                                            data-file_id="{{ $item->id }}"
-                                            data-target="#delete_file">
-                                            <i class="fas fa-trash"></i>&nbsp;Effacer</button>
-                                            @endcan
-                                        </td>
-                                        </tr>
-                                        @endforeach
-                                        </tbody>
-                                      </table>
+                                        @if ($images)
+                                        <table id="example1" class="table table-bordered table-striped">
+                                            <thead>
+                                            <tr style=" white-space: nowrap">
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                              <?php $i=0?>
+                                              @foreach ($images->file_name as $item)
+                                              <?php $i++?>
+                                            <tr class="table-row" data-href="machines/{{$machine->id}}">
+                                              <td>{{$i}}</td>
+                                              <td>{{$item}}</td>
+                                              <td>
+                                                <a class="btn btn-outline-success btn-sm" target="_blank"
+                                                href= "{{ url('viewfile_machines') }}/{{ $machine->name }}/{{ $item }}"
+                                                role="button"><i class="fas fa-eye"></i>&nbsp;
+                                                Voir l'image</a></td>
+                                                <td>
+                                            <a class="btn btn-outline-info btn-sm"
+                                                href= "{{ url('download_machines') }}/{{ $machine->name }}/{{ $item }}"
+                                                role="button"><i
+                                                    class="fas fa-download"></i>&nbsp;
+                                                Télécharger</a>
+                                              </td>
+                                             <td>
+                                                 @can('modifier machine')
+                                                <button class="btn btn-outline-danger btn-sm"
+                                                data-toggle="modal"
+                                                data-file_name="{{ $item }}"
+                                                data-machine_id="{{ $images->machine_id }}"
+                                                data-file_id="{{ $images->id }}"
+                                                data-target="#delete_file">
+                                                <i class="fas fa-trash"></i>&nbsp;Effacer</button>
+                                                @endcan
+                                            </td>
+                                            </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                        @endif
                                       @can('modifier machine')
                                       <div class="card-body">
                                         <p class="text-danger">Image de type .jpg, .png </p>
