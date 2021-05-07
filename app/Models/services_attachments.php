@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class services_attachments extends Model
 {
     use HasFactory;
+    protected $casts = [
+        'file_name' => 'array',
+        ];
 }
