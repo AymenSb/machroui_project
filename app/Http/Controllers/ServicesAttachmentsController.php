@@ -39,17 +39,18 @@ class ServicesAttachmentsController extends Controller
             $service_name=$request->service_name;
             $service_id=$request->service_id;
             $image = $request->file('file_name');
-         
+            $services_attachments=services_attachments::where('service_id',$service_id)->first();
+            $old_data=$services_attachments->file_name;
             foreach($image as $files){
             $destinationPath = 'Attachments/Services Attachments/'.$service_name;
             $file_name =$files->getClientOriginalName();
             $files->move($destinationPath, $file_name);
-
-            $file= new services_attachments();
-            $file->file_name=$file_name;
-            $file->service_id=$service_id;
-            $file->save();
+            $data[]=$file_name;
             }
+            $new_data=array_unique(array_merge($data,$old_data),SORT_REGULAR);
+            $services_attachments->update([
+                'file_name'=>$new_data
+            ]);   
             session()->flash('created',"L'image a été créée");
             return back();
         }

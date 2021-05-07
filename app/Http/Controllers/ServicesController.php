@@ -57,12 +57,14 @@ class ServicesController extends Controller
                 $destinationPath = 'Attachments/Services Attachments/'.$request->name;
                 $file_name =$files->getClientOriginalName();
                 $files->move($destinationPath, $file_name);
+                $data[]=$file_name;
+                
+            }
 
-                $file= new services_attachments();
-                $file->file_name=$file_name;
+            $file= new services_attachments();
+                $file->file_name=$data;
                 $file->service_id=$service_id;
                 $file->save();
-            }
         }    
         session()->flash('ADD','le service a été créé');
         return redirect('services/create');
@@ -77,7 +79,7 @@ class ServicesController extends Controller
     public function show($id)
     {
         $service=services::findOrFail($id);
-        $images=services_attachments::where('service_id',$id)->get();
+        $images=services_attachments::where('service_id',$id)->first();
         return view('services/show',compact('service','images'));
     }
 
@@ -155,8 +157,14 @@ class ServicesController extends Controller
     public function deletefile_service(Request $request){
         $image=services_attachments::findOrfail($request->file_id);
         $service_name=services::where('id',$request->service_id)->pluck('name')->first();
-        $image->delete();
+        $data= $image->file_name;
         Storage::disk('services_uploads')->delete($service_name.'/'.$request->file_name);
+        if (($key = array_search($request->file_name, $data)) !== false) {
+            unset($data[$key]);
+        }
+        $image->update([
+            'file_name'=>array_values($data),
+        ]);
         session()->flash('delete','La photo a été supprimée');
         return back();
     }

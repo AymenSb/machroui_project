@@ -7,6 +7,7 @@ use App\Models\ProjectAttachments;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 
 class ProjectController extends Controller
@@ -183,5 +184,14 @@ class ProjectController extends Controller
         ]);
         session()->flash('delete','La photo a été supprimée');
         return back();
+    }
+
+    function getAllProjects(){
+        $projects=DB::table('projects')
+                    ->join('project_attachments','projects.id','project_attachments.project_id')
+                    ->select('projects.*','project_attachments.file_name')
+                    ->get();
+        return response()->json($projects);
+                    
     }
 }

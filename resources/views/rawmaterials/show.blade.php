@@ -200,19 +200,19 @@ input[type=number]::-webkit-outer-spin-button {
                                         </thead>
                                         <tbody>
                                           <?php $i=0?>
-                                          @foreach ($images as $item)
+                                          @foreach ($images->file_name as $item)
                                           <?php $i++?>
                                         <tr>
                                           <td>{{$i}}</td>
-                                          <td>{{$item->file_name}}</td>
+                                          <td>{{$item}}</td>
                                           <td>
                                             <a class="btn btn-outline-success btn-sm" target="_blank"
-                                            href= "{{ url('viewfile_material') }}/{{ $material->name }}/{{ $item->file_name }}"
+                                            href= "{{ url('viewfile_material') }}/{{ $material->name }}/{{ $item }}"
                                             role="button"><i class="fas fa-eye"></i>&nbsp;
                                             Voir l'image</a></td>
                                             <td>
                                         <a class="btn btn-outline-info btn-sm"
-                                            href= "{{ url('download_material') }}/{{ $material->name }}/{{ $item->file_name }}"
+                                            href= "{{ url('download_material') }}/{{ $material->name }}/{{ $item }}"
                                             role="button"><i
                                                 class="fas fa-download"></i>&nbsp;
                                             Télécharger</a>
@@ -221,9 +221,9 @@ input[type=number]::-webkit-outer-spin-button {
                                              @can('modifier matière première')
                                             <button class="btn btn-outline-danger btn-sm"
                                             data-toggle="modal"
-                                            data-file_name="{{ $item->file_name }}"
-                                            data-material_id="{{ $item->material_id }}"
-                                            data-file_id="{{ $item->id }}"
+                                            data-file_name="{{ $item }}"
+                                            data-material_id="{{ $images->material_id }}"
+                                            data-file_id="{{ $images->id }}"
                                             data-target="#delete_file">
                                             <i class="fas fa-trash"></i>&nbsp;Effacer</button>
                                             @endcan
@@ -241,7 +241,7 @@ input[type=number]::-webkit-outer-spin-button {
                                             {{ csrf_field() }}
                                             <div class="custom-file">
                                                 <input type="file" class="custom-file-input" id="file_name"
-                                                    name="file_name[]" required multiple>
+                                                    name="file_name[]" required multiple accept=".jpg, .png, image/jpeg, image/png">
                                                 <input type="hidden" id="material_name" name="material_name"
                                                     value="{{ $material->name }}">
                                                 <input type="hidden" id="material_id" name="material_id"

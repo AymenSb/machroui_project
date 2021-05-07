@@ -8,6 +8,7 @@ use App\Models\machines;
 use App\Models\MachinesAttachments;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class MachinesController extends Controller
 {
@@ -249,5 +250,14 @@ class MachinesController extends Controller
         ]);
         session()->flash('delete','La photo a été supprimée');
         return back();
+    }
+
+
+    function getMachines(){
+        $machines=DB::table('machines')
+        ->join('machines_attachments','machines.id','machines_attachments.machine_id')
+        ->select('machines.*','machines_attachments.file_name')
+        ->get();
+        return response()->json($machines);
     }
 }

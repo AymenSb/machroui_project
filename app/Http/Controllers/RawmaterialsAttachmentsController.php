@@ -39,17 +39,20 @@ class RawmaterialsAttachmentsController extends Controller
             $material_name=$request->material_name;
             $material_id=$request->material_id;
             $image = $request->file('file_name');
+            $rawmaterials_attachments=rawmaterials_attachments::where('material_id',$material_id)->first();
+            $old_data=$rawmaterials_attachments->file_name;
          
             foreach($image as $files){
             $destinationPath = 'Attachments/Raw Materials Attachments/'.$material_name;
             $file_name =$files->getClientOriginalName();
             $files->move($destinationPath, $file_name);
-
-            $file= new rawmaterials_attachments();
-            $file->file_name=$file_name;
-            $file->material_id=$material_id;
-            $file->save();
+            $data[]=$file_name;
+          
             }
+            $new_data=array_unique(array_merge($data,$old_data),SORT_REGULAR);
+            $rawmaterials_attachments->update([
+                'file_name'=>$new_data
+            ]);   
             session()->flash('created',"L'image a été créée");
             return back();
         }

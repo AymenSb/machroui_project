@@ -253,7 +253,7 @@ input[type=number]::-webkit-outer-spin-button {
                                             {{ csrf_field() }}
                                             <div class="custom-file">
                                                 <input type="file" class="custom-file-input" id="file_name"
-                                                    name="file_name[]" required multiple>
+                                                    name="file_name[]" required multiple accept=".jpg, .png, image/jpeg, image/png">
                                                 <input type="hidden" id="machine_name" name="machine_name"
                                                     value="{{ $machine->name }}">
                                                 <input type="hidden" id="machine_id" name="machine_id"

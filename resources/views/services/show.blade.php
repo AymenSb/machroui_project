@@ -125,7 +125,7 @@ input[type=number]::-webkit-outer-spin-button {
                              </div>
                          @endif
                         <h5 class="title">Service / Details</h5>
-                        @can('modifer service')
+                        @can('modifier service')
                         <a href="#modaldemo9"
                         data-type="{{$service->type}}"
                         data-description="{{$service->description}}"
@@ -139,13 +139,13 @@ input[type=number]::-webkit-outer-spin-button {
                         {{-- place content here --}}
 
                         <!-- Tab links -->
-                        @can('afficher service')
+                        {{-- @can('afficher service') --}}
                         <div class="tab">
                             <button class="tablinks" id='defaultOpen' onclick="openCity(event, 'London')">Détails</button>
                             <button class="tablinks" id='defaultOpen' onclick="openCity(event, 'description')">Description</button>
                             <button class="tablinks" onclick="openCity(event, 'Paris')">Image</button>
                         </div>
-                        @endcan
+                        {{-- @endcan --}}
                         <!-- Tab content -->
                         <div id="London" class="tabcontent">
                             {{-- 1 --}}
@@ -190,30 +190,30 @@ input[type=number]::-webkit-outer-spin-button {
                                         </thead>
                                         <tbody>
                                           <?php $i=0?>
-                                          @foreach ($images as $item)
+                                          @foreach ($images->file_name as $item)
                                           <?php $i++?>
                                         <tr>
                                           <td>{{$i}}</td>
-                                          <td>{{$item->file_name}}</td>
+                                          <td>{{$item}}</td>
                                           <td>
                                             <a class="btn btn-outline-success btn-sm" target="_blank"
-                                            href= "{{ url('viewfile_service') }}/{{ $service->name }}/{{ $item->file_name }}"
+                                            href= "{{ url('viewfile_service') }}/{{ $service->name }}/{{ $item }}"
                                             role="button"><i class="fas fa-eye"></i>&nbsp;
                                             Voir l'image</a></td>
                                             <td>
                                         <a class="btn btn-outline-info btn-sm"
-                                            href= "{{ url('download_service') }}/{{ $service->name }}/{{ $item->file_name }}"
+                                            href= "{{ url('download_service') }}/{{ $service->name }}/{{ $item }}"
                                             role="button"><i
                                                 class="fas fa-download"></i>&nbsp;
                                             Télécharger</a>
                                           </td>
                                          <td>
-                                             @can('modifer service')
+                                             @can('modifier service')
                                             <button class="btn btn-outline-danger btn-sm"
                                             data-toggle="modal"
-                                            data-file_name="{{ $item->file_name }}"
-                                            data-service_id="{{ $item->service_id }}"
-                                            data-file_id="{{ $item->id }}"
+                                            data-file_name="{{ $item }}"
+                                            data-service_id="{{ $images->service_id }}"
+                                            data-file_id="{{ $images->id }}"
                                             data-target="#delete_file">
                                             <i class="fas fa-trash"></i>&nbsp;Effacer</button>
                                             @endcan
@@ -222,7 +222,7 @@ input[type=number]::-webkit-outer-spin-button {
                                         @endforeach
                                         </tbody>
                                       </table>
-                                      @can('modifer service')
+                                      @can('modifier service')
                                       <div class="card-body">
                                         <p class="text-danger">Image de type .jpg, .png </p>
                                         <h5 class="card-title">Ajouter images</h5>

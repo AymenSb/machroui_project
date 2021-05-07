@@ -200,5 +200,13 @@ class FormationsController extends Controller
         return redirect('/formations');
     }
 
+    function getFormations(){
+        $formations=DB::table('formations')
+        ->join('formations_attachments','formations.id','formations_attachments.formation_id')
+        ->select('formations.*','formations_attachments.file_name')
+        ->get();
+        return response()->json($formations);
+    }
+
    
 }

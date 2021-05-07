@@ -4,7 +4,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\ProjectAttachmentsController;
+use App\Http\Controllers\FormationsController;
+use App\Http\Controllers\MachinesController;
+use App\Http\Controllers\RawMaterialsController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,8 +20,12 @@ use App\Http\Controllers\ProjectAttachmentsController;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});
 
-Route::get('/APIprojects',[ProjectController::class,'getAllPojects']);
+Route::get('/APIprojects',[ProjectController::class,'getAllProjects']);
+Route::get('/api_formations',[FormationsController::class,'getFormations']);
+Route::get('/api_machines',[MachinesController::class,'getMachines']);
+Route::get('/api_materials',[RawMaterialsController::class,'getMaterials']);
+

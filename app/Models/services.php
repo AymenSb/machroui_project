@@ -9,6 +9,7 @@ class services extends Model
 {
     use HasFactory;
     protected $guarded=[];
+    
 
     public function file()
     {

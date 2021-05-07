@@ -47,7 +47,6 @@ class ProjectAttachmentsController extends Controller
             $file_name =$files->getClientOriginalName();
             $files->move($destinationPath, $file_name);
             $data[]=$file_name;
-
             }
             $new_data=array_unique(array_merge($data,$old_data),SORT_REGULAR);
             $project_attachments->update([
