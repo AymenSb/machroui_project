@@ -54,7 +54,7 @@ class FormationsController extends Controller
             'begin_date' => 'unique:formations|max:255',
         ],
             [
-                'name.unique'=>'Une formation à cette date deja existe existe déjà',
+                'begin_date.unique'=>'Une formation à cette date deja existe existe déjà',
             ]
         );
         
@@ -74,22 +74,28 @@ class FormationsController extends Controller
             $formation_id = Formations::latest()->first()->id;
             $image = $request->file('image');
             $file_name = $image->getClientOriginalName();
+            $imageName = $request->image->getClientOriginalName();
+            $request->image->move(public_path('Attachments/Formations Attachments/' .$request->name ), $imageName);
+
+            $base64Image=base64_encode(file_get_contents(public_path('Attachments/Formations Attachments/' .$request->name.'/'.$imageName)));
+            $file_extension=$request->image->getClientOriginalExtension();
+            $image64Url="data:image/".$file_extension.";base64,".$base64Image;
 
             $attachments = new formations_attachment();
             $attachments->file_name = $file_name;
             $attachments->formation_id = $formation_id;
+            $attachments->base64Url=$image64Url;
             $attachments->save();
 
 
-            $imageName = $request->image->getClientOriginalName();
-            $request->image->move(public_path('Attachments/Formations Attachments/' .$request->name ), $imageName);
+      
+            
         }
         if($request->category){
             if($request->subcategory){
                $subcategory=subcategory::where('id',$request->subcategory)->first();
              $formation=Formations::latest()->first();
 
-             echo $subcategory->id.'-----'.$formation->id;
                $subcategory->formations()->syncWithoutDetaching($formation);
             }
         }
@@ -137,7 +143,6 @@ class FormationsController extends Controller
     public function update(Request $request, formations $formations)
      {
         $id= $request->id;
-        echo $id;
         $formations=formations::findOrFail($id);  
         $old_name=$formations->name; //get old formation name
         
@@ -203,7 +208,7 @@ class FormationsController extends Controller
     function getFormations(){
         $formations=DB::table('formations')
         ->join('formations_attachments','formations.id','formations_attachments.formation_id')
-        ->select('formations.*','formations_attachments.file_name')
+        ->select('formations.*','formations_attachments.file_name','formations_attachments.base64Url')
         ->get();
         return response()->json($formations);
     }

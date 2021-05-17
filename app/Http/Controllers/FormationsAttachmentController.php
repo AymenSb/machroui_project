@@ -78,14 +78,17 @@ class FormationsAttachmentController extends Controller
         $formation_name=$request->formation_name;
         $attachment=formations_attachment::where('formation_id',$formation_id)->first();
         $old_file=$attachment->file_name;
-        
-        $attachment->update([
-            'file_name'=>$new_file,
-        ]);
+
+
         if(!empty($old_file)){
             Storage::disk('public_uploads')->delete($formation_name.'/'.$old_file);
         }
         $request->file_name->move(public_path('Attachments/Formations Attachments/' .$formation_name ), $new_file);
+
+        
+        $attachment->update([
+            'file_name'=>$new_file,
+        ]);
 
         return back();
     }

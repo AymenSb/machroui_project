@@ -7,6 +7,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\FormationsController;
 use App\Http\Controllers\MachinesController;
 use App\Http\Controllers\RawMaterialsController;
+use App\Http\Controllers\apis_controller;
 
 
 /*
@@ -24,7 +25,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/APIprojects',[ProjectController::class,'getAllProjects']);
+Route::get('/latests',[apis_controller::class,'latests']);
+Route::get('/api_projects',[ProjectController::class,'getAllProjects']);
 Route::get('/api_formations',[FormationsController::class,'getFormations']);
 Route::get('/api_machines',[MachinesController::class,'getMachines']);
 Route::get('/api_materials',[RawMaterialsController::class,'getMaterials']);

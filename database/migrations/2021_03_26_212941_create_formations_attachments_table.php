@@ -18,6 +18,7 @@ class CreateFormationsAttachmentsTable extends Migration
             $table->string('file_name');
             $table->unsignedBigInteger('formation_id')->nullable();
             $table->foreign('formation_id')->references('id')->on('formations')->onDelete('cascade');
+            $table->longText('base64Url');
             $table->timestamps();
         });
     }
