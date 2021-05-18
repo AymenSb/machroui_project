@@ -11,5 +11,6 @@ class MachinesAttachments extends Model
     protected $guarded=[];
     protected $casts = [
         'file_name' => 'array',
+        'base64Url' => 'array',
         ];
 }

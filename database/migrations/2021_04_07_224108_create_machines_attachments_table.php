@@ -18,6 +18,7 @@ class CreateMachinesAttachmentsTable extends Migration
             $table->text('file_name');
             $table->unsignedBigInteger('machine_id')->nullable();
             $table->foreign('machine_id')->references('id')->on('machines')->onDelete('cascade');
+            $table->longText('base64Url');
             $table->timestamps();
         });
     }

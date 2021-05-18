@@ -70,12 +70,18 @@ class MachinesController extends Controller
                 $destinationPath = 'Attachments/Machines Attachments/' . $request->name;
                 $file_name = $files->getClientOriginalName();
                 $files->move($destinationPath, $file_name);
+                
+                $base64Image=base64_encode(file_get_contents($destinationPath.'/'.$file_name));
+                $file_extension=$files->getClientOriginalExtension();
+                $image64Url="data:image/".$file_extension.";base64,".$base64Image;
                 $data[]=$file_name;
+                $allImages[]=$image64Url;
                 
             }
             $file = new MachinesAttachments();
             $file->file_name = $data;
             $file->machine_id = $machine_id;
+            $file->base64Url=$allImages;
             $file->save();
            
         }
