@@ -195,10 +195,7 @@ class FormationsController extends Controller
         $formation=formations::findOrFail($request->formation_id);
         $file=formations_attachment::where('formation_id',$request->formation_id)->first();
         if(!empty($file->formation_id)){
-            echo('works');
-            Storage::disk('public_uploads')->deleteDirectory($formation->name);
-           
-            
+            Storage::disk('public_uploads')->deleteDirectory($formation->name);            
         }
         $formation->delete();
         session()->flash('delete','formation has been deleted');

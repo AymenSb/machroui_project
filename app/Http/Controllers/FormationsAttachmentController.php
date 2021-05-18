@@ -85,9 +85,13 @@ class FormationsAttachmentController extends Controller
         }
         $request->file_name->move(public_path('Attachments/Formations Attachments/' .$formation_name ), $new_file);
 
-        
+
+        $base64Image=base64_encode(file_get_contents(public_path('Attachments/Formations Attachments/' .$formation_name.'/'.$new_file)));
+        $file_extension=$image->getClientOriginalExtension();
+        $image64Url="data:image/".$file_extension.";base64,".$base64Image;
         $attachment->update([
             'file_name'=>$new_file,
+            'base64Url'=>$image64Url,
         ]);
 
         return back();
