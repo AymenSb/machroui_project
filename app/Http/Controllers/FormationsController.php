@@ -84,7 +84,7 @@ class FormationsController extends Controller
             $attachments = new formations_attachment();
             $attachments->file_name = $file_name;
             $attachments->formation_id = $formation_id;
-            $attachments->base64Url=$image64Url;
+            $attachments->base64Urls=$image64Url;
             $attachments->save();
 
 
@@ -205,7 +205,7 @@ class FormationsController extends Controller
     function getFormations(){
         $formations=DB::table('formations')
         ->join('formations_attachments','formations.id','formations_attachments.formation_id')
-        ->select('formations.*','formations_attachments.file_name','formations_attachments.base64Url')
+        ->select('formations.*','formations_attachments.file_name','formations_attachments.base64Urls')
         ->get();
         return response()->json($formations);
     }

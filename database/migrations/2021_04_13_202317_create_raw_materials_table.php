@@ -18,7 +18,9 @@ class CreateRawMaterialsTable extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->string('brand');
-            $table->string('price');
+            $table->integer('price');
+            $table->text('images')->nullable();
+            $table->longText('base64Urls')->nullable();
             $table->timestamps();
         });
     }

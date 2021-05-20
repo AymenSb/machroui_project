@@ -54,32 +54,36 @@ class ProjectController extends Controller
             'name' => $request->name,
             'type' => $request->type,
             'informations' => $request->informations,
-        
-
         ]);
+
+
         if ($request->hasFile('image')) {
-            $project_id = project::latest()->first()->id;
+            $project = project::latest()->first();
             $image = $request->file('image');
             foreach ($image as $files) {
                 $destinationPath = 'Attachments/Projects Attachments/' . $request->name;
                 $file_name = $files->getClientOriginalName();
                 $files->move($destinationPath, $file_name);
+                $base64Image=base64_encode(file_get_contents($destinationPath.'/'.$file_name));
+                $file_extension=$files->getClientOriginalExtension();
+                $image64Url="data:image/".$file_extension.";base64,".$base64Image;
                 $data[]=$file_name;
+                $allImages[]=$image64Url;
             }
 
-            $file = new ProjectAttachments();
-            $file->file_name = $data;
-            $file->project_id = $project_id;
-            $file->save();
+            $project->update([
+                'images'=>$data,
+                'base64Urls'=>$allImages,
+            ]);
 
         }
 
         else {
-            $project_id = project::latest()->first()->id;   
-            $file = new ProjectAttachments();
-            $file->file_name = [];
-            $file->project_id = $project_id;
-            $file->save();
+            $project = project::latest()->first();   
+            $project->update([
+                'images'=>[],
+                'base64Urls'=>[],
+            ]);
         }
 
 
@@ -154,7 +158,7 @@ class ProjectController extends Controller
     {
         $project = project::findOrFail($request->project_id);
         $file = ProjectAttachments::where('project_id', $request->project_id)->first();
-        if (!empty($file->project_id)) {
+        if ($project->images) {
             Storage::disk('projects_uploads')->deleteDirectory($project->name);
         }
         $project->delete();
@@ -171,26 +175,36 @@ class ProjectController extends Controller
         return response()->download($file);
     }
     public function deletefile_project(Request $request){
-        $image=ProjectAttachments::findOrfail($request->file_id);
-        $project_name=project::where('id',$request->project_id)->pluck('name')->first();
-        $data= $image->file_name;
+        $project=project::findOrfail($request->project_id);
+        $project_name=$project->name;
+        $data= $project->images;
+        $base64Urls=$project->base64Urls;
+
+        $destinationPath = 'Attachments/Projects Attachments/'.$project_name.'/'.$request->file_name;
+        $path_info=pathinfo($destinationPath);
+        $file_extension=$path_info['extension'];
+        $base64Image=base64_encode(file_get_contents($destinationPath));
+        $image64Url="data:image/".$file_extension.";base64,".$base64Image;
         Storage::disk('projects_uploads')->delete($project_name.'/'.$request->file_name);
       
         if (($key = array_search($request->file_name, $data)) !== false) {
             unset($data[$key]);
         }
-        $image->update([
-            'file_name'=>$data,
-        ]);
+
+        if(($key = array_search($image64Url,$base64Urls))!==false){
+            unset($base64Urls[$key]);
+        }
+
+        $project->update([
+            'images'=>array_values($data),
+            'base64Urls'=>array_values($base64Urls),
+            ]);
         session()->flash('delete','La photo a été supprimée');
         return back();
     }
 
     function getAllProjects(){
-        $projects=DB::table('projects')
-                    ->join('project_attachments','projects.id','project_attachments.project_id')
-                    ->select('projects.*','project_attachments.file_name')
-                    ->get();
+        $projects=project::all();
         return response()->json($projects);
                     
     }

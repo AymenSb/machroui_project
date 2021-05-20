@@ -59,26 +59,30 @@ class RawMaterialsController extends Controller
             'brand'=>$request->brand,
         ]);
         if ($request->hasFile('image')) {
-            $material_id=rawMaterials::latest()->first()->id;
+            $material=rawMaterials::latest()->first();
             $image = $request->file('image');
             foreach ($image as $files) {
                 $destinationPath = 'Attachments/Raw Materials Attachments/'.$request->name;
                 $file_name =$files->getClientOriginalName();
                 $files->move($destinationPath, $file_name);
+                $base64Image=base64_encode(file_get_contents($destinationPath.'/'.$file_name));
+                $file_extension=$files->getClientOriginalExtension();
+                $image64Url="data:image/".$file_extension.";base64,".$base64Image;
                 $data[]=$file_name;
+                $allImages[]=$image64Url;
             }
-            $file= new rawmaterials_attachments();
-            $file->file_name=$data;
-            $file->material_id=$material_id;
-            $file->save();
+            $material->update([
+                'images'=>$data,
+                'base64Urls'=>$allImages,
+            ]);
         }
 
         else{
-            $material_id=rawMaterials::latest()->first()->id;
-            $file= new rawmaterials_attachments();
-            $file->file_name=[];
-            $file->material_id=$material_id;
-            $file->save();
+            $material=rawMaterials::latest()->first();
+            $material->update([
+                'images'=>[],
+                'base64Urls'=>[],
+            ]);
         }
 
         if($request->category){
@@ -163,7 +167,7 @@ class RawMaterialsController extends Controller
     {
         $material=rawMaterials::findOrFail($request->machine_id);
         $file=rawmaterials_attachments::where('material_id',$request->machine_id)->first();
-        if(!empty($file->machine_id)){
+        if($material->images){
             
             Storage::disk('materials_uploads')->deleteDirectory($material->name);     
         }
@@ -184,15 +188,26 @@ class RawMaterialsController extends Controller
     }
 
     public function deletefile_material(Request $request){
-        $image=rawmaterials_attachments::findOrfail($request->file_id);
-        $material_name=rawMaterials::where('id',$request->machine_id)->pluck('name')->first();
-        $data= $image->file_name;
+        $material=rawMaterials::findOrfail($request->material_id);
+        $material_name=$material->name;
+        $images= $material->images;
+        $base64Urls=$material->base64Urls;
+
+        $destinationPath = 'Attachments/Raw Materials Attachments/'.$material_name.'/'.$request->file_name;
+        $path_info=pathinfo($destinationPath);
+        $file_extension=$path_info['extension'];
+        $base64Image=base64_encode(file_get_contents($destinationPath));
+        $image64Url="data:image/".$file_extension.";base64,".$base64Image;
         Storage::disk('materials_uploads')->delete($material_name.'/'.$request->file_name);
-        if (($key = array_search($request->file_name, $data)) !== false) {
-            unset($data[$key]);
+        if (($key = array_search($request->file_name, $images)) !== false) {
+            unset($images[$key]);
         }
-        $image->update([
-            'file_name'=>array_values($data),
+        if(($key = array_search($image64Url,$base64Urls))!==false){
+            unset($base64Urls[$key]);
+        }
+        $material->update([
+            'images'=>array_values($images),
+            'base64Urls'=>array_values($base64Urls),
         ]);
         session()->flash('delete','La photo a été supprimée');
         return back();
@@ -201,10 +216,7 @@ class RawMaterialsController extends Controller
 
     
     function getMaterials(){
-        $raw_materials=DB::table('raw_materials')
-        ->join('rawmaterials_attachments','raw_materials.id','rawmaterials_attachments.material_id')
-        ->select('raw_materials.*','rawmaterials_attachments.file_name')
-        ->get();
+        $raw_materials=rawMaterials::all();
         return response()->json($raw_materials);
     }
 }

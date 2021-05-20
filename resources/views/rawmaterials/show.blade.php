@@ -193,67 +193,72 @@ input[type=number]::-webkit-outer-spin-button {
                             <div class="col-md pr-1">
                                 <div class="form-group">
                                     <label>{{__("Images")}}</label>
-                                    <table id="example1" class="table table-bordered table-striped">
-                                        <thead>
-                                        <tr style=" white-space: nowrap">
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                          <?php $i=0?>
-                                          @foreach ($images->file_name as $item)
-                                          <?php $i++?>
-                                        <tr>
-                                          <td>{{$i}}</td>
-                                          <td>{{$item}}</td>
-                                          <td>
-                                            <a class="btn btn-outline-success btn-sm" target="_blank"
-                                            href= "{{ url('viewfile_material') }}/{{ $material->name }}/{{ $item }}"
-                                            role="button"><i class="fas fa-eye"></i>&nbsp;
-                                            Voir l'image</a></td>
-                                            <td>
-                                        <a class="btn btn-outline-info btn-sm"
-                                            href= "{{ url('download_material') }}/{{ $material->name }}/{{ $item }}"
-                                            role="button"><i
-                                                class="fas fa-download"></i>&nbsp;
-                                            Télécharger</a>
-                                          </td>
-                                         <td>
-                                             @can('modifier matière première')
-                                            <button class="btn btn-outline-danger btn-sm"
-                                            data-toggle="modal"
-                                            data-file_name="{{ $item }}"
-                                            data-material_id="{{ $images->material_id }}"
-                                            data-file_id="{{ $images->id }}"
-                                            data-target="#delete_file">
-                                            <i class="fas fa-trash"></i>&nbsp;Effacer</button>
-                                            @endcan
-                                        </td>
-                                        </tr>
-                                        @endforeach
-                                        </tbody>
-                                      </table>
-                                      @can('modifier matière première')
-                                      <div class="card-body">
-                                        <p class="text-danger">Image de type .jpg, .png </p>
-                                        <h5 class="card-title">Ajouter images</h5>
-                                        <form method="post" action="{{ route('addimage_material.store') }}"
-                                            enctype="multipart/form-data">
-                                            {{ csrf_field() }}
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="file_name"
-                                                    name="file_name[]" required multiple accept=".jpg, .png, image/jpeg, image/png">
-                                                <input type="hidden" id="material_name" name="material_name"
-                                                    value="{{ $material->name }}">
-                                                <input type="hidden" id="material_id" name="material_id"
-                                                    value="{{ $material->id }}">
-                                                <label class="custom-file-label"  for="file_name">Select images
-                                                    </label>
-                                            </div><br><br>
-                                            <button type="submit" class="btn btn-primary btn-sm "
-                                                name="uploadedFile">Ajouter</button>
-                                        </form>
-                                    </div>
-                                    @endcan
+                                @if ($material->images)
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
+                                    <tr style=" white-space: nowrap">
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                      <?php $i=0?>
+                                      @foreach ($material->images as $item)
+                                      <?php $i++?>
+                                    <tr>
+                                      <td>{{$i}}</td>
+                                      <td>{{$item}}</td>
+                                      <td>
+                                        <a class="btn btn-outline-success btn-sm" target="_blank"
+                                        href= "{{ url('viewfile_material') }}/{{ $material->name }}/{{ $item }}"
+                                        role="button"><i class="fas fa-eye"></i>&nbsp;
+                                        Voir l'image</a></td>
+                                        <td>
+                                    <a class="btn btn-outline-info btn-sm"
+                                        href= "{{ url('download_material') }}/{{ $material->name }}/{{ $item }}"
+                                        role="button"><i
+                                            class="fas fa-download"></i>&nbsp;
+                                        Télécharger</a>
+                                      </td>
+                                     <td>
+                                         @can('modifier matière première')
+                                        <button class="btn btn-outline-danger btn-sm"
+                                        data-toggle="modal"
+                                        data-file_name="{{ $item }}"
+                                        data-material_id="{{ $material->id }}"
+                                        data-file_id="{{ $material->id }}"
+                                        data-target="#delete_file">
+                                        <i class="fas fa-trash"></i>&nbsp;Effacer</button>
+                                        @endcan
+                                    </td>
+                                    </tr>
+                                    @endforeach
+                                    </tbody>
+                                  </table>
+                                  @endif
+
+                                  @can('modifier matière première')
+                                  <div class="card-body">
+                                    <p class="text-danger">Image de type .jpg, .png </p>
+                                    <h5 class="card-title">Ajouter images</h5>
+                                    <form method="post" action="{{ route('addimage_material.store') }}"
+                                        enctype="multipart/form-data">
+                                        {{ csrf_field() }}
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="file_name"
+                                                name="file_name[]" required multiple accept=".jpg, .png, image/jpeg, image/png">
+                                            <input type="hidden" id="material_name" name="material_name"
+                                                value="{{ $material->name }}">
+                                            <input type="hidden" id="material_id" name="material_id"
+                                                value="{{ $material->id }}">
+                                            <label class="custom-file-label"  for="file_name">Select images
+                                                </label>
+                                        </div><br><br>
+                                        <button type="submit" class="btn btn-primary btn-sm "
+                                            name="uploadedFile">Ajouter</button>
+                                    </form>
+                                </div>
+
+                                @endcan
+
                                 </div>
                             </div>
                         </div>

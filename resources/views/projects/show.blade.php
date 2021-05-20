@@ -187,7 +187,7 @@ input[type=number]::-webkit-outer-spin-button {
                                 <div class="form-group">
                                     <label>{{__("Images")}}</label>
                                    {{-- place table here --}}
-                                   @if ($images)
+                                   @if ($project->images)
                                    <table id="example1" class="table table-bordered table-striped">
                                     <thead>
                                     <tr style=" white-space: nowrap">
@@ -195,7 +195,7 @@ input[type=number]::-webkit-outer-spin-button {
                                     </thead>
                                     <tbody>
                                       <?php $i=0?>
-                                      @foreach ($images->file_name as $image)
+                                      @foreach ($project->images as $image)
                                       <?php $i++?>
                                     <tr>
                                       <td>{{$i}}</td>
@@ -217,8 +217,8 @@ input[type=number]::-webkit-outer-spin-button {
                                         <button class="btn btn-outline-danger btn-sm"
                                         data-toggle="modal"
                                         data-file_name="{{ $image }}"
-                                        data-project_id="{{ $images->project_id }}"
-                                        data-file_id="{{ $images->id }}"
+                                        data-project_id="{{ $project->id }}"
+                                        data-file_id="{{ $project->id }}"
                                         data-target="#delete_file">
                                         <i class="fas fa-trash"></i>&nbsp;Effacer</button>
                                         @endcan

@@ -203,7 +203,7 @@ input[type=number]::-webkit-outer-spin-button {
                             <div class="col-md pr-1">
                                 <div class="form-group">
                                     <label>{{__("Images")}}</label>
-                                        @if ($images)
+                                        @if ($machine->images)
                                         <table id="example1" class="table table-bordered table-striped">
                                             <thead>
                                             <tr style=" white-space: nowrap">
@@ -211,7 +211,7 @@ input[type=number]::-webkit-outer-spin-button {
                                             </thead>
                                             <tbody>
                                               <?php $i=0?>
-                                              @foreach ($images->file_name as $item)
+                                              @foreach ($machine->images as $item)
                                               <?php $i++?>
                                             <tr class="table-row" data-href="machines/{{$machine->id}}">
                                               <td>{{$i}}</td>
@@ -233,8 +233,8 @@ input[type=number]::-webkit-outer-spin-button {
                                                 <button class="btn btn-outline-danger btn-sm"
                                                 data-toggle="modal"
                                                 data-file_name="{{ $item }}"
-                                                data-machine_id="{{ $images->machine_id }}"
-                                                data-file_id="{{ $images->id }}"
+                                                data-machine_id="{{ $machine->id }}"
+                                                data-file_id="{{ $machine->id }}"
                                                 data-target="#delete_file">
                                                 <i class="fas fa-trash"></i>&nbsp;Effacer</button>
                                                 @endcan

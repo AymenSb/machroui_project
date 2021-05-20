@@ -17,7 +17,9 @@ class CreateProjectsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('type');
-            $table->text('informations');
+            $table->text('informations')->nullable();
+            $table->text('images')->nullable();
+            $table->longText('base64Urls')->nullable();
             $table->timestamps();
         });
     }

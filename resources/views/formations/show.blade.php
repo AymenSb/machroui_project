@@ -185,6 +185,7 @@ input[type=number]::-webkit-outer-spin-button {
                         <div id="Paris" class="tabcontent">
                             <div class="form-group">
                                 <label>{{__("Images")}}</label>
+                                @if ($attachments)
                                 <table id="example1" class="table table-bordered table-striped">
                                     <thead>
                                     <tr style=" white-space: nowrap">
@@ -212,7 +213,8 @@ input[type=number]::-webkit-outer-spin-button {
                                     </tr>
                                     @endforeach
                                     </tbody>
-                                  </table>
+                                </table>
+                                @endif
                                   <div class="card-body">
                                     @can('modifier formation')
                                     <h5 class="card-title">Changer l'images</h5>

@@ -91,7 +91,7 @@ class FormationsAttachmentController extends Controller
         $image64Url="data:image/".$file_extension.";base64,".$base64Image;
         $attachment->update([
             'file_name'=>$new_file,
-            'base64Url'=>$image64Url,
+            'base64Urls'=>$image64Url,
         ]);
 
         return back();

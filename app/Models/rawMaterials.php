@@ -9,6 +9,10 @@ class rawMaterials extends Model
 {
     use HasFactory;
     protected $guarded=[];
+    protected $casts = [
+        'images' => 'array',
+        'base64Urls'=>'array',
+        ];
 
     public function file()
     {

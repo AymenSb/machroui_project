@@ -9,10 +9,13 @@ class machines extends Model
 {
     use HasFactory;
     protected $guarded = [];
-    public function file()
-    {
-        return $this->hasOne(MachinesAttachments::class,'machine_id','id');
-    }
+
+    protected $casts = [
+        'images' => 'array',
+        'base64Urls' => 'array',
+        ];
+
+  
 
     public function subcategory()
     {

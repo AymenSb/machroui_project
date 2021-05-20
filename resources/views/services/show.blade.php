@@ -183,45 +183,47 @@ input[type=number]::-webkit-outer-spin-button {
                             <div class="col-md pr-1">
                                 <div class="form-group">
                                     <label>{{__("Images")}}</label>
-                                    <table id="example1" class="table table-bordered table-striped">
-                                        <thead>
-                                        <tr style=" white-space: nowrap">
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                          <?php $i=0?>
-                                          @foreach ($images->file_name as $item)
-                                          <?php $i++?>
-                                        <tr>
-                                          <td>{{$i}}</td>
-                                          <td>{{$item}}</td>
-                                          <td>
-                                            <a class="btn btn-outline-success btn-sm" target="_blank"
-                                            href= "{{ url('viewfile_service') }}/{{ $service->name }}/{{ $item }}"
-                                            role="button"><i class="fas fa-eye"></i>&nbsp;
-                                            Voir l'image</a></td>
-                                            <td>
-                                        <a class="btn btn-outline-info btn-sm"
-                                            href= "{{ url('download_service') }}/{{ $service->name }}/{{ $item }}"
-                                            role="button"><i
-                                                class="fas fa-download"></i>&nbsp;
-                                            Télécharger</a>
-                                          </td>
-                                         <td>
-                                             @can('modifier service')
-                                            <button class="btn btn-outline-danger btn-sm"
-                                            data-toggle="modal"
-                                            data-file_name="{{ $item }}"
-                                            data-service_id="{{ $images->service_id }}"
-                                            data-file_id="{{ $images->id }}"
-                                            data-target="#delete_file">
-                                            <i class="fas fa-trash"></i>&nbsp;Effacer</button>
-                                            @endcan
-                                        </td>
-                                        </tr>
-                                        @endforeach
-                                        </tbody>
-                                      </table>
+                                        @if ($service->images)
+                                        <table id="example1" class="table table-bordered table-striped">
+                                            <thead>
+                                            <tr style=" white-space: nowrap">
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                              <?php $i=0?>
+                                              @foreach ($service->images as $item)
+                                              <?php $i++?>
+                                            <tr>
+                                              <td>{{$i}}</td>
+                                              <td>{{$item}}</td>
+                                              <td>
+                                                <a class="btn btn-outline-success btn-sm" target="_blank"
+                                                href= "{{ url('viewfile_service') }}/{{ $service->name }}/{{ $item }}"
+                                                role="button"><i class="fas fa-eye"></i>&nbsp;
+                                                Voir l'image</a></td>
+                                                <td>
+                                            <a class="btn btn-outline-info btn-sm"
+                                                href= "{{ url('download_service') }}/{{ $service->name }}/{{ $item }}"
+                                                role="button"><i
+                                                    class="fas fa-download"></i>&nbsp;
+                                                Télécharger</a>
+                                              </td>
+                                             <td>
+                                                 @can('modifier service')
+                                                <button class="btn btn-outline-danger btn-sm"
+                                                data-toggle="modal"
+                                                data-file_name="{{ $item }}"
+                                                data-service_id="{{ $service->id }}"
+                                                data-file_id="{{ $service->id }}"
+                                                data-target="#delete_file">
+                                                <i class="fas fa-trash"></i>&nbsp;Effacer</button>
+                                                @endcan
+                                            </td>
+                                            </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                        @endif
                                       @can('modifier service')
                                       <div class="card-body">
                                         <p class="text-danger">Image de type .jpg, .png </p>

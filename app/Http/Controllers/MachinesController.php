@@ -64,7 +64,7 @@ class MachinesController extends Controller
 
         ]);
         if ($request->hasFile('image')) {
-            $machine_id = machines::latest()->first()->id;
+            $machine = machines::latest()->first();
             $image = $request->file('image');
             foreach ($image as $files) {
                 $destinationPath = 'Attachments/Machines Attachments/' . $request->name;
@@ -78,20 +78,20 @@ class MachinesController extends Controller
                 $allImages[]=$image64Url;
                 
             }
-            $file = new MachinesAttachments();
-            $file->file_name = $data;
-            $file->machine_id = $machine_id;
-            $file->base64Url=$allImages;
-            $file->save();
+            $machine->update([
+                'images'=>$data,
+                'base64Urls'=>$allImages,
+            ]);
            
         }
 
+
         else{
-            $machine_id = machines::latest()->first()->id;
-            $file = new MachinesAttachments();
-            $file->file_name = [];
-            $file->machine_id = $machine_id;
-            $file->save();
+            $machine = machines::latest()->first();
+            $machine->update([
+               'images'=>[],
+               'base64Urls'=>[],
+           ]);
         }
 
         if($request->category){
@@ -115,8 +115,7 @@ class MachinesController extends Controller
     public function show($id)
     {
         $machine = machines::findOrFail($id);
-        $images = MachinesAttachments::where('machine_id', $id)->first();
-        return view('machines/machines/show', compact('machine', 'images'));
+        return view('machines/machines/show', compact('machine'));
     }
 
     /**
@@ -198,9 +197,7 @@ class MachinesController extends Controller
     public function destroy(Request $request)
     {
         $machine = machines::findOrFail($request->machine_id);
-        $file = MachinesAttachments::where('machine_id', $request->machine_id)->first();
-        if (!empty($file->machine_id)) {
-            echo ('works');
+        if ($machine->images) {
             Storage::disk('machines_uploads')->deleteDirectory($machine->name);
 
         }
@@ -243,16 +240,29 @@ class MachinesController extends Controller
 
     public function deletefile(Request $request)
     {
-        $image = MachinesAttachments::findOrfail($request->file_id);
+        $machine = machines::findOrfail($request->file_id);
         $machine_name = machines::where('id', $request->machine_id)->pluck('name')->first();
-        $data= $image->file_name;
+        $images= $machine->images;
+        $Base64Urls=$machine->base64Urls;
+        $base64Image=base64_encode(file_get_contents('Attachments/Machines Attachments/'.$machine_name.'/'.$request->file_name));
+        $pathInfo=pathinfo(public_path('Attachments/Machines Attachments/'.$machine_name.'/'.$request->file_name,PATHINFO_EXTENSION));
+        $file_extension=$pathInfo['extension'];
+        $image64Url="data:image/".$file_extension.";base64,".$base64Image;
+
         Storage::disk('machines_uploads')->delete($machine_name . '/' . $request->file_name);
      
-        if (($key = array_search($request->file_name, $data)) !== false) {
-            unset($data[$key]);
-        }
-        $image->update([
-            'file_name'=>array_values($data),
+         if (($key = array_search($request->file_name, $images)) !== false) {
+             unset($images[$key]);
+         }
+
+            if(($key = array_search($image64Url,$Base64Urls))!==false){
+                unset($Base64Urls[$key]);
+            }
+
+
+        $machine->update([
+            'images'=>array_values($images),
+            'base64Urls'=>array_values($Base64Urls),
         ]);
         session()->flash('delete','La photo a été supprimée');
         return back();
@@ -260,10 +270,7 @@ class MachinesController extends Controller
 
 
     function getMachines(){
-        $machines=DB::table('machines')
-        ->join('machines_attachments','machines.id','machines_attachments.machine_id')
-        ->select('machines.*','machines_attachments.file_name')
-        ->get();
+        $machines=machines::all();
         return response()->json($machines);
     }
 }

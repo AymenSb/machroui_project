@@ -23,6 +23,8 @@ class CreateMachinesTable extends Migration
             $table->longtext('markDetails');
             $table->String('state');//check
             $table->integer('stateVal');//check
+            $table->text('images')->nullable();
+            $table->longText('base64Urls')->nullable();
             $table->timestamps();
         });
     }

@@ -9,10 +9,10 @@ class services extends Model
 {
     use HasFactory;
     protected $guarded=[];
-    
+    protected $casts = [
+        'images' => 'array',
+        'base64Urls' => 'array',
+        ];
 
-    public function file()
-    {
-        return $this->hasOne(services::class,'service_id', 'id');
-    }
+    
 }
