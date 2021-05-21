@@ -15,6 +15,7 @@ class CreateFormationsTable extends Migration
     {
         Schema::create('formations', function (Blueprint $table) {
             $table->id();
+            $table->string('type')->default('formation');
             $table->string('name');
             $table->date('begin_date');
             $table->string('places')->nullable();

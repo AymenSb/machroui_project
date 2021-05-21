@@ -15,6 +15,7 @@ class CreateMachinesTable extends Migration
     {
         Schema::create('machines', function (Blueprint $table) {
             $table->id();
+            $table->string('type')->default('machine');
             $table->String('name'); //check
             $table->String('price');//check
             $table->String('Vendor')->nullable();//check

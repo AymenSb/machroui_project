@@ -56,7 +56,7 @@ textarea::-webkit-scrollbar-thumb {
   
                               <div class="col">
                                     <label for="inputName" class="control-label">Type du projet</label>
-                                    <input type="number" class="form-control" id="type" name="type"
+                                    <input type="text" class="form-control" id="type" name="type"
                                     title="Veuillez saisir le nom de la formation" required>
                                 </div>
   

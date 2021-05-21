@@ -131,7 +131,7 @@ input[type=number]::-webkit-outer-spin-button {
                     <div class="card-body all-icons">
                         @can('modifier projet')
                         <a href="#modaldemo9"
-                        data-type="{{$project->type}}"
+                        data-type="{{$project->project_type}}"
                         data-informations="{{$project->informations}}"
                         data-name="{{$project->name}}"
                         data-id="{{$project->id}}" 
@@ -162,7 +162,7 @@ input[type=number]::-webkit-outer-spin-button {
                                 <div class="col-md-2 pr-1">
                                   <div class="form-group">
                                     <label for="exampleInputEmail1">{{__("Type")}}</label>
-                                    <span type="text" name="type" class="form-control">{{$project->type}}<span>
+                                    <span type="text" name="type" class="form-control">{{$project->project_type}}<span>
                                   </div>
                                 </div>
                                

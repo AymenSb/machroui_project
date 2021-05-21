@@ -52,7 +52,7 @@ class ProjectController extends Controller
     {
         project::create([
             'name' => $request->name,
-            'type' => $request->type,
+            'project_type' => $request->type,
             'informations' => $request->informations,
         ]);
 
@@ -130,7 +130,7 @@ class ProjectController extends Controller
         $old_name = $machine->name;
         $machine->update([
             'name' => $request->name,
-            'type' => $request->type,
+            'project_type' => $request->type,
             'informations' => $request->informations,
       
         ]);

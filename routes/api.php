@@ -26,8 +26,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/latests',[apis_controller::class,'latests']);
+
+
 Route::get('/api_projects',[ProjectController::class,'getAllProjects']);
+
+
 Route::get('/api_formations',[FormationsController::class,'getFormations']);
+Route::get('/api_formations/{id}',[FormationsController::class,'getFormationById']);
+
+
 Route::get('/api_machines',[MachinesController::class,'getMachines']);
+
+
 Route::get('/api_materials',[RawMaterialsController::class,'getMaterials']);
 

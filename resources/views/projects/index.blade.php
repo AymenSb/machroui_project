@@ -90,7 +90,7 @@ cursor:pointer;
                   <tr>
                     <td  class="table-row" data-href="project/{{$project->id}}">{{$i}}</td>
                     <td  class="table-row" data-href="project/{{$project->id}}">{{$project->name}}</td>
-                    <td  class="table-row" data-href="project/{{$project->id}}">{{$project->type}}</td>
+                    <td  class="table-row" data-href="project/{{$project->id}}">{{$project->project_type}}</td>
                     <td >
                     
                       @can('effacer projet')

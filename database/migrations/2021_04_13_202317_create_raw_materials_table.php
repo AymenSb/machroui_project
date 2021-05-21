@@ -15,6 +15,7 @@ class CreateRawMaterialsTable extends Migration
     {
         Schema::create('raw_materials', function (Blueprint $table) {
             $table->id();
+            $table->string('type')->default('matière première');
             $table->string('name');
             $table->string('description')->nullable();
             $table->string('brand');

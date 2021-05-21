@@ -210,5 +210,15 @@ class FormationsController extends Controller
         return response()->json($formations);
     }
 
+    function getFormationById($id){
+        $formation=DB::table('formations')
+        ->join('formations_attachments','formations.id','formations_attachments.formation_id')
+        ->where('formations.id',$id)
+        ->select('formations.*','formations_attachments.file_name','formations_attachments.base64Urls')
+        ->first();
+       
+        return response()->json($formation);
+    }
+
    
 }
