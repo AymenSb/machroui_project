@@ -219,5 +219,10 @@ class RawMaterialsController extends Controller
         $raw_materials=rawMaterials::all();
         return response()->json($raw_materials);
     }
+
+    function getMaterialById($id){
+        $raw_material=rawMaterials::where('id',$id)->first();
+        return response()->json($raw_material);
+    }
 }
 

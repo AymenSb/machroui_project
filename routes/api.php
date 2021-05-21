@@ -29,6 +29,7 @@ Route::get('/latests',[apis_controller::class,'latests']);
 
 
 Route::get('/api_projects',[ProjectController::class,'getAllProjects']);
+Route::get('/api_projects/{id}',[ProjectController::class,'getProjectById']);
 
 
 Route::get('/api_formations',[FormationsController::class,'getFormations']);
@@ -36,7 +37,9 @@ Route::get('/api_formations/{id}',[FormationsController::class,'getFormationById
 
 
 Route::get('/api_machines',[MachinesController::class,'getMachines']);
+Route::get('/api_machines/{id}',[MachinesController::class,'getMachineById']);
 
 
 Route::get('/api_materials',[RawMaterialsController::class,'getMaterials']);
+Route::get('/api_materials/{id}',[RawMaterialsController::class,'getMaterialById']);
 

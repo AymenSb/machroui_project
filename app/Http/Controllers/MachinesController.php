@@ -273,4 +273,9 @@ class MachinesController extends Controller
         $machines=machines::all();
         return response()->json($machines);
     }
+
+    function getMachineById($id){
+        $machine=machines::where('id',$id)->first();
+        return response()->json($machine);
+    }
 }

@@ -208,4 +208,10 @@ class ProjectController extends Controller
         return response()->json($projects);
                     
     }
+
+
+    function getProjectById($id){
+        $projects=project::where('id',$id)->first();
+        return response()->json($projects);
+    }
 }
