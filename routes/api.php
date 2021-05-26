@@ -33,6 +33,7 @@ Route::get('/api_projects/{id}',[ProjectController::class,'getProjectById']);
 
 
 Route::get('/api_formations',[FormationsController::class,'getFormations']);
+Route::get('/api_formationsCat/{id}',[FormationsController::class,'getFormationsCat']);
 Route::get('/api_formations/{id}',[FormationsController::class,'getFormationById']);
 
 

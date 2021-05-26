@@ -220,5 +220,15 @@ class FormationsController extends Controller
         return response()->json($formation);
     }
 
+    function getFormationsCat($id){
+        $formations=db::table('formations')
+                    ->join('formations_subcategory','formations.id','formations_subcategory.formations_id')
+                    ->where('formations_subcategory.subcategory_id',$id)
+                    ->select('formations.*')
+                    ->get();
+                    
+        return response()->json($formations);
+    }
+
    
 }
