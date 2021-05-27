@@ -133,4 +133,10 @@ class CategoryController extends Controller
         return json_encode($subcategories);
   
     }
+
+
+    public function getCategories(){
+        $categories=Category::with('subcategory')->get();
+        return $categories;
+    }
 }

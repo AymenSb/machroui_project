@@ -222,9 +222,10 @@ class FormationsController extends Controller
 
     function getFormationsCat($id){
         $formations=db::table('formations')
+                    ->join('formations_attachments','formations.id','formations_attachments.formation_id')
                     ->join('formations_subcategory','formations.id','formations_subcategory.formations_id')
                     ->where('formations_subcategory.subcategory_id',$id)
-                    ->select('formations.*')
+                    ->select('formations.*','formations_attachments.file_name','formations_attachments.base64Urls')
                     ->get();
                     
         return response()->json($formations);

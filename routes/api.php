@@ -8,6 +8,7 @@ use App\Http\Controllers\FormationsController;
 use App\Http\Controllers\MachinesController;
 use App\Http\Controllers\RawMaterialsController;
 use App\Http\Controllers\apis_controller;
+use App\Http\Controllers\CategoryController;
 
 
 /*
@@ -38,9 +39,13 @@ Route::get('/api_formations/{id}',[FormationsController::class,'getFormationById
 
 
 Route::get('/api_machines',[MachinesController::class,'getMachines']);
+Route::get('/api_machinesCat/{id}',[MachinesController::class,'getMachinesCat']);
 Route::get('/api_machines/{id}',[MachinesController::class,'getMachineById']);
 
 
 Route::get('/api_materials',[RawMaterialsController::class,'getMaterials']);
 Route::get('/api_materials/{id}',[RawMaterialsController::class,'getMaterialById']);
+
+
+Route::get('/api_categories',[CategoryController::class,'getCategories']);
 

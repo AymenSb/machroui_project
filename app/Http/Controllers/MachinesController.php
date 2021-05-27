@@ -81,6 +81,7 @@ class MachinesController extends Controller
             $machine->update([
                 'images'=>$data,
                 'base64Urls'=>$allImages,
+                'main_image'=>$allImages[0],
             ]);
            
         }
@@ -249,7 +250,6 @@ class MachinesController extends Controller
         $file_extension=$pathInfo['extension'];
         $image64Url="data:image/".$file_extension.";base64,".$base64Image;
 
-        Storage::disk('machines_uploads')->delete($machine_name . '/' . $request->file_name);
      
          if (($key = array_search($request->file_name, $images)) !== false) {
              unset($images[$key]);
@@ -259,11 +259,23 @@ class MachinesController extends Controller
                 unset($Base64Urls[$key]);
             }
 
+            if($Base64Urls){
+                $machine->update([
+                    'images'=>array_values($images),
+                    'base64Urls'=>array_values($Base64Urls),
+                    'main_image'=>$Base64Urls[1],
+                ]);
+            }
 
-        $machine->update([
-            'images'=>array_values($images),
-            'base64Urls'=>array_values($Base64Urls),
-        ]);
+            else{
+                $machine->update([
+                    'images'=>array_values($images),
+                    'base64Urls'=>array_values($Base64Urls),
+                    'main_image'=>''
+                ]);
+            }
+       
+    Storage::disk('machines_uploads')->delete($machine_name . '/' . $request->file_name);
         session()->flash('delete','La photo a été supprimée');
         return back();
     }
@@ -277,5 +289,14 @@ class MachinesController extends Controller
     function getMachineById($id){
         $machine=machines::where('id',$id)->first();
         return response()->json($machine);
+    }
+
+    function getMachinesCat($id){
+        $machines=db::table('machines')
+                    ->join('machines_subcategory','machines.id','machines_subcategory.machines_id')
+                    ->where('machines_subcategory.subcategory_id',$id)
+                    ->select('machines.*')
+                    ->get();
+      return $machines;
     }
 }
