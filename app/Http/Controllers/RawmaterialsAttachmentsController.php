@@ -60,6 +60,7 @@ class RawmaterialsAttachmentsController extends Controller
             $material->update([
                 'images'=>$new_data,
                 'base64Urls'=>$new_base64Urls,
+                'main_image'=>$new_base64Urls[0],
             ]); 
             session()->flash('created',"L'image a été créée");
             return back();

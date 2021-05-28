@@ -44,6 +44,7 @@ Route::get('/api_machines/{id}',[MachinesController::class,'getMachineById']);
 
 
 Route::get('/api_materials',[RawMaterialsController::class,'getMaterials']);
+Route::get('/api_materialsCat/{id}',[RawMaterialsController::class,'getMaterialsCat']);
 Route::get('/api_materials/{id}',[RawMaterialsController::class,'getMaterialById']);
 
 

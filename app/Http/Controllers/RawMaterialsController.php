@@ -74,6 +74,7 @@ class RawMaterialsController extends Controller
             $material->update([
                 'images'=>$data,
                 'base64Urls'=>$allImages,
+                'main_image'=>$allImages[0]
             ]);
         }
 
@@ -205,10 +206,22 @@ class RawMaterialsController extends Controller
         if(($key = array_search($image64Url,$base64Urls))!==false){
             unset($base64Urls[$key]);
         }
-        $material->update([
-            'images'=>array_values($images),
-            'base64Urls'=>array_values($base64Urls),
-        ]);
+        if($base64Urls){
+            $material->update([
+                'images'=>array_values($images),
+                'base64Urls'=>array_values($base64Urls),
+                'main_image'=>$base64Urls[1],
+            ]);
+        }
+
+        else{
+            $material->update([
+                'images'=>array_values($images),
+                'base64Urls'=>array_values($base64Urls),
+                'main_image'=>'',  
+            ]);
+        }
+        
         session()->flash('delete','La photo a été supprimée');
         return back();
     }
@@ -223,6 +236,15 @@ class RawMaterialsController extends Controller
     function getMaterialById($id){
         $raw_material=rawMaterials::where('id',$id)->first();
         return response()->json($raw_material);
+    }
+
+    function getMaterialsCat($id){
+        $materials=db::table('raw_materials')
+        ->join('raw_materials_subcategory','raw_materials.id','raw_materials_subcategory.raw_materials_id')
+        ->where('raw_materials_subcategory.subcategory_id',$id)
+        ->select('raw_materials.*')
+        ->get();
+        return $materials;
     }
 }
 
