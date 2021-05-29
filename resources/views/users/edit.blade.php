@@ -78,8 +78,10 @@
                                 </div>
                             </div>
                         </div>
+                        <br>
+                        <br>
                         <div class="mg-t-30" style="align-items: center">
-                            <button class="btn btn-main-primary pd-x-20" type="submit">Mettre à jour</button>
+                            <button class="btn btn-info pd-x-20" type="submit">Mettre à jour</button>
                         </div>
                         {!! Form::close() !!}
                     </div>

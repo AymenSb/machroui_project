@@ -19,8 +19,7 @@ class RolesTableSeeder extends Seeder
     public function run()
     {
         $roles = [
-            'Client',
-            'Vendeur'
+            'Utilisateur',
         ];
 
         foreach ($roles as $role) {
