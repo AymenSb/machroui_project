@@ -55,8 +55,7 @@
                             </div>
 
                         </div>
-                        @foreach ($user->roles_name as $role)
-                        @if ($role=='Client'||$role=='Vendeur')
+                        @if ($user->roles_name!='Admin')
                         <div class="row mg-b-20">
                             <div class="parsley-input col-md-6 mg-t-20 mg-md-t-0" id="lnWrapper">
                                 <label>Mot de passe <span class="text-danger">*</span></label>
@@ -68,7 +67,6 @@
                             </div>
                         </div> 
                         @endif 
-                        @endforeach
                         <br>
                         <div class="row mg-b-20">
                             <div class="col-xs-12 col-sm-12 col-md-12">
@@ -76,7 +74,7 @@
                                     <strong>Type d'utilisateur</strong>
                                     <br>
                                     <br>
-                                    {!! Form::select('roles_names[]', $roles, $userRole, ['class' => 'form-control']) !!}
+                                    {!! Form::select('roles_name', $roles, $userRole, ['class' => 'form-control']) !!}
                                 </div>
                             </div>
                         </div>

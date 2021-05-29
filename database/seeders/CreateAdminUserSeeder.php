@@ -19,7 +19,7 @@ public function run()
         'name' => 'Aymen Sbei', 
         'email' => 'admin@gmail.com',
         'password' => bcrypt('123456'),
-        'roles_name' => ["Admin"],
+        'roles_name' => "Admin",
         
         ]);
   

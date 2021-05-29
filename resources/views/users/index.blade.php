@@ -57,11 +57,9 @@
 
                                             <td style="text-align: center">
                                                 @if (!empty($user->getRoleNames()))
-                                                @foreach ($user->roles_name as $role)
                                                 <label class="badge badge-success"
-                                                style="color: antiquewhite;">{{ $role}}</label>
+                                                style="color: antiquewhite;">{{ $user->roles_name}}</label>
 
-                                                @endforeach
                                                     {{-- @foreach ($user->getRoleNames() as $v)
                                                         <label class="badge badge-success"
                                                             style="color: antiquewhite;">{{ $v }}</label>

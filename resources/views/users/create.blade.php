@@ -64,7 +64,7 @@
                                 <div class="col-xs-12 col-md-12">
                                     <div class="form-group">
                                         <label class="form-label" aria-required> Privilèges d'utilisateur</label>
-                                        {!! Form::select('roles_name[]', $roles, [], ['class' => 'form-control', ]) !!}
+                                        {!! Form::select('roles_name', $roles, [], ['class' => 'form-control', ]) !!}
                                     </div>
                                 </div>
                             </div>
