@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+
 
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\FormationsController;
@@ -9,6 +11,7 @@ use App\Http\Controllers\MachinesController;
 use App\Http\Controllers\RawMaterialsController;
 use App\Http\Controllers\apis_controller;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\UserController;
 
 
 /*
@@ -50,3 +53,16 @@ Route::get('/api_materials/{id}',[RawMaterialsController::class,'getMaterialById
 
 Route::get('/api_categories',[CategoryController::class,'getCategories']);
 
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'auth'
+
+], function ($router) {
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/refresh', [AuthController::class, 'refresh']);
+    Route::get('/user-profile', [AuthController::class, 'userProfile']);
+});
+
+Route::post('/user-update-info/{id}',[UserController::class,'updateUserInfo']);  

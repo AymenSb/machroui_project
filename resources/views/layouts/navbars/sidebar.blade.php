@@ -69,15 +69,37 @@
           </ul>
         </div>
       </li>
-      @can('formations')
-      <li class="@if ($activePage == 'icons') active @endif">
-        <a href="{{ route('formations.index') }}">
-          <i class="now-ui-icons education_atom"></i>
-          <p>{{ __('Formations') }}</p>
-        </a>
-      </li>
 
-      @endcan
+
+      <li>
+        @can('formations')
+        <a data-toggle="collapse" href="#formations">
+          <i class="now-ui-icons users_single-02"></i>
+          <p>
+            {{ __("Formations") }}
+            <b class="caret"></b>
+          </p>
+        </a>
+        @endcan
+
+        <div class="collapse" id="formations">
+          <ul class="nav">
+            <li class="@if ($activePage == 'formations') active @endif">
+              <a href="{{ route('formations.index') }}">
+                <i class="now-ui-icons users_single-02"></i>
+                <p> {{ __("Gestion des formations") }} </p>
+              </a>
+            </li>
+            
+            <li class="@if ($activePage == 'FormationsRequests') active @endif">
+              <a href="{{ route('formations-requests.index') }}">
+                <i class="now-ui-icons users_single-02"></i>
+                <p> {{ __("Demandes de formations") }} </p>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
 
       @can('matières premières')
       <li class = " @if ($activePage == 'Matiéres premiéres') active @endif">

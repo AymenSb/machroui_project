@@ -18,6 +18,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectAttachmentsController;
+use App\Http\Controllers\FormationsRequestsController;
 
 
 
@@ -38,6 +39,7 @@ Route::get('/', function () {
 
 
 Route::resource('formations', FormationsController::class);
+Route::resource('formations-requests', FormationsRequestsController::class);
 Route::resource('attachment', FormationsAttachmentController::class);
 Route::resource('machines',MachinesController::class);
 Route::resource('rawmaterials',RawMaterialsController::class);
@@ -61,7 +63,7 @@ Route::get('NewMachines',[MachinesController::class,'indexNew'])->name('new')->m
 Route::get('UsedMachines',[MachinesController::class,'indexUsed'])->name('used')->middleware('permission:machines occasions');
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home')->middleware('permission:accès au tableau de bord');
 Route::group(['middleware' => 'auth'], function () {

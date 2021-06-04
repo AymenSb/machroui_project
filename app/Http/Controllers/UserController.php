@@ -5,8 +5,10 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use DB;
 use Hash;
+use Validator;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+
 
 class UserController extends Controller
 {
@@ -124,6 +126,117 @@ class UserController extends Controller
         User::find($id)->delete();
         return redirect()->route('users.index')
             ->with('success', 'User deleted successfully');
+    }
+
+
+    //API for users update
+    protected function updateUserInfo(Request $request,$id){
+        $user=User::findOrfail($id);
+        //update one by one info for user
+
+        if($request->name!=''){
+            $validator=Validator::make($request->all(),[
+                'name'=>'string|between:3,100',
+            ],
+            [
+                'name.between'=>'Le nom est trop court',
+            ]
+        );
+         if($validator->fails()){
+            return response()->json($validator->errors());
+        }
+            $user->update([
+                'name'=>$request->name,
+            ]);
+        }
+
+
+        if($request->surname!=''){
+            $validator=Validator::make($request->all(),[
+                'surname'=>'string|between:3,100',
+            ],
+            [
+                'surname.between'=>'Le Prénom est trop court',
+            ]
+        );
+         if($validator->fails()){
+            return response()->json($validator->errors());
+        }
+            $user->update([
+                'surname'=>$request->surname,
+            ]);
+        }
+
+
+        if($request->email!=''){
+            $validator=Validator::make($request->all(),[
+                'email'=>'unique:users|email',
+            ],
+            [
+                'email.unique'=>'Cet E-mail existe déjà',
+                'email.email'=>'Vérifier votre E-mail',
+            ]
+        );
+         if($validator->fails()){
+            return response()->json($validator->errors());
+        }
+            $user->update([
+                'email'=>$request->email,
+            ]);
+        }
+
+
+
+        if($request->phone_number!=''){
+            $validator=Validator::make($request->all(),[
+                'phone_number'=>'unique:users|integer|digits:8',
+            ],
+            [
+                'phone_number.digits'=>'Vérifiez votre numéro de téléphone',
+                'phone_number.integer'=>'Vérifiez votre numéro de téléphone',
+                'phone_number.unique'=>'Ce numéro de téléphone déjà utilisé',
+            ]
+        );
+         if($validator->fails()){
+            return response()->json($validator->errors());
+        }
+
+            $user->update([
+                
+                'phone_number'=>$request->phone_number,
+            ]);
+        }
+
+        if($request->newpassword && $request->oldpassword){
+        
+            $hashedpassword=$user->password;
+            if(Hash::check($request->oldpassword,$hashedpassword)){
+                if(!Hash::check($request->newpassword,$hashedpassword)){
+                    $user->update([
+                        'password'=>Hash::make($request->newpassword),
+                    ]);
+                }
+
+                else{
+                    return response()->json([
+                        'error'=>'Nouveau mot de passe doit être différent'
+                    ]);
+                }
+            }
+
+            else{
+                return response()->json([
+                    'error'=>'Vérifier votre mot de passe'
+                ]);
+            }
+        }
+                
+       //return user info with success message
+
+        return response()->json([
+            'message' => 'vos informations ont été mises à jour',
+            'user' => $user
+        ], 201);
     }
 
 }

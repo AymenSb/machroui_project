@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\subcategory;
 use App\Models\formations;
 use App\Models\formations_attachment;
+use App\Models\formations_requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB ;
 use File;
@@ -116,8 +117,11 @@ class FormationsController extends Controller
         if($formations==null){
             return redirect('/formations');
         }
+        $subscribers=formations_requests::where('formation_id',$id)
+                                        ->where('Accpted',1)
+                                        ->get();
         $attachments=formations_attachment::where('formation_id',"=",$id)->get();
-        return view('formations.show', ['formation' => $formations],['attachments'=>$attachments]);
+        return view('formations.show', ['formation' => $formations],compact('subscribers','attachments'));
     }
 
     /**

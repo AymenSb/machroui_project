@@ -1,7 +1,7 @@
 @extends('layouts.app', [
     'namePage' => 'Formations',
     'class' => 'sidebar-mini',
-    'activePage' => 'icons',
+    'activePage' => 'formations',
 ])
 @section('css')
       <!-- DataTables -->

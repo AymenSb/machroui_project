@@ -122,6 +122,7 @@ input[type=number]::-webkit-outer-spin-button {
                             <button class="tablinks" onclick="openCity(event, 'plan')">Plan</button>
                             <button class="tablinks" onclick="openCity(event, 'link')">Lien</button>
                             <button class="tablinks" onclick="openCity(event, 'Paris')">Image</button>
+                            <button class="tablinks" onclick="openCity(event, 'les abonnés')">les abonnés</button>
                         </div>
                         @endcan
                         <!-- Tab content -->
@@ -239,6 +240,80 @@ input[type=number]::-webkit-outer-spin-button {
                                 </div>
                             </div>
                         </div>
+
+
+                        <div id="les abonnés" class="tabcontent">
+                            {{-- 1 --}}
+                            <div class="row">
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
+                                    <tr style=" white-space: nowrap">
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                      <?php $i=0?>
+                                      @foreach ($subscribers as $item)
+                                      <?php $i++?>
+                                    <tr>
+                                      <td>{{$i}}</td>
+                                      <td>{{$item->client_name}} {{$item->client_surname}}</td>
+                                      <td>{{$item->client_email}}</td>
+                                      <td>{{$item->client_number}}</td>
+                                        <td>
+                                         <button class="btn btn-outline-danger btn-sm"
+                                        data-toggle="modal"
+                                        data-request_id="{{ $item->id }}"
+                                        data-target="#delete_request"
+                                        role="button"><i
+                                            class="fas fa-times"></i>&nbsp;
+                                        Supprimer</button>
+                                      </td>
+                                    </tr>
+
+                                    <div class="modal fade" id="delete_request" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Accepter la demande</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+                                      <form action="{{ route('formations-requests.destroy',$item->id) }}" method="POST" >
+                                        {{ method_field('delete') }}
+                                        {{ csrf_field() }}
+                                        <div class="modal-body">
+                                          <p class="text-center">
+                                          <h6 style="color:red">Voulez-vous vraiment supprimer cet abonné</h6>
+                                          </p>
+                              
+                                        
+                                          <input type="hidden" name="request_id" id="request_id" value="">
+                              
+                                        </div>
+                                        <div class="modal-footer">
+                                                         <button type="submit" class="btn btn-danger">Confirmer</button>
+                                          <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                                          
+                                        </div>
+                                      </form>
+                                      
+                                    </div>
+                            
+                                    </div>
+                                  </div>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                             
+                              
+                            </div>
+                            {{-- 2 --}}
+
+                      
+                          
+                        </div>
                         
                     </div>
                 </div>
@@ -286,6 +361,18 @@ input[type=number]::-webkit-outer-spin-button {
  var date = $('.fc-datepicker').datepicker({
             dateFormat: 'yy-mm-dd'
         }).val();
+</script>
+
+
+<script>
+	$('#delete_request').on('show.bs.modal', function(event) {
+		var button = $(event.relatedTarget)
+	
+		var request_id = button.data('request_id')
+		var modal = $(this)
+	
+		modal.find('.modal-body #request_id').val(request_id);
+	})
 </script>
 
 
