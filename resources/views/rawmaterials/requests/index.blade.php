@@ -1,7 +1,7 @@
 @extends('layouts.app', [
-    'namePage' => 'Les demandes des formations',
+    'namePage' => 'Les demandes des matières premières',
     'class' => 'sidebar-mini',
-    'activePage' => 'FormationsRequests',
+    'activePage' => 'MaterialsRequests',
 ])
 @section('css')
 <!-- DataTables -->
@@ -34,7 +34,7 @@ cursor:pointer;
               </button>
             </div>
             @endif
-            <h5 class="title">Les demandes du formations</h5>
+            <h5 class="title">Les demandes du matières premières</h5>
           </div>
           <div class="card-body">
             @can('formations')
@@ -45,7 +45,7 @@ cursor:pointer;
                 <th>Nom du client</th>
                 <th>Email du client</th>
                 <th>Numéro du client</th>
-                <th>Formation</th>
+                <th>Matière première</th>
                 <th>Opérations</th>
               </tr>
               </thead>
@@ -58,7 +58,7 @@ cursor:pointer;
                 <td >{{$request->client_name}} {{$request->client_surname}}</td>
                 <td >{{$request->client_email}}</td>
                 <td >{{$request->client_number}}</td>
-                <td >{{$request->formation->name}}</td>
+                <td >{{$request->material->name}}</td>
                 <td >
                   <button class="btn btn-outline-info btn-sm"
                   data-toggle="modal"
@@ -84,17 +84,17 @@ cursor:pointer;
               <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Supprimer la formation</h5>
+                  <h5 class="modal-title" id="exampleModalLabel">Supprimer la requête</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                <form action="{{ route('formations-requests.destroy',$request->id) }}" method="post">
+                <form action="{{ route('rawmaterials-requests.destroy',$request->id) }}" method="post">
                   {{ method_field('delete') }}
                   {{ csrf_field() }}
                   <div class="modal-body">
                     <p class="text-center">
-                    <h6 style="color:red">Voulez-vous vraiment supprimer cette formation</h6>
+                    <h6 style="color:red">Voulez-vous vraiment supprimer cette requête</h6>
                     </p>
         
                   
@@ -124,7 +124,7 @@ cursor:pointer;
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <form action="{{ route('formations-requests.edit',$request->id) }}" >
+              <form action="{{ route('rawmaterials-requests.edit',$request->id) }}" >
                 <div class="modal-body">
                   <p class="text-center">
                   <h6 style="color:green">Voulez-vous vraiment accepter cette demande</h6>

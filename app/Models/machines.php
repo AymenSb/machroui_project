@@ -13,15 +13,15 @@ class machines extends Model
     protected $casts = [
         'images' => 'array',
         'base64Urls' => 'array',
-        ];
+    ];
 
-  
-
+    public function offer()
+    {
+        return $this->hasOne(machines_offers::class, 'machine_id', 'id');
+    }
     public function subcategory()
     {
         return $this->belongsToMany(subcategory::class)->withTimestamps();
     }
-
- 
 
 }

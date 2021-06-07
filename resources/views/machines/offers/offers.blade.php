@@ -1,7 +1,7 @@
 @extends('layouts.app', [
-    'namePage' => 'Les demandes des formations',
+    'namePage' => 'Les offres du machines',
     'class' => 'sidebar-mini',
-    'activePage' => 'FormationsRequests',
+    'activePage' => 'MachinesOffers',
 ])
 @section('css')
 <!-- DataTables -->
@@ -34,7 +34,7 @@ cursor:pointer;
               </button>
             </div>
             @endif
-            <h5 class="title">Les demandes du formations</h5>
+            <h5 class="title">Les offres du machines</h5>
           </div>
           <div class="card-body">
             @can('formations')
@@ -45,25 +45,27 @@ cursor:pointer;
                 <th>Nom du client</th>
                 <th>Email du client</th>
                 <th>Numéro du client</th>
-                <th>Formation</th>
+                <th>Machine</th>
+                <th>Offre</th>
                 <th>Opérations</th>
               </tr>
               </thead>
               <tbody>
                 <?php $i=0?>
-                @foreach ($requests as $request)
+                @foreach ($offers as $offer)
                 <?php $i++?>
               <tr >
                 <td >{{$i}}</td>
-                <td >{{$request->client_name}} {{$request->client_surname}}</td>
-                <td >{{$request->client_email}}</td>
-                <td >{{$request->client_number}}</td>
-                <td >{{$request->formation->name}}</td>
+                <td >{{$offer->client_name}} {{$offer->client_surname}}</td>
+                <td >{{$offer->client_email}}</td>
+                <td >{{$offer->client_number}}</td>
+                <td >{{$offer->machine->name}}</td>
+                <td >{{$offer->client_offer}}</td>
                 <td >
                   <button class="btn btn-outline-info btn-sm"
                   data-toggle="modal"
                   
-                  data-request_id="{{ $request->id }}"
+                  data-request_id="{{ $offer->id }}"
                 
                   data-target="#accept_request">
                   <i class="fas fa-check"></i>&nbsp;Accepter</button>
@@ -72,7 +74,7 @@ cursor:pointer;
                   <button class="btn btn-outline-danger btn-sm"
                   data-toggle="modal"
                   
-                  data-request_id="{{ $request->id }}"
+                  data-request_id="{{ $offer->id }}"
                 
                   data-target="#delete_file">
                   <i class="fas fa-times"></i>&nbsp;Refuser</button>
@@ -89,7 +91,7 @@ cursor:pointer;
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                <form action="{{ route('formations-requests.destroy',$request->id) }}" method="post">
+                <form action="{{ route('machines-offers.destroy',$offer->id) }}" method="post">
                   {{ method_field('delete') }}
                   {{ csrf_field() }}
                   <div class="modal-body">
@@ -124,7 +126,7 @@ cursor:pointer;
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <form action="{{ route('formations-requests.edit',$request->id) }}" >
+              <form action="{{ route('machines-offers.edit',$offer->id) }}" >
                 <div class="modal-body">
                   <p class="text-center">
                   <h6 style="color:green">Voulez-vous vraiment accepter cette demande</h6>

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\formations_requests;
 use Illuminate\Http\Request;
 use App\Models\formations;
+use Validator;
+
 
 
 class FormationsRequestsController extends Controller
@@ -102,11 +104,33 @@ class FormationsRequestsController extends Controller
             $formation->update([
                 'subscribed'=>$formation->subscribed -1,
             ]);
+
+            $subscriber->delete();
+            
+           session()->flash('edit', 'Abonné supprimer');
+           return redirect('formations/'.$formation_id);
         }
 
         $subscriber->delete();
 
         session()->flash('edit', 'Abonné supprimer');
-        return redirect('formations/'.$formation_id);
+        return redirect('formations-requests');
+    }
+
+
+    //API client request
+    public function formationsRequests(Request $request){
+
+        formations_requests::create([
+            "client_name"=>$request->client_name,
+            "client_surname"=>$request->client_surname,
+            "client_email"=>$request->client_email,
+            "client_number"=>$request->client_number,
+            "formation_id"=>$request->formation_id
+        ]);
+        return response()->json([
+            'message'=>'Votre demande à été envoyé.'
+        ]);
+
     }
 }

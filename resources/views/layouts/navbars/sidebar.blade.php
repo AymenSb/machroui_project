@@ -40,6 +40,13 @@
               </a>
             </li>
             @endcan
+
+            <li class="@if ($activePage == 'MachinesOffers') active @endif">
+              <a href="{{ route('machines-offers.index') }}">
+                <i class="now-ui-icons users_single-02"></i>
+                <p> {{ __("Les offres des clients") }} </p>
+              </a>
+            </li>
             
             @can('requetes des machines en attend')
             <li class="@if ($activePage == 'RequestedMachines') active @endif">
@@ -101,14 +108,33 @@
         </div>
       </li>
 
-      @can('matières premières')
-      <li class = " @if ($activePage == 'Matiéres premiéres') active @endif">
-        <a href="{{ route('rawmaterials.index') }}">
-          <i class="now-ui-icons ui-1_bell-53"></i>
-          <p>{{ __('Matiéres premiéres') }}</p>
+      <li>
+        <a data-toggle="collapse" href="#rawmaterials">
+          <i class="now-ui-icons users_single-02"></i>
+          <p>
+            {{ __("Matières premières") }}
+            <b class="caret"></b>
+          </p>
         </a>
+
+        <div class="collapse" id="rawmaterials">
+          <ul class="nav">
+            <li class = " @if ($activePage == 'Matiéres premiéres') active @endif">
+              <a href="{{ route('rawmaterials.index') }}">
+                <i class="now-ui-icons ui-1_bell-53"></i>
+                <p>{{ __('Matiéres premiéres') }}</p>
+              </a>
+            </li>
+            
+            <li class="@if ($activePage == 'MaterialsRequests') active @endif">
+              <a href="{{ route('rawmaterials-requests.index') }}">
+                <i class="now-ui-icons users_single-02"></i>
+                <p> {{ __("Demandes matiéres premiéres") }} </p>
+              </a>
+            </li>
+          </ul>
+        </div>
       </li>
-      @endcan
       @can('projet')
       <li class="@if ($activePage == 'project') active @endif">
         <a href="{{ route('project.index') }}">

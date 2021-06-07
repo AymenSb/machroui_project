@@ -235,5 +235,19 @@ class FormationsController extends Controller
         return response()->json($formations);
     }
 
+
+    function getAllCatFormations($id){
+        $formations=db::table('formations')
+                        ->join('formations_subcategory','formations.id','formations_subcategory.formations_id')
+                        ->join('subcategories','formations_subcategory.subcategory_id','subcategories.id')
+                        ->where('subcategories.category_id',$id)
+                        ->select('formations.*')
+                        ->distinct('formations.id')
+                        ->get();
+                        return response()->json($formations);
+
+
+                    }
+
    
 }

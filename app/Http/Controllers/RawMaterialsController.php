@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\subcategory;
 use App\Models\rawMaterials;
+use App\Models\rawmaterials_requests;
 use App\Models\rawmaterials_attachments;
 use Illuminate\Http\Request;
 use File;
@@ -108,7 +109,8 @@ class RawMaterialsController extends Controller
         $categories=Category::all();
         $material=rawMaterials::where('id',$id)->first();
         $images=rawmaterials_attachments::where('material_id',$id)->first();
-        return view('rawmaterials/show',compact('material','images','categories'));
+        $requests=rawmaterials_requests::where('rawmaterial_id',$id)->where('Accpted',1)->get();
+        return view('rawmaterials/show',compact('material','images','categories','requests'));
     }
 
     /**

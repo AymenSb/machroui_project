@@ -12,6 +12,8 @@ use App\Http\Controllers\RawMaterialsController;
 use App\Http\Controllers\apis_controller;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FormationsRequestsController;
+use App\Http\Controllers\MachinesOffersController;
 
 
 /*
@@ -39,6 +41,7 @@ Route::get('/api_projects/{id}',[ProjectController::class,'getProjectById']);
 Route::get('/api_formations',[FormationsController::class,'getFormations']);
 Route::get('/api_formationsCat/{id}',[FormationsController::class,'getFormationsCat']);
 Route::get('/api_formations/{id}',[FormationsController::class,'getFormationById']);
+Route::get('/getAllCatFormations/{id}',[FormationsController::class,'getAllCatFormations']);
 
 
 Route::get('/api_machines',[MachinesController::class,'getMachines']);
@@ -66,3 +69,9 @@ Route::group([
 });
 
 Route::post('/user-update-info/{id}',[UserController::class,'updateUserInfo']);  
+
+//client requests APIs
+
+
+Route::post('/FormationsRequests',[FormationsRequestsController::class,'formationsRequests']);  
+Route::post('/machinesOffer',[MachinesOffersController::class,'machinesOffers']);  

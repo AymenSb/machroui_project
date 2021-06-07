@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\subcategory;
 use App\Models\machines;
+use App\Models\machines_offers;
 use App\Models\MachinesAttachments;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -116,7 +117,8 @@ class MachinesController extends Controller
     public function show($id)
     {
         $machine = machines::findOrFail($id);
-        return view('machines/machines/show', compact('machine'));
+        $offers=machines_offers::where('machine_id',$id)->where('Accpted',1)->get();
+        return view('machines/machines/show', compact('machine','offers'));
     }
 
     /**

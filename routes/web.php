@@ -19,6 +19,8 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectAttachmentsController;
 use App\Http\Controllers\FormationsRequestsController;
+use App\Http\Controllers\MachinesOffersController;
+use App\Http\Controllers\RawmaterialsRequestsController;
 
 
 
@@ -42,7 +44,9 @@ Route::resource('formations', FormationsController::class);
 Route::resource('formations-requests', FormationsRequestsController::class);
 Route::resource('attachment', FormationsAttachmentController::class);
 Route::resource('machines',MachinesController::class);
+Route::resource('machines-offers',MachinesOffersController::class);
 Route::resource('rawmaterials',RawMaterialsController::class);
+Route::resource('rawmaterials-requests',RawmaterialsRequestsController::class);
 Route::resource('machinesrequests',RequestedMachinesController::class);
 Route::resource('category',CategoryController::class);
 Route::resource('subcategory',SubcategoryController::class);

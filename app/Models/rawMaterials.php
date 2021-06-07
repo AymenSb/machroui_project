@@ -16,7 +16,11 @@ class rawMaterials extends Model
 
     public function file()
     {
-        return $this->hasOne(rawmaterials_attachments::class,'formation_id', 'id');
+        return $this->hasOne(rawmaterials_attachments::class,'rawmaterial_id', 'id');
+    }
+
+    public function request(){
+        return $this->hasOne(rawmaterials_requests::class,'rawmaterial_id','id');
     }
 
     public function subcategory()
