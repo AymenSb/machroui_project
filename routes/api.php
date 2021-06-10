@@ -76,3 +76,5 @@ Route::post('/user-update-info/{id}',[UserController::class,'updateUserInfo']);
 Route::post('/FormationsRequests',[FormationsRequestsController::class,'formationsRequests']);  
 Route::post('/machinesOffer',[MachinesOffersController::class,'machinesOffers']); 
 Route::post('/postMachine',[MachinesController::class,'postMachines']); 
+
+Route::get('/vendorMachines/{id}',[MachinesController::class,'vendorMachines']);

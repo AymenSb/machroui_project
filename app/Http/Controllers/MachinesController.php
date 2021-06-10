@@ -346,8 +346,13 @@ class MachinesController extends Controller
        
 
 
-            return response()->json([
-                "message":"Votre machine est postuler"
-            ]);
+            return response()->json(
+                "Votre machine est postuler"
+            );
+    }
+
+    function vendorMachines($id){
+        $vendor_machines=machines::where('vendor_id',$id)->get();
+        return $vendor_machines;
     }
 }
