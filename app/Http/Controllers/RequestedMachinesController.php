@@ -98,6 +98,10 @@ class RequestedMachinesController extends Controller
         $name=$requestedMachine->name;
         $price=$requestedMachine->price;
         $Vendor=$requestedMachine->Vendor;
+        $vendor_id=$requestedMachine->vendor_id;
+        $main_image=$requestedMachine->main_image;
+        $images=$requestedMachine->images;
+        $base64Urls=$requestedMachine->base64Urls;
         $details=$requestedMachine->details;
         $characteristics=$requestedMachine->characteristics;
         $markDetails=$requestedMachine->markDetails;
@@ -108,6 +112,10 @@ class RequestedMachinesController extends Controller
         $machine->name=$name;
         $machine->price=$price;
         $machine->Vendor=$Vendor;
+        $machine->vendor_id=$vendor_id;
+        $machine->main_image=$main_image;
+        $machine->images=$images;
+        $machine->base64Urls=$base64Urls;
         $machine->details=$details;
         $machine->characteristics=$characteristics;
         $machine->markDetails=$markDetails;

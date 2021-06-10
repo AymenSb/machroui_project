@@ -7,6 +7,8 @@ use App\Models\subcategory;
 use App\Models\machines;
 use App\Models\machines_offers;
 use App\Models\MachinesAttachments;
+use App\Models\RequestedMachines;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
@@ -300,5 +302,52 @@ class MachinesController extends Controller
                     ->select('machines.*')
                     ->get();
       return $machines;
+    }
+
+    function postMachines(Request $request){
+        if($request->state=='new'){
+            $etat='Nouvelle machine';
+            $stateVal=2;
+        }
+        else {
+            $etat="Machine d'occasion";
+            $stateVal=1;
+        }
+       
+        RequestedMachines::create([
+            'name'=>$request->name,
+            'price'=>$request->price,
+            'Vendor'=>$request->vendor,
+            'vendor_id'=>$request->vendor_id,
+            'markDetails'=>$request->brand,
+            'details'=>$request->details,
+            'characteristics'=>$request->characteristics,
+            'state'=>$etat,
+            'stateVal'=>$stateVal,
+            'main_image'=>$request->main_image,
+            'base64Urls'=>$request->base64Urls,
+            'images'=>$request->images,
+           
+        ]);
+        $index=0;
+
+        foreach($request->base64Urls as $file_data){
+            
+            $file_name = $request->images[$index]; //generating unique file name; 
+            @list($type, $file_data) = explode(';', $file_data);
+            @list(, $file_data) = explode(',', $file_data); 
+            if($file_data!="")
+                {
+                Storage::disk('machines_uploads')->put($request->name. '/' .$file_name,base64_decode($file_data)); 
+                
+            } 
+            $index++;
+        }
+       
+
+
+            return response()->json([
+                "message":"Votre machine est postuler"
+            ]);
     }
 }

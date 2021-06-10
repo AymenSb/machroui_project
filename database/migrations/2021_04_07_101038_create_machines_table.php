@@ -19,6 +19,8 @@ class CreateMachinesTable extends Migration
             $table->String('name'); //check
             $table->integer('price');//check
             $table->String('Vendor')->nullable();//check
+            $table->unsignedBigInteger('vendor_id')->nullable();
+            $table->foreign('vendor_id')->references('id')->on('users')->onDelete('cascade');
             $table->longtext('details');//check
             $table->longtext('characteristics');
             $table->longtext('markDetails');

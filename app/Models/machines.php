@@ -23,5 +23,8 @@ class machines extends Model
     {
         return $this->belongsToMany(subcategory::class)->withTimestamps();
     }
+    public function vendor(){
+        return $this->belongsTo(User::class,'vebdir_id','id');
+    }
 
 }
