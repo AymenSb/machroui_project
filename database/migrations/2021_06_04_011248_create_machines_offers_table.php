@@ -22,6 +22,8 @@ class CreateMachinesOffersTable extends Migration
             $table->integer('client_offer');
             $table->unsignedBigInteger('machine_id')->nullable();
             $table->boolean('Accpted')->default(0);
+            $table->boolean('sendToVendor')->default(0);
+            $table->boolean('hasAcceptedOffer')->default(0);
             $table->foreign('machine_id')->references('id')->on('machines')->onDelete('cascade');
 
             $table->timestamps();

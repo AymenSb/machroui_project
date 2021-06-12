@@ -289,18 +289,74 @@ input[type=number]::-webkit-outer-spin-button {
                                       <td>{{$item->client_email}}</td>
                                       <td>{{$item->client_number}}</td>
                                       <td>{{$item->client_offer}}</td>
-                                        <td>
-                                         <button class="btn btn-outline-danger btn-sm"
-                                        data-toggle="modal"
-                                        data-request_id="{{ $item->id }}"
-                                        data-target="#delete_request"
-                                        role="button"><i
-                                            class="fas fa-times"></i>&nbsp;
-                                        Supprimer</button>
+                                     <td  style="align-content: center">
+                                         @if ($item->sendToVendor==0)
+                                         <button class="btn btn-outline-info btn-sm"
+                                         data-toggle="modal"
+                                         data-request_id="{{ $item->id }}"
+                                         data-target="#send_to_vendor"
+                                         role="button"><i class="fas fa-paper-plane"></i></i>&nbsp;
+                                         Envoyer aux vendeur</button>
+                                          <button class="btn btn-outline-danger btn-sm"
+                                             data-toggle="modal"
+                                             data-request_id="{{ $item->id }}"
+                                             data-target="#delete_request"
+                                             role="button"><i
+                                             class="fas fa-times"></i>&nbsp;
+                                         Supprimer</button>  
+                                         @endif
+                                         @if ($item->sendToVendor==1 && $item->hasAcceptedOffer==0)
+                                             <span>
+                                                 <a class="text-info">
+                                                    <i class="fas fa-check"></i>
+                                                    &nbsp; Envoyé
+                                                </a>
+                                             </span>
+                                         @endif
+                                         @if ($item->hasAcceptedOffer==1)
+                                         <span>
+                                            <a class="text-success">
+                                                <i class="fas fa-exclamation-circle"></i>
+                                               &nbsp;Offre accepté
+                                           </a>
+                                        </span> 
+                                         @endif
+                                        
                                       </td>
                                     </tr>
-
-                                    <div class="modal fade" id="delete_request" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                    <div class="modal fade" id="send_to_vendor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Envoyer l'offre</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+                                      <form action="{{ route('sendToVendor',$item->id) }}" method="POST" >
+                                        {{ csrf_field() }}
+                                        <div class="modal-body">
+                                          <p class="text-center">
+                                          <h6 style="color:rgb(67, 196, 74)">Voulez-vous vraiment envoyer cette offre aux vendeur?</h6>
+                                          </p>
+                              
+                                        
+                                          <input type="hidden" name="request_id" id="request_id" value="">
+                              
+                                        </div>
+                                        <div class="modal-footer">
+                                                         <button type="submit" class="btn btn-danger">Confirmer</button>
+                                          <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                                          
+                                        </div>
+                                      </form>
+                                      
+                                    </div>
+                            
+                                    </div>
+                                </div>
+                                <div class="modal fade" id="delete_request" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                                     aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                     <div class="modal-content">
@@ -332,10 +388,12 @@ input[type=number]::-webkit-outer-spin-button {
                                     </div>
                             
                                     </div>
-                                  </div>
+                                </div>
+
+                                
                                     @endforeach
                                     </tbody>
-                                </table>
+                                 </table>
                              
                               
                             </div>
@@ -384,7 +442,7 @@ input[type=number]::-webkit-outer-spin-button {
 </div>
 
     </div>
-    
+    </div>
 @endsection
 
 @section('js')
@@ -457,9 +515,18 @@ input[type=number]::-webkit-outer-spin-button {
 		modal.find('.modal-body #machine_id').val(machine_id);
 	})
 </script>
-
 <script>
 	$('#delete_request').on('show.bs.modal', function(event) {
+		var button = $(event.relatedTarget)
+	
+		var request_id = button.data('request_id')
+		var modal = $(this)
+	
+		modal.find('.modal-body #request_id').val(request_id);
+	})
+</script>
+<script>
+	$('#send_to_vendor').on('show.bs.modal', function(event) {
 		var button = $(event.relatedTarget)
 	
 		var request_id = button.data('request_id')

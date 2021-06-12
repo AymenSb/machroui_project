@@ -59,8 +59,20 @@ class MachinesOffersController extends Controller
      * @param  \App\Models\machines_offers  $machines_offers
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request) 
+    public function edit($id) 
     {   
+        return redirect('/');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\machines_offers  $machines_offers
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request)
+    {
         $id =$request->request_id;
         $machine_offer=machines_offers::findOrfail($id);
         $machine_offer->update([
@@ -73,18 +85,6 @@ class MachinesOffersController extends Controller
         ]);
         session()->flash('Add', 'Demande acceptée');
         return redirect('machines-offers');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\machines_offers  $machines_offers
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, machines_offers $machines_offers)
-    {
-        //
     }
 
     /**
@@ -128,5 +128,46 @@ class MachinesOffersController extends Controller
             'message'=>'Votre demande à été envoyé.'
         ]);
 
+    }
+    public function sendToVendor(Request $request){
+        $offer=machines_offers::where('id',$request->request_id)->first();
+        $offer->update([
+            'sendToVendor'=>1,
+        ]);
+        
+        return back();
+    }
+
+    public function vendorOffers($id){
+        $offers=machines_offers::where('machine_id',$id)
+                                ->where('Accpted',1)
+                                ->where('sendToVendor',1)
+                                ->get();
+        return $offers;
+    }
+    public function acceptOffer(Request $request){
+        $offer=machines_offers::where('id',$request->offer_id)->first();
+        $machine_id=$offer->machine_id;
+        $machine=machines::where('id',$machine_id)->first();
+        if($offer->hasAcceptedOffer==0){
+            $offer->update([
+                'hasAcceptedOffer'=>1
+             ]);
+            $machine->update([
+                'offers'=>$machine->offers-1
+            ]);
+        }
+         
+         return response()->json([
+            "message"=>"vous avez accepté l'offre, nous vous contacterons bientôt."
+         ]);
+    }
+    public function deleteOffer(Request $request){
+        $offer=machines_offers::where('id',$request->offer_id)->first();
+        $offer->delete();
+
+        return response()->json([
+            "message"=>"vous avez supprimer cette offre."
+         ]);
     }
 }

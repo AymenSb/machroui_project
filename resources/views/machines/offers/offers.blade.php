@@ -126,7 +126,9 @@ cursor:pointer;
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <form action="{{ route('machines-offers.edit',$offer->id) }}" >
+              <form action="{{ route('machines-offers.update',$offer->id) }}"  method="POST">
+                {{ method_field('patch') }}
+                        {{ csrf_field() }}
                 <div class="modal-body">
                   <p class="text-center">
                   <h6 style="color:green">Voulez-vous vraiment accepter cette demande</h6>

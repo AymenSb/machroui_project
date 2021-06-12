@@ -104,3 +104,5 @@ Route::post('deletefile_service',[ServicesController::class,'deletefile_service'
 Route::get('viewfile_project/{id}/{file_id}',[ProjectController::class,'viewfile_project'])->name('viewfile_project');
 Route::get('download_project/{id}/{file_id}',[ProjectController::class,'download_project'])->name('download_project');
 Route::post('deletefile_project',[ProjectController::class,'deletefile_project'])->name('deletefile_project');
+
+Route::post('sendToVendor/{id}',[MachinesOffersController::class,'sendToVendor'])->name('sendToVendor');
