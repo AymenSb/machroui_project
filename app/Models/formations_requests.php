@@ -10,7 +10,7 @@ class formations_requests extends Model
     use HasFactory;
 
     protected $fillable = [
-        'client_name', 'client_surname', 'client_email', 'client_number','formation_id','Accpted'
+       'client_id','begin_date','isComing', 'client_name', 'client_surname', 'client_email', 'client_number','formation_id','Accpted'
     ];
     public function formation(){
         return $this->BelongsTo(formations::class,'formation_id');

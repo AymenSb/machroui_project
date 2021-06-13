@@ -73,8 +73,14 @@ Route::post('/user-update-info/{id}',[UserController::class,'updateUserInfo']);
 //client requests APIs
 
 
-Route::post('/FormationsRequests',[FormationsRequestsController::class,'formationsRequests']);  
+Route::post('/FormationsRequests',[FormationsRequestsController::class,'formationsRequests']); 
+Route::get('/ClientFormations/{client_id}',[FormationsRequestsController::class,'ClientFormations']);
+Route::post('/ClientConfirmedFormation',[FormationsRequestsController::class,'ClientConfirmed']);
+Route::post('/ClientDeclinedFormation',[FormationsRequestsController::class,'ClientDeclined']);
+
 Route::post('/machinesOffer',[MachinesOffersController::class,'machinesOffers']); 
+
+
 Route::post('/postMachine',[MachinesController::class,'postMachines']); 
 
 Route::get('/vendorMachines/{id}',[MachinesController::class,'vendorMachines']);

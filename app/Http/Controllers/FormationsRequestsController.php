@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\formations_requests;
 use Illuminate\Http\Request;
 use App\Models\formations;
+use Illuminate\Support\Facades\DB ;
+
 use Validator;
 
 
@@ -122,15 +124,45 @@ class FormationsRequestsController extends Controller
     public function formationsRequests(Request $request){
 
         formations_requests::create([
+            "client_id"=>$request->client_id,
             "client_name"=>$request->client_name,
             "client_surname"=>$request->client_surname,
             "client_email"=>$request->client_email,
             "client_number"=>$request->client_number,
-            "formation_id"=>$request->formation_id
+            "formation_id"=>$request->formation_id,
+            "begin_date"=>$request->formation_date
         ]);
         return response()->json([
             'message'=>'Votre demande à été envoyé.'
         ]);
 
+    }
+
+    public function ClientFormations($client_id){   
+        $client_formations=DB::table('formations_requests')
+                        ->join('formations','formations.id','formations_requests.formation_id')
+                        ->select('formations.*','formations_requests.*')
+                        ->where('Accpted',1)
+                        ->where('client_id',$client_id)
+                        ->get();
+        return $client_formations;                                                
+    }
+
+    function ClientConfirmed(Request $request){
+        $formation_request=formations_requests::where('id',$request->id)->first();
+        $formation_request->update([
+            'isComing'=>1
+        ]);
+        return response()->json([
+            'message'=>'vous avez confirmer votre postulation.',
+        ]);
+    }
+
+    function ClientDeclined(Request $request){
+        $formation_request=formations_requests::where('id',$request->id)->first();
+        $formation_request->delete();
+        return response()->json([
+            'message'=>'vous avez supprimer votre postulation.'
+        ]);
     }
 }
