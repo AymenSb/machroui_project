@@ -14,6 +14,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FormationsRequestsController;
 use App\Http\Controllers\MachinesOffersController;
+use App\Http\Controllers\RawmaterialsRequestsController;
 
 
 /*
@@ -42,16 +43,18 @@ Route::get('/api_formations',[FormationsController::class,'getFormations']);
 Route::get('/api_formationsCat/{id}',[FormationsController::class,'getFormationsCat']);
 Route::get('/api_formations/{id}',[FormationsController::class,'getFormationById']);
 Route::get('/getAllCatFormations/{id}',[FormationsController::class,'getAllCatFormations']);
-
+Route::get('subcategoriesformations/{id}',[FormationsController::class,'getsubcategoriesFormations']);
 
 Route::get('/api_machines',[MachinesController::class,'getMachines']);
 Route::get('/api_machinesCat/{id}',[MachinesController::class,'getMachinesCat']);
 Route::get('/api_machines/{id}',[MachinesController::class,'getMachineById']);
+Route::get('subcategoriesmachine/{id}',[MachinesController::class,'MachineSubCategories']);
 
 
 Route::get('/api_materials',[RawMaterialsController::class,'getMaterials']);
 Route::get('/api_materialsCat/{id}',[RawMaterialsController::class,'getMaterialsCat']);
 Route::get('/api_materials/{id}',[RawMaterialsController::class,'getMaterialById']);
+Route::get('/subcategoriesmaterials/{id}',[RawMaterialsController::class,'getSubCategoriesRawMaterials']);
 
 
 Route::get('/api_categories',[CategoryController::class,'getCategories']);
@@ -71,6 +74,8 @@ Route::group([
 Route::post('/user-update-info/{id}',[UserController::class,'updateUserInfo']);  
 
 //client requests APIs
+
+Route::post('/demandeRawMaterial',[RawmaterialsRequestsController::class,'demandeRawMaterials']);
 
 
 Route::post('/FormationsRequests',[FormationsRequestsController::class,'formationsRequests']); 

@@ -292,12 +292,22 @@ class MachinesController extends Controller
 
     function getMachineById($id){
         $machine=machines::where('id',$id)->first();
-        return response()->json($machine);
+        return $machine;
+    }
+    function MachineSubCategories($id){
+        $machine=machines::where('id',$id)->first();
+        if($machine!=null){
+            $subcategories=$machine->subcategory()->select('name','subcategory_id')->get();
+            return $subcategories;
+        }
+        else {
+            return response()->json('Empty');
+        }
     }
 
     function getMachinesCat($id){
-        $machines=db::table('machines')
-                    ->join('machines_subcategory','machines.id','machines_subcategory.machines_id')
+        $machines=machines::
+                    join('machines_subcategory','machines.id','machines_subcategory.machines_id')
                     ->where('machines_subcategory.subcategory_id',$id)
                     ->select('machines.*')
                     ->get();

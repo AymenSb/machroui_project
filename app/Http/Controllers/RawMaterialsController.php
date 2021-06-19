@@ -240,9 +240,20 @@ class RawMaterialsController extends Controller
         return response()->json($raw_material);
     }
 
+    function getSubCategoriesRawMaterials($id){
+        $raw_material=rawMaterials::where('id',$id)->first();
+        if($raw_material!=null){
+            $subcategories=$raw_material->subcategory()->select('name','subcategory_id')->get();
+            return $subcategories;
+        }
+        else {
+            return response()->json('Empty');
+        }
+    }
+
     function getMaterialsCat($id){
-        $materials=db::table('raw_materials')
-        ->join('raw_materials_subcategory','raw_materials.id','raw_materials_subcategory.raw_materials_id')
+        $materials=rawMaterials::
+        join('raw_materials_subcategory','raw_materials.id','raw_materials_subcategory.raw_materials_id')
         ->where('raw_materials_subcategory.subcategory_id',$id)
         ->select('raw_materials.*')
         ->get();

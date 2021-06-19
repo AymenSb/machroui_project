@@ -114,4 +114,21 @@ class RawmaterialsRequestsController extends Controller
         session()->flash('edit', 'Requête supprimer');
         return redirect('rawmaterials-requests');
     }
+
+    function demandeRawMaterials(Request $request){
+        $id=$request->id;
+        rawmaterials_requests::create([
+            'client_name'=>$request->client_name,
+            'client_surname'=>$request->client_surname,
+            'client_email'=>$request->client_email,
+            'client_number'=>$request->client_number,
+            'rawmaterial_id'=>$request->rawmaterial_id
+        ]);
+        $rawmaterials_requests=rawmaterials_requests::latest()->first();
+        
+
+        return response()->json(
+        'Nous vous contactez plutôt'
+        );
+    }
 }
