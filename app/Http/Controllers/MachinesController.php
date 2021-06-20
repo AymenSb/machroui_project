@@ -365,4 +365,15 @@ class MachinesController extends Controller
         $vendor_machines=machines::where('vendor_id',$id)->get();
         return $vendor_machines;
     }
+    function searchMachines(Request $request){
+        $data=$request->data;
+        $machines=machines::where('name','like',"%{$data}%")
+                            ->orWhere('details','like',"%{$data}%")
+                            ->orWhere('state','like',"%{$data}%")
+                            ->orWhere('characteristics','like',"%{$data}%")
+                            ->orWhere('markDetails','like',"%{$data}%")
+                            ->select('name')->get();
+                            
+        return $machines;
+    }   
 }
