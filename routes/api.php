@@ -15,6 +15,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\FormationsRequestsController;
 use App\Http\Controllers\MachinesOffersController;
 use App\Http\Controllers\RawmaterialsRequestsController;
+use App\Http\Controllers\ServicesController;
 
 
 /*
@@ -49,12 +50,14 @@ Route::get('/api_machines',[MachinesController::class,'getMachines']);
 Route::get('/api_machinesCat/{id}',[MachinesController::class,'getMachinesCat']);
 Route::get('/api_machines/{id}',[MachinesController::class,'getMachineById']);
 Route::get('subcategoriesmachine/{id}',[MachinesController::class,'MachineSubCategories']);
+Route::get('categoriesMachines/{id}',[MachinesController::class,'getAllCategoriesForMachines']);
 
 
 Route::get('/api_materials',[RawMaterialsController::class,'getMaterials']);
 Route::get('/api_materialsCat/{id}',[RawMaterialsController::class,'getMaterialsCat']);
 Route::get('/api_materials/{id}',[RawMaterialsController::class,'getMaterialById']);
 Route::get('/subcategoriesmaterials/{id}',[RawMaterialsController::class,'getSubCategoriesRawMaterials']);
+Route::get('/categoriesMaterials/{id}',[RawMaterialsController::class,'getAllCategoriesForMaterials']);
 
 
 Route::get('/api_categories',[CategoryController::class,'getCategories']);
@@ -94,4 +97,6 @@ Route::post('acceptOffer',[MachinesOffersController::class,'acceptOffer']);
 Route::post('deleteOffer',[MachinesOffersController::class,'deleteOffer']);
 
 
-Route::post('searchmachines',[MachinesController::class,'searchMachines']);
+Route::get('search-results',[MachinesController::class,'searchingForMachines']);
+
+Route::get('services',[ServicesController::class,'getServices']);

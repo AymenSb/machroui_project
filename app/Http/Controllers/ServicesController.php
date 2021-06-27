@@ -190,4 +190,10 @@ class ServicesController extends Controller
         session()->flash('delete','La photo a été supprimée');
         return back();
     }
+    //API functions // 
+    
+    function getServices(){
+        $services=services::all();
+        return $services;
+    }
 }
