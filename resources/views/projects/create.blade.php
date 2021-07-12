@@ -80,7 +80,26 @@ textarea::-webkit-scrollbar-thumb {
                         </div>
                                 {{-- 3 --}}
                                 <br><br>
-                       
+                                <div class="row">
+                                  <div class="col-3">
+                                    <label for="inputName" class="contro-label">Selectionnez une categorie</label>
+                                    <select  name="category" class="form-control SlectBox" onclick="console.log($(this).val())"
+                                    onchange="console.log('change is firing')">
+                                    <!--placeholder-->
+                                    <option value="" selected disabled>Choisissez une catégorie</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}"> {{ $category->name }}</option>
+                                    @endforeach
+                                    </select>
+                                  </div>
+                                
+                                  <div class="colo-3">
+                                    <label for="inputName" class="control-label">Sous-Categorie</label>
+                                    <select  id="subcategory" name="subcategory" class="form-control">
+                                      <option value="" selected disabled>Choisissez une sous-catégorie</option>
+                                    </select>
+                                  </div>
+                                </div>
                         <span style=" margin-left: 20px;"></span>
 
                           {{-- 4 --}}

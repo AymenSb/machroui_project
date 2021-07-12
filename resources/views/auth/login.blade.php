@@ -52,7 +52,7 @@
                         <i class="now-ui-icons objects_key-25"></i></i>
                     </div>
                     </div>
-                    <input placeholder="Password" class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" placeholder="{{ __('Password') }}" type="password" value="" required>
+                    <input placeholder="Mot de passe" class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" placeholder="{{ __('Password') }}" type="password" value="" required>
                 </div>
                 @if ($errors->has('password'))
                     <span class="invalid-feedback" style="display: block;" role="alert">
@@ -61,14 +61,14 @@
                 @endif
                 </div>
                 <div class="card-footer ">
-                <button  type = "submit" class="btn btn-primary btn-round btn-lg btn-block mb-3">{{ __('Get Started') }}</button>
+                <button  type = "submit" class="btn btn-primary btn-round btn-lg btn-block mb-3">{{ __('Se connecter') }}</button>
                 <div class="pull-left">
                   
                 </div>
                 <div class="pull-right">
-                    <h6>
+                    {{-- <h6>
                     <a href="{{ route('password.request') }}" class="link footer-link">{{ __('Forgot Password?') }}</a>
-                    </h6>                
+                    </h6>                 --}}
                 </div>
                 </div>
             </div>

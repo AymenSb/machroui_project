@@ -60,13 +60,17 @@ Route::resource('add_image',ServicesAttachmentsController::class);
 Route::resource('project',ProjectController::class);
 
 Route::get('getsubcategory/{id}',[CategoryController::class,'getsubcategory']);
+Route::post('editCategory',[CategoryController::class,'editCategory'])->name('editCategory');
+Route::post('deleteCategory',[CategoryController::class,'deleteCategory'])->name('deleteCategory');
 Route::post('addToSub',[SubcategoryController::class,'addToSub'])->name('addToSub');
+Route::post('updateSubCategory',[SubcategoryController::class,'updateSubCategory'])->name('updateSubCategory');
+Route::post('DeleteSubCategory',[SubcategoryController::class,'DeleteSubCategory'])->name('DeleteSubCategory');
 Route::get('acceptMachine/{machine_id}',[RequestedMachinesController::class,'accept'])->name('accept')->middleware('permission:accept machine');
 Route::get('deleteMachine/{machine_id}',[RequestedMachinesController::class,'delete'])->name('deleteMachine')->middleware('permission:rejeter machine');;
 Route::get('NewMachines',[MachinesController::class,'indexNew'])->name('new')->middleware('permission:nouvelles machines');
 Route::get('UsedMachines',[MachinesController::class,'indexUsed'])->name('used')->middleware('permission:machines occasions');
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Auth::routes(['register' => false]);
 
 Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home')->middleware('permission:accès au tableau de bord');
@@ -106,3 +110,4 @@ Route::get('download_project/{id}/{file_id}',[ProjectController::class,'download
 Route::post('deletefile_project',[ProjectController::class,'deletefile_project'])->name('deletefile_project');
 
 Route::post('sendToVendor/{id}',[MachinesOffersController::class,'sendToVendor'])->name('sendToVendor');
+

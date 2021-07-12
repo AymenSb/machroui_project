@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\project;
-use App\Models\ProjectAttachments;
 use App\Models\Category;
+use App\Models\subcategory;
+use App\Models\ProjectAttachments;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
@@ -84,6 +85,13 @@ class ProjectController extends Controller
                 'images'=>[],
                 'base64Urls'=>[],
             ]);
+        }
+        if($request->category){
+            if($request->subcategory){
+                $subcategory=subcategory::where('id',$request->subcategory)->first();
+                $project=project::latest()->first();
+                $subcategory->projects()->syncWithoutDetaching($project);
+              }
         }
 
 

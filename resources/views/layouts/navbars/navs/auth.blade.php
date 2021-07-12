@@ -18,25 +18,25 @@
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navigation">
       <form>
-        <div class="input-group no-border">
+        {{-- <div class="input-group no-border">
           <input type="text" value="" class="form-control" placeholder="Search...">
           <div class="input-group-append">
             <div class="input-group-text">
               <i class="now-ui-icons ui-1_zoom-bold"></i>
             </div>
           </div>
-        </div>
+        </div> --}}
       </form>
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="#pablo">
+          {{-- <a class="nav-link" href="#pablo">
             <i class="now-ui-icons media-2_sound-wave"></i>
             <p>
               <span class="d-lg-none d-md-block">{{ __("Stats") }}</span>
             </p>
-          </a>
+          </a> --}}
         </li>
-        <li class="nav-item dropdown">
+        {{-- <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="now-ui-icons location_world"></i>
             <p>
@@ -48,7 +48,7 @@
             <a class="dropdown-item" href="#">{{ __("Another action") }}</a>
             <a class="dropdown-item" href="#">{{ __("Something else here") }}</a>
           </div>
-        </li>
+        </li> --}}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="now-ui-icons users_single-02"></i>
@@ -58,7 +58,7 @@
           </a>
           <div class="dropdown-menu dropdown-menu-right" data-toggle="collapse" aria-labelledby="navbarDropdownMenuLink">
             <a class="dropdown-item" href="{{ route('profile.edit') }}">{{ __("My profile") }}</a>
-            <a class="dropdown-item" href="{{ route('profile.edit') }}">{{ __("Edit profile") }}</a>
+            {{-- <a class="dropdown-item" href="{{ route('profile.edit') }}">{{ __("Edit profile") }}</a> --}}
             <a class="dropdown-item" href="{{ route('logout') }}"
             onclick="event.preventDefault();
                           document.getElementById('logout-form').submit();">

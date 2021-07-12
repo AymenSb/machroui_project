@@ -5,7 +5,6 @@
     'backgroundImage' => asset('now') . "/img/bg14.jpg",
 ])
 @section('content')
-@can('accès au tableau de bord')
 
   <div class="panel-header panel-header-lg">
     <canvas id="bigDashboardChart"></canvas>
@@ -272,7 +271,6 @@
         </div>
       </div>
     </div>
-    @endcan
   </div>
 @endsection
 

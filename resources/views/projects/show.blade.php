@@ -261,7 +261,7 @@ input[type=number]::-webkit-outer-spin-button {
         </div>
 
          <!-- delete image-->
-				 <div class="modal fade" id="delete_file" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+				<div class="modal fade" id="delete_file" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
 				 aria-hidden="true">
 				 <div class="modal-dialog" role="document">
 					 <div class="modal-content">
@@ -290,8 +290,8 @@ input[type=number]::-webkit-outer-spin-button {
 							 </div>
 						 </form>
 					 </div>
-                 </div>
-                 </div>
+                    </div>
+                </div>
 
 
         <div class="modal fade" id="modaldemo9" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"

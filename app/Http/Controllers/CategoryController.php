@@ -9,6 +9,7 @@ use App\Models\rawMaterials;
 use App\Models\subcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB ;
+use Illuminate\Support\Str;
 
 
 class CategoryController extends Controller
@@ -54,6 +55,13 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name'=>'unique:categories'
+        ],
+        [
+            'name.unique'=>'Cette catégorie existe'
+        ]
+    );
         $category=new Category();
         $category->name=$request->name;
         $category->slug=str_slug($request->name);
@@ -127,6 +135,44 @@ class CategoryController extends Controller
     {
         //
     }
+
+
+    public function editCategory(Request $request){
+        $request->validate([
+            'name'=>'unique:categories,name,'.$request->id
+        ],
+        [
+            'name.unique'=>'Cette catégorie existe'
+        ]
+    );
+        
+        if($request->name=='sélectionner une catégorie'){
+            session()->flash('error','Veuillez sélectionner une catégorie valide');
+            return redirect('/category');
+        }
+        $category=Category::findOrFail($request->id);
+        $slug_name=str_slug($request->name);
+        $category->update([
+            'name'=>$request->name,
+            'slug'=>$slug_name,
+        ]);
+        session()->flash('edit','Nom de la catégorie a été modifer');
+       return redirect('/category');
+    }
+
+    public function deleteCategory(Request $request){
+        if($request->name=='sélectionner une catégorie'){
+            session()->flash('error','Veuillez sélectionner une catégorie valide');
+            return redirect('/category');
+        }
+        $category=Category::findOrFail($request->id);
+        $category->delete();
+        session()->flash('edit','la catégorie a été supprimée');
+        return redirect('/category');
+    }
+
+
+
 
     public function getsubcategory($id){
         $subcategories=DB::table('subcategories')->where('category_id',$id)->pluck('name','id');

@@ -118,4 +118,37 @@ class SubcategoryController extends Controller
     return back();
         
     }
+
+   public function updateSubCategory(Request $request){
+    $request->validate([
+        'name'=>"unique:subcategories,name,$request->id"
+    ],
+    [
+        'name.unique'=>'Cette sous-catégorie existe'
+    ]
+);
+    
+    if($request->name=='Choisissez une sous-catégorie'){
+        session()->flash('error','Veuillez sélectionner une sous-catégorie valide');
+        return redirect('/category');
+    }
+    $subcategory=subcategory::findOrFail($request->id);
+    $slug_name=str_slug($request->name);
+    $subcategory->update([
+        'name'=>$request->name,
+        'slug'=>$slug_name,
+    ]);
+    session()->flash('edit','Nom de la sous-catégorie a été modifer');
+   return redirect('/category');
+    }
+   public function DeleteSubCategory(Request $request){
+    if($request->name=='Choisissez une sous-catégorie'){
+        session()->flash('error','Veuillez sélectionner une sous-catégorie valide');
+        return redirect('/category');
+    }
+    $subcategory=subcategory::findOrFail($request->id);
+    $subcategory->delete();
+    session()->flash('edit','la sous-catégorie a été supprimée');
+    return redirect('/category');
+    }
 }
