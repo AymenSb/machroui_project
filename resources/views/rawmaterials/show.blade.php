@@ -130,13 +130,11 @@
                     </div>
 
                     <div class="card-body all-icons">
-                        @can('modifier matière première')
                             <a href="#modaldemo9" data-price="{{ $material->price }}"
                                 data-description="{{ $material->description }}" data-name="{{ $material->name }}"
                                 data-id="{{ $material->id }}" data-brand="{{ $material->brand }}" data-effect="effect-fall"
                                 data-toggle="modal" class="btn btn-primary btn-round"
                                 style="color: white;background-color:#FF3636;">Éditer</a>
-                        @endcan
                         {{-- place content here --}}
 
                         <!-- Tab links -->
@@ -419,10 +417,11 @@
                             </div>
                             <input hidden name="id" id="id" value="">
                             <div class="form-group">
+                                <p class="text-danger">	&nbsp;En sélectionnant une(des) catégorie(s), les catégories existantes de votre produit seront remplacées par celles que vous avez sélectionnées.</p>
 
                                 <label for="title">Selectionnez une categorie</label>
-                                <select name="category" class="form-control SlectBox" onclick="console.log($(this).val())"
-                                    onchange="console.log('change is firing')">
+                                <select name="category" class="form-control SlectBox">
+                                    
                                     <!--placeholder-->
                                     <option value="" selected disabled>Choisissez une catégorie</option>
                                     @foreach ($categories as $category)
@@ -431,7 +430,7 @@
                                 </select>
 
                                 <label for="title">Sous-Categorie</label>
-                                <select id="subcategory" name="subcategory" class="form-control">
+                                <select multiple id="subcategory" name="subcategory[]" class="form-control">
                                     <option value="" selected disabled>Choisissez une sous-catégorie</option>
                                 </select>
 
@@ -532,9 +531,9 @@
                         type: "GET",
                         dataType: "json",
                         success: function(data) {
-                            $('select[name="subcategory"]').empty();
+                            $('select[id="subcategory"]').empty();
                             $.each(data, function(key, value) {
-                                $('select[name="subcategory"]').append(
+                                $('select[id="subcategory"]').append(
                                     '<option value="' +
                                     key + '">' + value + '</option>');
                             });

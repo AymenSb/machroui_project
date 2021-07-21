@@ -123,8 +123,8 @@ input[type=number]::-webkit-outer-spin-button {
                         
                           <div class="colo-3">
                             <label for="inputName" class="control-label">Sous-Categorie</label>
-                            <select  id="subcategory" name="subcategory" class="form-control">
-                              <option value="" selected disabled>Choisissez une sous-catégorie</option>
+                            <select  multiple id="subcategory" name="subcategory[]" class="form-control">
+                              <option value="" selected disabled>Choisissez une ou sous-catégorie(s)</option>
                             </select>
                           </div>
                         </div>
@@ -190,9 +190,9 @@ input[type=number]::-webkit-outer-spin-button {
                   type: "GET",
                   dataType: "json",
                   success: function(data) {
-                      $('select[name="subcategory"]').empty();
+                      $('select[id="subcategory"]').empty();
                       $.each(data, function(key, value) {
-                          $('select[name="subcategory"]').append('<option value="' +
+                          $('select[id="subcategory"]').append('<option value="' +
                               key + '">' + value + '</option>');
                       });
                   },

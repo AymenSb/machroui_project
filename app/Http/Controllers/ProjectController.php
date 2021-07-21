@@ -78,6 +78,22 @@ class ProjectController extends Controller
             ]);
 
         }
+        if($request->hasFile('pdf')){
+            $project = project::latest()->first();
+            $pdf = $request->file('pdf');
+            $destinationPath = 'Attachments/Projects Attachments/' . $request->name.'/Cahier de charge';
+            $file_name = $pdf->getClientOriginalName();
+            $pdf->move($destinationPath, $file_name);
+            $pdf_To_Base64=base64_encode(file_get_contents($destinationPath.'/'.$file_name));
+            $file_extension=$pdf->getClientOriginalExtension();
+            $pdf_Base64="data:application/".$file_extension.";base64,".$pdf_To_Base64;
+            
+            $project->update([
+                'pdf_file'=>$file_name,
+                'pdf_base64'=>$pdf_Base64
+            ]);
+        }
+        
 
         else {
             $project = project::latest()->first();   
@@ -88,10 +104,12 @@ class ProjectController extends Controller
         }
         if($request->category){
             if($request->subcategory){
-                $subcategory=subcategory::where('id',$request->subcategory)->first();
                 $project=project::latest()->first();
-                $subcategory->projects()->syncWithoutDetaching($project);
-              }
+                foreach($request->subcategory as $subcategory_id){
+                    $subcategory=subcategory::where('id',$subcategory_id)->first();
+                    $subcategory->projects()->syncWithoutDetaching($project);
+                }
+            }
         }
 
 
@@ -149,7 +167,18 @@ class ProjectController extends Controller
             Storage::disk('projects_uploads')->rename($old_name, $new_name);}
         }
        
-
+        if($request->category){
+            if($request->subcategory){
+             $project=project::where('id',$request->id)->first();    
+             $delete_relations=DB::table('project_subcategory')
+                                    ->whereIn('project_id',[$request->id])->delete();
+                                    
+            foreach($request->subcategory as $subcategory_id){
+                $subcategory=subcategory::where('id',$subcategory_id)->first();
+                $subcategory->projects()->syncWithoutDetaching($project);
+            }
+            }
+        }
         
         
         session()->flash('updated', "le projet a été mise à jour");
@@ -210,6 +239,20 @@ class ProjectController extends Controller
         session()->flash('delete','La photo a été supprimée');
         return back();
     }
+
+    public function viewPdfFile($project_name,$file_name){
+        $file=Storage::disk('projects_uploads')->getDriver()->getAdapter()->applyPathPrefix($project_name.'/Cahier de charge/'.$file_name);
+        return response()->file($file);
+    }
+
+    public function downloadPdfFile($project_name,$file_name){
+        $file=Storage::disk('projects_uploads')->getDriver()->getAdapter()->applyPathPrefix($project_name.'/Cahier de charge/'.$file_name);
+        return response()->download($file);
+    }
+
+
+
+    //APIs
 
     function getAllProjects(){
         $projects=project::all();

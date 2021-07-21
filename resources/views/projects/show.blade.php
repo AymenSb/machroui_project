@@ -146,6 +146,7 @@ input[type=number]::-webkit-outer-spin-button {
                             <button class="tablinks" id='defaultOpen' onclick="openCity(event, 'London')">Détails</button>
                             <button class="tablinks" id='defaultOpen' onclick="openCity(event, 'description')">Description</button>
                             <button class="tablinks" onclick="openCity(event, 'Paris')">Image</button>
+                            <button class="tablinks" onclick="openCity(event, 'cahier')">Cahier de charge</button>
                             
                         </div>
                         @endcan
@@ -254,6 +255,60 @@ input[type=number]::-webkit-outer-spin-button {
                                 </div>
                             </div>
                         </div>
+                        {{-- PDF file --}}
+                        <div id="cahier" class="tabcontent">
+                            <div class="form-group">
+                                <label>{{__("Images")}}</label>
+                                @if ($project->pdf_file)
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
+                                    <tr style=" white-space: nowrap">
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                      <td>{{$project->pdf_file}}</td>
+                                      <td>
+                                        <a class="btn btn-outline-success btn-sm" target="_blank"
+                                        href= "{{route('viewPdfFile',[$project->name,$project->pdf_file])}}"
+                                        role="button"><i class="fas fa-eye"></i>&nbsp;
+                                        Voir</a></td>
+                                        <td>
+                                    <a class="btn btn-outline-info btn-sm"
+                                        href= "{{route('downloadPdfFile',[$project->name,$project->pdf_file])}}"
+                                        role="button"><i
+                                            class="fas fa-download"></i>&nbsp;
+                                        Télécharger</a>
+                                      </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                @endif
+                                  <div class="card-body">
+                                    @can('modifier formation')
+                                    <h5 class="card-title">Changer la cahier de charge</h5>
+                                    <form method="post" action="{{ route('updatePDF.update',$project->id) }}"
+                                        enctype="multipart/form-data">
+                                        {{ method_field('PUT') }}
+                                        {{ csrf_field() }}
+                                        <div class="custom-file">
+                                            <input accept=".pdf" type="file" class="custom-file-input" id="file_name"
+                                                name="file_name" required >
+                                            <input type="hidden" id="project_name" name="project_name"
+                                                value="{{ $project->name }}">
+                                            <input type="hidden" id="project_id" name="project_id"
+                                                value="{{ $project->id }}">
+                                            <label class="custom-file-label"  for="file_name">Sélectionner un ficher
+                                                </label>
+                                        </div><br><br>
+                                        <button type="submit" class="btn btn-primary btn-sm "
+                                            name="uploadedFile">Validée</button>
+                                    </form>
+                                    @endcan
+                                </div>
+                            </div>
+                        </div>
+
 
                     </div>
                 </div>
@@ -315,7 +370,7 @@ input[type=number]::-webkit-outer-spin-button {
 
                       <div class="form-group">
                         <label for="title">Type</label>
-                        <input type="number" class="form-control" name="type" id="type" autocomplete="off" >
+                        <input type="text" class="form-control" name="type" id="type" autocomplete="off" >
                       </div>
                  
                   <div class="form-group">
@@ -323,7 +378,25 @@ input[type=number]::-webkit-outer-spin-button {
                     <textarea type="text" class="form-control" name="informations" id="informations" autocomplete="off" ></textarea>
                   </div>
                   <input hidden name="id" id="id" value="">
-             
+                  <div class="form-group">
+                    <p class="text-danger">	&nbsp;En sélectionnant une(des) catégorie(s), les catégories existantes de votre produit seront remplacées par celles que vous avez sélectionnées.</p>
+
+                    <label for="title">Selectionnez une categorie</label>
+                    <select name="category" class="form-control SlectBox">
+                        
+                        <!--placeholder-->
+                        <option value="" selected disabled>Choisissez une catégorie</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}"> {{ $category->name }}</option>
+                        @endforeach
+                    </select>
+
+                    <label for="title">Sous-Categorie</label>
+                    <select multiple id="subcategory" name="subcategory[]" class="form-control">
+                        <option value="" selected disabled>Choisissez une sous-catégorie</option>
+                    </select>
+
+                </div>
                 </div>
                 
                 <div class="modal-footer">
@@ -414,9 +487,9 @@ input[type=number]::-webkit-outer-spin-button {
                     type: "GET",
                     dataType: "json",
                     success: function(data) {
-                        $('select[name="subcategory"]').empty();
+                        $('select[id="subcategory"]').empty();
                         $.each(data, function(key, value) {
-                            $('select[name="subcategory"]').append('<option value="' +
+                            $('select[id="subcategory"]').append('<option value="' +
                                 key + '">' + value + '</option>');
                         });
                     },

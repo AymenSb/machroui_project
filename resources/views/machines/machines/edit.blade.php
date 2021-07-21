@@ -125,10 +125,11 @@ textarea::-webkit-scrollbar-thumb {
                         <span style=" margin-left: 20px;"></span>
 
                         <div class="row">
+                        <p class="text-danger">	&nbsp;En sélectionnant une(des) catégorie(s), les catégories existantes de votre produit seront remplacées par celles que vous avez sélectionnées.</p>
                           <div class="col-3">
                             <label for="inputName" class="contro-label">Selectionnez une categorie</label>
-                            <select  name="category" class="form-control SlectBox" onclick="console.log($(this).val())"
-                            onchange="console.log('change is firing')">
+                            <select  name="category" class="form-control SlectBox"
+                            >
                             <!--placeholder-->
                             <option value="" selected disabled>Choisissez une catégorie</option>
                             @foreach ($categories as $category)
@@ -139,7 +140,7 @@ textarea::-webkit-scrollbar-thumb {
                         
                           <div class="colo-3">
                             <label for="inputName" class="control-label">Sous-Categorie</label>
-                            <select  id="subcategory" name="subcategory" class="form-control">
+                            <select multiple id="subcategory" name="subcategory[]" class="form-control">
                               <option value="" selected disabled>Choisissez une sous-catégorie</option>
                             </select>
                           </div>
@@ -162,8 +163,6 @@ textarea::-webkit-scrollbar-thumb {
     </div>
     
   </div>
-                                    <input type="number" value="{{$machine->id}}"  style="visibility: hidden" id="id" name="id">
-
 @stop
 
 @section('js')
@@ -186,9 +185,9 @@ textarea::-webkit-scrollbar-thumb {
                   type: "GET",
                   dataType: "json",
                   success: function(data) {
-                      $('select[name="subcategory"]').empty();
+                      $('select[id="subcategory"]').empty();
                       $.each(data, function(key, value) {
-                          $('select[name="subcategory"]').append('<option value="' +
+                          $('select[id="subcategory"]').append('<option value="' +
                               key + '">' + value + '</option>');
                       });
                   },

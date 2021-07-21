@@ -13,6 +13,8 @@ use App\Models\subcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB ;
+
 
 class MachinesController extends Controller
 {
@@ -98,12 +100,13 @@ class MachinesController extends Controller
 
         if ($request->category) {
             if ($request->subcategory) {
-                $subcategory = subcategory::where('id', $request->subcategory)->first();
                 $machine = machines::latest()->first();
-                $subcategory->machines()->syncWithoutDetaching($machine);
+                foreach($request->subcategory as $subcategory_id){
+                    $subcategory = subcategory::where('id', $subcategory_id)->first();
+                    $subcategory->machines()->syncWithoutDetaching($machine);
+                }
             }
         }
-
         session()->flash('add', 'La machine a été ajoutée avec succès');
         return redirect('/machines');
     }
@@ -182,9 +185,13 @@ class MachinesController extends Controller
 
         if ($request->category) {
             if ($request->subcategory) {
-                $subcategory = subcategory::where('id', $request->subcategory)->first();
                 $machine = machines::where('id', $request->id)->first();
-                $subcategory->machines()->sync($machine);
+                $delete_relations=DB::table('machines_subcategory')
+                                    ->whereIn('machines_id',[$request->id])->delete();
+                foreach($request->subcategory as $subcategory_id){
+                    $subcategory = subcategory::where('id', $subcategory_id)->first();
+                    $subcategory->machines()->syncWithoutDetaching($machine);
+                }
             }
         }
         session()->flash('updated', "la machine a été mise à jour");

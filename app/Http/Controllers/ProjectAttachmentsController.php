@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\ProjectAttachments;
 use App\Models\project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 
 class ProjectAttachmentsController extends Controller
 {
@@ -55,7 +57,6 @@ class ProjectAttachmentsController extends Controller
             $image64Url="data:image/".$file_extension.";base64,".$base64Image;
             $data[]=$file_name;
             $base64Urls[]=$image64Url;  
-            
             }
             $new_data=array_unique(array_merge($data,$old_data),SORT_REGULAR);
             $new_base64Urls=array_unique(array_merge($base64Urls,$old_base64Urls),SORT_REGULAR);
@@ -99,7 +100,26 @@ class ProjectAttachmentsController extends Controller
      */
     public function update(Request $request, ProjectAttachments $projectAttachments)
     {
-        //
+        $pdf=$request->File('file_name');
+        $new_file=$pdf->getClientOriginalName();
+        $project_id=$request->project_id;
+        $project_name=$request->project_name; 
+
+        $project=project::findOrFail($project_id);
+        $old_file=$project->pdf_file;
+        if(!empty($old_file)){
+            Storage::disk('projects_uploads')->delete($project_name.'/Cahier de charge/'.$old_file);
+        }
+        $request->file_name->move(public_path('Attachments/Projects Attachments/' .$project_name .'/Cahier de charge/'), $new_file);
+        $base64PDF=base64_encode(file_get_contents(public_path('Attachments/Projects Attachments/' .$project_name.'/Cahier de charge/'.$new_file)));
+        $file_extension=$pdf->getClientOriginalExtension();
+        $pdf64Url="data:application/".$file_extension.";base64,".$base64PDF;
+        $project->update([
+            'pdf_file'=>$new_file,
+            'pdf_base64'=>$pdf64Url,
+        ]);
+
+        return back();
     }
 
     /**

@@ -21,7 +21,7 @@ class RawMaterialsController extends Controller
     {
     $this->middleware('permission:matières premières|crée matière première|modfier matière première|effacer matière première', ['only' => ['index','show']]);
     $this->middleware('permission:crée matière première', ['only' => ['create','store']]);
-    $this->middleware('permission:modfier matière première', ['only' => ['edit','update']]);
+    // $this->middleware('permission:modfier matière première', ['only' => ['edit','update']]);
     $this->middleware('permission:effacer matière première', ['only' => ['destroy']]);
     }
     /**
@@ -89,9 +89,11 @@ class RawMaterialsController extends Controller
 
         if($request->category){
             if($request->subcategory){
-              $subcategory=subcategory::where('id',$request->subcategory)->first();
               $material=rawMaterials::latest()->first();
-              $subcategory->materials()->syncWithoutDetaching($material);
+              foreach($request->subcategory as $subcategory_id){
+                $subcategory=subcategory::where('id',$subcategory_id)->first();
+                $subcategory->materials()->syncWithoutDetaching($material);
+            }
             }
         }
         session()->flash('add','la matière première a été ajoutée');
@@ -151,9 +153,14 @@ class RawMaterialsController extends Controller
         }
         if($request->category){
             if($request->subcategory){
-            $subcategory=subcategory::where('id',$request->subcategory)->first();
              $material=rawMaterials::where('id',$request->id)->first();    
-              $material->subcategory()->sync($material);
+             $delete_relations=DB::table('raw_materials_subcategory')
+                                    ->whereIn('raw_materials_id',[$request->id])->delete();
+                                    
+            foreach($request->subcategory as $subcategory_id){
+                $subcategory=subcategory::where('id',$subcategory_id)->first();
+                $subcategory->materials()->syncWithoutDetaching($material);
+            }
             }
         }
         

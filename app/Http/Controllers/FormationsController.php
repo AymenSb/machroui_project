@@ -94,10 +94,11 @@ class FormationsController extends Controller
         }
         if($request->category){
             if($request->subcategory){
-               $subcategory=subcategory::where('id',$request->subcategory)->first();
-             $formation=Formations::latest()->first();
-
-               $subcategory->formations()->syncWithoutDetaching($formation);
+                $formation=Formations::latest()->first();
+                foreach($request->subcategory as $subcategory_id){
+                    $subcategory=subcategory::where('id',$subcategory_id)->first();
+                    $subcategory->formations()->syncWithoutDetaching($formation);
+                }
             }
         }
 
@@ -178,9 +179,14 @@ class FormationsController extends Controller
 
          if($request->category){
             if($request->subcategory){
-            $subcategory=subcategory::where('id',$request->subcategory)->first();
-             $formation=Formations::where('id',$request->id)->first();
-             $subcategory->formations()->sync($formation);
+                $formation=Formations::where('id',$request->id)->first();
+                $delete_relations=DB::table('formations_subcategory')
+                                    ->whereIn('formations_id',[$request->id])->delete();
+                foreach($request->subcategory as $subcategory_id){
+                    $subcategory=subcategory::where('id',$subcategory_id)->first();
+                    $subcategory->formations()->syncWithoutDetaching($formation);
+                }
+                
             }
         }
         

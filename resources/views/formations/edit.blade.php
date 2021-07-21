@@ -133,6 +133,7 @@ input[type=number]::-webkit-outer-spin-button {
 
                          <br><br>
                          <div class="row">
+                          <p class="text-danger">	&nbsp;En sélectionnant une(des) catégorie(s), les catégories existantes de votre produit seront remplacées par celles que vous avez sélectionnées.</p>
                            <div class="col-3">
                              <label for="inputName" class="contro-label">Selectionnez une categorie</label>
                              <select  name="category" class="form-control SlectBox" onclick="console.log($(this).val())"
@@ -147,7 +148,7 @@ input[type=number]::-webkit-outer-spin-button {
                          
                            <div class="colo-3">
                              <label for="inputName" class="control-label">Sous-Categorie</label>
-                             <select  id="subcategory" name="subcategory" class="form-control">
+                             <select multiple id="subcategory" name="subcategory[]" class="form-control">
                                <option value="" selected disabled>Choisissez une sous-catégorie</option>
                              </select>
                            </div>
@@ -195,9 +196,9 @@ input[type=number]::-webkit-outer-spin-button {
                   type: "GET",
                   dataType: "json",
                   success: function(data) {
-                      $('select[name="subcategory"]').empty();
+                      $('select[name="subcategory[]"]').empty();
                       $.each(data, function(key, value) {
-                          $('select[name="subcategory"]').append('<option value="' +
+                          $('select[name="subcategory[]"]').append('<option value="' +
                               key + '">' + value + '</option>');
                       });
                   },
