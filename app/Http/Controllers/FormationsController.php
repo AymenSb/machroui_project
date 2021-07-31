@@ -252,6 +252,20 @@ class FormationsController extends Controller
         }
     }
 
+    public function FormationCategory($id){
+        $formation = formations::where('id', $id)->first();
+        if ($formation != null) {
+            $subcategories = $formation->subcategory()->get();
+            foreach($subcategories as $subcategory){
+                $category=Category::where('id',$subcategory->category_id)->first()->name;
+                
+            }
+            return response()->json($category);
+        } else {
+            return response()->json('Empty');
+        }
+    }
+
 
     function getAllCatFormations($id){
         $formations=db::table('formations')

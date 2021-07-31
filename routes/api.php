@@ -38,18 +38,23 @@ Route::get('/latests',[apis_controller::class,'latests']);
 
 Route::get('/api_projects',[ProjectController::class,'getAllProjects']);
 Route::get('/api_projects/{id}',[ProjectController::class,'getProjectById']);
-
+Route::get('/projectsBySubCategory/{id}',[ProjectController::class,'getProjectsBySubCategories']);
+Route::get('/getProjectsByCategories/{id}',[ProjectController::class,'getProjectsByCategories']);
+Route::get('/project-subcategories/{id}',[ProjectController::class,'ProjectSucategories']);
+Route::get('/project-categories/{id}',[ProjectController::class,'ProjectCategory']);
 
 Route::get('/api_formations',[FormationsController::class,'getFormations']);
 Route::get('/api_formationsCat/{id}',[FormationsController::class,'getFormationsCat']);
 Route::get('/api_formations/{id}',[FormationsController::class,'getFormationById']);
 Route::get('/getAllCatFormations/{id}',[FormationsController::class,'getAllCatFormations']);
 Route::get('subcategoriesformations/{id}',[FormationsController::class,'getsubcategoriesFormations']);
+Route::get('FormationCategory/{id}',[FormationsController::class,'FormationCategory']);
 
 Route::get('/api_machines',[MachinesController::class,'getMachines']);
 Route::get('/api_machinesCat/{id}',[MachinesController::class,'getMachinesCat']);
 Route::get('/api_machines/{id}',[MachinesController::class,'getMachineById']);
 Route::get('subcategoriesmachine/{id}',[MachinesController::class,'MachineSubCategories']);
+Route::get('MachineCategory/{id}',[MachinesController::class,'MachinetCategory']);
 Route::get('categoriesMachines/{id}',[MachinesController::class,'getAllCategoriesForMachines']);
 
 
@@ -57,6 +62,7 @@ Route::get('/api_materials',[RawMaterialsController::class,'getMaterials']);
 Route::get('/api_materialsCat/{id}',[RawMaterialsController::class,'getMaterialsCat']);
 Route::get('/api_materials/{id}',[RawMaterialsController::class,'getMaterialById']);
 Route::get('/subcategoriesmaterials/{id}',[RawMaterialsController::class,'getSubCategoriesRawMaterials']);
+Route::get('/MaterialCategory/{id}',[RawMaterialsController::class,'MaterialCategory']);
 Route::get('/categoriesMaterials/{id}',[RawMaterialsController::class,'getAllCategoriesForMaterials']);
 
 

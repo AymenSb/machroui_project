@@ -257,6 +257,20 @@ class RawMaterialsController extends Controller
             return response()->json('Empty');
         }
     }
+    public function MaterialCategory($id){
+        $raw_material = rawMaterials::where('id', $id)->first();
+        if ($raw_material != null) {
+            $subcategories = $raw_material->subcategory()->get();
+            foreach($subcategories as $subcategory){
+                $category=Category::where('id',$subcategory->category_id)->first()->name;
+                
+            }
+            return response()->json($category);
+        } else {
+            return response()->json('Empty');
+        }
+    }
+
     function getAllCategoriesForMaterials($id){
         $raw_material=rawMaterials::
                         join('raw_materials_subcategory','raw_materials.id','raw_materials_subcategory.raw_materials_id')

@@ -319,6 +319,32 @@ class MachinesController extends Controller
         return $machines;
     }
 
+    public function MachinetCategory($id){
+        $machines = machines::where('id', $id)->first();
+        if ($machines != null) {
+            $subcategories = $machines->subcategory()->get();
+            foreach($subcategories as $subcategory){
+                $category=Category::where('id',$subcategory->category_id)->first()->name;
+                
+            }
+            return response()->json($category);
+        } else {
+            return response()->json('Empty');
+        }
+    }
+
+    public function getAllCategoriesForMachines($id)
+    {
+        $machines = machines::
+            join('machines_subcategory', 'machines.id', 'machines_subcategory.machines_id')
+            ->join('subcategories', 'machines_subcategory.subcategory_id', 'subcategories.id')
+            ->where('subcategories.category_id', $id)
+            ->select('machines.*')
+            ->distinct('machines.id')
+            ->get();
+        return response()->json($machines);
+    }
+
     public function postMachines(Request $request)
     {
         if ($request->state == 'new') {
@@ -381,17 +407,7 @@ class MachinesController extends Controller
         return $machines;
     }
 
-    public function getAllCategoriesForMachines($id)
-    {
-        $machines = machines::
-            join('machines_subcategory', 'machines.id', 'machines_subcategory.machines_id')
-            ->join('subcategories', 'machines_subcategory.subcategory_id', 'subcategories.id')
-            ->where('subcategories.category_id', $id)
-            ->select('machines.*')
-            ->distinct('machines.id')
-            ->get();
-        return response()->json($machines);
-    }
+    
     public function searchingForMachines()
     {
         if (request()->cat && request()->sf) {

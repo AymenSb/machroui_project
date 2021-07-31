@@ -265,4 +265,48 @@ class ProjectController extends Controller
         $projects=project::where('id',$id)->first();
         return response()->json($projects);
     }
+
+    public function getProjectsBySubCategories($id){
+        $projects=project::
+                    join('project_subcategory','projects.id','project_subcategory.project_id')
+                    ->where('project_subcategory.subcategory_id',$id)
+                    ->select('projects.*')
+                    ->get();
+        return $projects;
+    }
+
+    public function getProjectsByCategories($id){
+        $projects=project::
+        join('project_subcategory','projects.id','project_subcategory.project_id')
+            ->join('subcategories', 'project_subcategory.subcategory_id', 'subcategories.id')
+            ->where('subcategories.category_id', $id)
+            ->select('projects.*')
+            ->distinct('projects.id')
+            ->get();
+        return $projects;
+    }
+
+    public function ProjectSucategories($id){
+        $project = project::where('id', $id)->first();
+        if ($project != null) {
+            $subcategories = $project->subcategory()->select('name', 'subcategory_id')->get();
+            return $subcategories;
+        } else {
+            return response()->json('Empty');
+        }
+    }
+
+    public function ProjectCategory($id){
+        $project = project::where('id', $id)->first();
+        if ($project != null) {
+            $subcategories = $project->subcategory()->get();
+            foreach($subcategories as $subcategory){
+                $category=Category::where('id',$subcategory->category_id)->first()->name;
+                
+            }
+            return response()->json($category);
+        } else {
+            return response()->json('Empty');
+        }
+    }
 }
