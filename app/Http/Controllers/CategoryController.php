@@ -65,7 +65,7 @@ class CategoryController extends Controller
         $category=new Category();
         $category->name=$request->name;
         $category->slug=str_slug($request->name);
-        $latestSlug=Category::whereRaw("slug RLIKE'^{$category->slug}(-[0-9])?$'")->latest('id')->value('slug');
+        $latestSlug=Category::whereRaw("slug LIKE'^{$category->slug}(-[0-9])?$'")->latest('id')->value('slug');
         if($latestSlug){
             $pieces=explode('-',$latestSlug);
             $number=intval(end($pieces));
@@ -79,7 +79,7 @@ class CategoryController extends Controller
         $subcategory->category_id=$category->id;
         $subcategory->name='Autre';
         $subcategory->slug=str_slug('Autre');
-        $latestSlug=subcategory::whereRaw("slug RLIKE'^{$subcategory->slug}(-[0-9])?$'")->latest('id')->value('slug');
+        $latestSlug=subcategory::whereRaw("slug LIKE'^{$subcategory->slug}(-[0-9])?$'")->latest('id')->value('slug');
         if($latestSlug){
             $pieces=explode('-',$latestSlug);
             $number=intval(end($pieces));

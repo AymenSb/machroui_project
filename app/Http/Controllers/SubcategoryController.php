@@ -42,7 +42,7 @@ class SubcategoryController extends Controller
         $subcategory->name=$request->name;
         $subcategory->category_id=$request->category_id;
         $subcategory->slug=str_slug($request->name);
-        $latestSlug=subcategory::whereRaw("slug RLIKE'^{$subcategory->slug}(-[0-9])?$'")->latest('id')->value('slug');
+        $latestSlug=subcategory::whereRaw("slug LIKE'^{$subcategory->slug}(-[0-9])?$'")->latest('id')->value('slug');
         if($latestSlug){
             $pieces=explode('-',$latestSlug);
             $number=intval(end($pieces));
