@@ -300,11 +300,16 @@ class ProjectController extends Controller
         $project = project::where('id', $id)->first();
         if ($project != null) {
             $subcategories = $project->subcategory()->get();
-            foreach($subcategories as $subcategory){
-                $category=Category::where('id',$subcategory->category_id)->first()->name;
-                
+            if($subcategories != '[]'){
+                foreach($subcategories as $subcategory){
+                    $category=Category::where('id',$subcategory->category_id)->first()->name;
+                    
+                }
+                return response()->json($category);
             }
-            return response()->json($category);
+            else {
+                return response()->json('Empty');
+            } 
         } else {
             return response()->json('Empty');
         }

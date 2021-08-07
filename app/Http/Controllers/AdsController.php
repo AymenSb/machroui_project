@@ -53,15 +53,15 @@ class AdsController extends Controller
             'name' => 'unique:ads|max:30',
         ],
         [
-            'name.max'=>'Nom est trés long'
-        ],
-            [
-                'name.unique'=>'Nom dejà utiliser',
-            ]
+            'name.max'=>'Nom est trés long',
+            'name.unique'=>'Nom dejà utiliser',
+        ]
         );
         
-            $ads=new ads();
+        $ads=new ads();
         $ads->name=$request->name;
+        $ads->title=$request->title;
+        $ads->sub_title=$request->sub_title;
         if($request->is_Visible=='Cachée'){
             $ads->is_Visible=0;
         }
@@ -74,11 +74,17 @@ class AdsController extends Controller
             $file_name=$image->getClientOriginalName();
             $ads->file_name=$file_name;
             $request->image->move(public_path('Attachments/Ads Attachments/'.$request->name ), $file_name);
+            
+            $base64Image=base64_encode(file_get_contents(public_path('Attachments/Ads Attachments/' .$request->name.'/'.$file_name)));
+            $file_extension=$request->image->getClientOriginalExtension();
+            $image64Url="data:image/".$file_extension.";base64,".$base64Image;
+
+            $ads->base64Url=$image64Url;
         }
         $ads->save();
 
         session()->flash('ADD', 'Publicité ajoutée avec succès');
-        return redirect('ads/create');
+        return redirect('ads/');
         
 
     }
@@ -126,6 +132,8 @@ class AdsController extends Controller
         }
         $ads->update([
             'name'=>$request->name,
+            'title'=>$request->title,
+            'sub_title'=>$request->sub_title,
             'is_Visible'=>$value,
         ]);
 
@@ -174,13 +182,19 @@ class AdsController extends Controller
          $new_file=$image->getClientOriginalName();
          $ad=ads::findOrfail($request->id);
          $old_file=$ad->file_name;
-         $ad->update([
-            'file_name'=>$new_file,
-         ]);
+        
          if(!empty($old_file)){
             Storage::disk('ads_uploads')->delete($ad->name.'/'.$old_file);
         }
         $request->file_name->move(public_path('Attachments/Ads Attachments/' .$ad->name ), $new_file);
+        
+        $base64Image=base64_encode(file_get_contents(public_path('Attachments/Ads Attachments/' .$ad->name.'/'.$new_file)));
+        $file_extension=$image->getClientOriginalExtension();
+        $image64Url="data:image/".$file_extension.";base64,".$base64Image;
+         $ad->update([
+            'file_name'=>$new_file,
+            'base64Url'=>$image64Url,
+         ]);
         session()->flash('file',"l'image a été modifiée");
         return back();
     }

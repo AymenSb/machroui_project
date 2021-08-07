@@ -82,7 +82,18 @@ input[type=number]::-webkit-outer-spin-button {
 
 
                           {{-- 2 --}}
-                        
+                          <div class="row">
+                            <div class="col">
+                              <label for="inputName" class="control-label">Titre </label>
+                              <input type="text" class="form-control" id="title" name="title"
+                                  title="Veuillez saisir le nom de la publicité" required>
+                          </div>
+                          <div class="col">
+                            <label for="inputName" class="control-label">Sous-Titre</label>
+                            <input type="text" class="form-control" id="sub_title" name="sub_title"
+                                title="Veuillez saisir le nom de la publicité" required>
+                        </div>
+                          </div>
                         <span style=" margin-left: 20px;"></span>
 
                           {{-- 3 --}}

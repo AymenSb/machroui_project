@@ -323,11 +323,17 @@ class MachinesController extends Controller
         $machines = machines::where('id', $id)->first();
         if ($machines != null) {
             $subcategories = $machines->subcategory()->get();
-            foreach($subcategories as $subcategory){
-                $category=Category::where('id',$subcategory->category_id)->first()->name;
-                
+            if($subcategories != '[]'){
+                foreach($subcategories as $subcategory){
+                    $category=Category::where('id',$subcategory->category_id)->first()->name;
+                    
+                }
+                return response()->json($category);
             }
-            return response()->json($category);
+            else {
+                return response()->json('Empty');
+            }
+            
         } else {
             return response()->json('Empty');
         }

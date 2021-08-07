@@ -256,11 +256,17 @@ class FormationsController extends Controller
         $formation = formations::where('id', $id)->first();
         if ($formation != null) {
             $subcategories = $formation->subcategory()->get();
-            foreach($subcategories as $subcategory){
-                $category=Category::where('id',$subcategory->category_id)->first()->name;
-                
+            if($subcategories !='[]'){
+                foreach($subcategories as $subcategory){
+                    $category=Category::where('id',$subcategory->category_id)->first()->name;
+                    
+                }
+                return response()->json($category);
             }
-            return response()->json($category);
+            else {
+                return response()->json('Empty');
+            }
+           
         } else {
             return response()->json('Empty');
         }
