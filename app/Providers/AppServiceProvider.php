@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,19 +23,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // condition 1
+        //
         if (env('APP_ENV') === 'production') {
+            $this->app['request']->server->set('HTTPS','on'); // this line
+    
             URL::forceSchema('https');
-        }
-
-// condition 2
-        if (env('APP_ENV') !== 'local') {
-            URL::forceScheme('https');
-        }
-
-// condition 3
-        if (env('APP_FORCE_HTTPS', false)) {
-            URL::forceScheme('https');
         }
     }
 }
