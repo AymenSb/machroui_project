@@ -41,12 +41,6 @@
             </li>
             @endcan
 
-            <li class="@if ($activePage == 'MachinesOffers') active @endif">
-              <a href="{{ route('machines-offers.index') }}">
-                <i class="now-ui-icons users_single-02"></i>
-                <p> {{ __("Les offres des clients") }} </p>
-              </a>
-            </li>
             
             @can('requetes des machines en attend')
             <li class="@if ($activePage == 'RequestedMachines') active @endif">

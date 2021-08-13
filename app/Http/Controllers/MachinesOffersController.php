@@ -17,8 +17,7 @@ class MachinesOffersController extends Controller
      */
     public function index()
     {   
-        $offers=machines_offers::where('Accpted',0)->get();
-        return view('machines/offers/offers',compact('offers'));
+      return back();
     }
 
     /**
@@ -132,7 +131,7 @@ class MachinesOffersController extends Controller
     public function sendToVendor(Request $request){
         $offer=machines_offers::where('id',$request->request_id)->first();
         $offer->update([
-            'sendToVendor'=>1,
+            'Accpted'=>1,
         ]);
         
         return back();
@@ -141,7 +140,6 @@ class MachinesOffersController extends Controller
     public function vendorOffers($id){
         $offers=machines_offers::where('machine_id',$id)
                                 ->where('Accpted',1)
-                                ->where('sendToVendor',1)
                                 ->get();
         return $offers;
     }
@@ -159,15 +157,17 @@ class MachinesOffersController extends Controller
         }
          
          return response()->json([
-            "message"=>"vous avez accepté l'offre, nous vous contacterons bientôt."
+            "message"=>"Vous avez accepté l'offre, nous vous contacterons bientôt."
          ]);
     }
-    public function deleteOffer(Request $request){
+    public function RefuseOffer(Request $request){
         $offer=machines_offers::where('id',$request->offer_id)->first();
-        $offer->delete();
+        $offer->update([
+            'hasRefusedOffer'=>1
+        ]);
 
         return response()->json([
-            "message"=>"vous avez supprimer cette offre."
+            "message"=>"Vous avez réfuser cette offre."
          ]);
     }
 }

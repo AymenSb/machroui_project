@@ -120,7 +120,7 @@ class MachinesController extends Controller
     public function show($id)
     {
         $machine = machines::findOrFail($id);
-        $offers = machines_offers::where('machine_id', $id)->where('Accpted', 1)->get();
+        $offers = machines_offers::where('machine_id', $id)->get();
         return view('machines/machines/show', compact('machine', 'offers'));
     }
 

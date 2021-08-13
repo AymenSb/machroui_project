@@ -279,6 +279,15 @@ input[type=number]::-webkit-outer-spin-button {
                                     <tr style=" white-space: nowrap">
                                     </tr>
                                     </thead>
+                                    <thead>
+                                        <td><b>Id</b></td>
+                                        <td><b>Nom du client</b></td>
+                                        <td><b>Email</b></td>
+                                        <td><b>Numéro</b></td>
+                                        <td><b>Offre</b></td>
+                                        <td><b>Opérations</b></td>
+                                        <td><b>	&Eacute;tat</b></td>
+                                    </thead>
                                     <tbody>
                                       <?php $i=0?>
                                       @foreach ($offers as $item)
@@ -290,13 +299,14 @@ input[type=number]::-webkit-outer-spin-button {
                                       <td>{{$item->client_number}}</td>
                                       <td>{{$item->client_offer}}</td>
                                      <td  style="align-content: center">
-                                         @if ($item->sendToVendor==0)
+                                         @if ($item->Accpted==0)
                                          <button class="btn btn-outline-info btn-sm"
                                          data-toggle="modal"
                                          data-request_id="{{ $item->id }}"
                                          data-target="#send_to_vendor"
                                          role="button"><i class="fas fa-paper-plane"></i></i>&nbsp;
                                          Envoyer aux vendeur</button>
+                                         @endif
                                           <button class="btn btn-outline-danger btn-sm"
                                              data-toggle="modal"
                                              data-request_id="{{ $item->id }}"
@@ -304,25 +314,34 @@ input[type=number]::-webkit-outer-spin-button {
                                              role="button"><i
                                              class="fas fa-times"></i>&nbsp;
                                          Supprimer</button>  
-                                         @endif
-                                         @if ($item->sendToVendor==1 && $item->hasAcceptedOffer==0)
-                                             <span>
-                                                 <a class="text-info">
-                                                    <i class="fas fa-check"></i>
-                                                    &nbsp; Envoyé
-                                                </a>
-                                             </span>
-                                         @endif
-                                         @if ($item->hasAcceptedOffer==1)
-                                         <span>
+                                    </td>
+                                    
+                                    <td>
+                                        @if ($item->Accpted && !$item->hasAcceptedOffer && !$item->hasRefusedOffer)
+                                        <span>
+                                            <a class="text-info">
+                                               <i class="fas fa-check"></i>
+                                               &nbsp; Envoyé
+                                           </a>
+                                        </span>
+                                        @elseif($item->hasAcceptedOffer && $item->Accpted)
+                                        <span>
                                             <a class="text-success">
                                                 <i class="fas fa-exclamation-circle"></i>
                                                &nbsp;Offre accepté
                                            </a>
                                         </span> 
-                                         @endif
-                                        
-                                      </td>
+                                        @elseif($item->hasRefusedOffer && $item->Accpted )
+                                        <span>
+                                            <a class="text-danger">
+                                                <i class="fas fa-exclamation-circle"></i>
+                                               &nbsp;Offre refusé
+                                           </a>
+                                        </span> 
+                                        @else 
+                                        <p style="color: gray">--</p> 
+                                        @endif
+                                    </td>
                                     </tr>
                                     <div class="modal fade" id="send_to_vendor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                                     aria-hidden="true">

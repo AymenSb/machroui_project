@@ -100,7 +100,7 @@ Route::post('/postMachine',[MachinesController::class,'postMachines']);
 Route::get('/vendorMachines/{id}',[MachinesController::class,'vendorMachines']);
 Route::get('VendorOffers/{machine_id}',[MachinesOffersController::class,'vendorOffers']);
 Route::post('acceptOffer',[MachinesOffersController::class,'acceptOffer']);
-Route::post('deleteOffer',[MachinesOffersController::class,'deleteOffer']);
+Route::post('deleteOffer',[MachinesOffersController::class,'RefuseOffer']);
 
 
 Route::get('search-results',[MachinesController::class,'searchingForMachines']);
