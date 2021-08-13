@@ -162,12 +162,14 @@ class MachinesOffersController extends Controller
     }
     public function RefuseOffer(Request $request){
         $offer=machines_offers::where('id',$request->offer_id)->first();
-        $offer->update([
-            'hasRefusedOffer'=>1
-        ]);
+        if(!$offer->hasRefusedOffer)
+            $offer->update([
+                'hasRefusedOffer'=>1
+            ]);
+            return response()->json([
+                "message"=>"Vous avez réfuser cette offre."
+             ]);
 
-        return response()->json([
-            "message"=>"Vous avez réfuser cette offre."
-         ]);
+        
     }
 }

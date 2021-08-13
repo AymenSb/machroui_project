@@ -10,7 +10,7 @@ class machines_offers extends Model
     use HasFactory;
     protected $fillable = [
         'client_name', 'client_surname', 'client_email','client_offer','client_number','machine_id','Accpted',
-        'sendToVendor','hasAcceptedOffer'
+        'hasRefusedOffer','hasAcceptedOffer'
     ];
     public function machine(){
         return $this->BelongsTo(machines::class,'machine_id');
