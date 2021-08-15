@@ -159,7 +159,7 @@ class FormationsRequestsController extends Controller
     function ClientConfirmed(Request $request){
         $formation_request=formations_requests::where('id',$request->id)->first();
         $formation_request->update([
-            'isComing'=>1
+            'IsComing'=>1
         ]);
         $formation=formations::where('id',$formation_request->formation_id)->first();
         $formation->update([
