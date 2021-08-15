@@ -150,7 +150,7 @@ class FormationsRequestsController extends Controller
         $client_formations=DB::table('formations_requests')
                         ->join('formations','formations.id','formations_requests.formation_id')
                         ->select('formations.*','formations_requests.*')
-                        ->where('Accpted',1)
+                        ->where('Accepted',1)
                         ->where('client_id',$client_id)
                         ->get();
         return $client_formations;                                                
@@ -160,6 +160,10 @@ class FormationsRequestsController extends Controller
         $formation_request=formations_requests::where('id',$request->id)->first();
         $formation_request->update([
             'isComing'=>1
+        ]);
+        $formation=formations::where('id',$formation_request->formation_id)->first();
+        $formation->update([
+            "participants"=>$formation->participants+1
         ]);
         return response()->json([
             'message'=>'vous avez confirmer votre postulation.',

@@ -9,6 +9,9 @@ class formations extends Model
 {
     use HasFactory;
     protected $guarded=[];
+    protected $fillable=[
+        "participants"
+    ];
     
     public function file()
     {
