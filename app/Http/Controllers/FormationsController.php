@@ -119,10 +119,14 @@ class FormationsController extends Controller
             return redirect('/formations');
         }
         $subscribers=formations_requests::where('formation_id',$id)
-                                        ->where('Accpted',1)
+                                        ->where('IsComing',0)
                                         ->get();
+                                        
+        $ComfirmedSubscribers=formations_requests::where('formation_id',$id)
+                                                 ->where('IsComing',1)
+                                                 ->get();
         $attachments=formations_attachment::where('formation_id',"=",$id)->get();
-        return view('formations.show', ['formation' => $formations],compact('subscribers','attachments'));
+        return view('formations.show', ['formation' => $formations],compact('subscribers','attachments','ComfirmedSubscribers'));
     }
 
     /**

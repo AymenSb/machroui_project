@@ -19,7 +19,7 @@ class CreateFormationsTable extends Migration
             $table->string('name');
             $table->date('begin_date');
             $table->integer('places')->nullable();
-            $table->integer('subscribed')->nullable();
+            $table->integer('participants')->default(0);
             $table->text('description')->nullable();
             $table->string('trainer')->nullable();
             $table->text('locale')->nullable();

@@ -85,9 +85,16 @@ class FormationsRequestsController extends Controller
      * @param  \App\Models\formations_requests  $formations_requests
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, formations_requests $formations_requests)
+    public function update(Request $request)
     {
+        $subscriber=formations_requests::findOrfail($request->request_id);
+        $formation_id=$subscriber->formation_id;
+        $subscriber->update([
+            "Accepted"=>1
+        ]);
         
+        session()->flash('edit', 'Abonné ajouter');
+        return redirect('formations/'.$formation_id);
     }
 
     /**
@@ -100,11 +107,11 @@ class FormationsRequestsController extends Controller
     {
         $subscriber=formations_requests::findOrfail($request->request_id);
         $formation_id=$subscriber->formation_id;
-        $accepted=$subscriber->Accpted;
-        if($accepted==1){
+        $isComing=$subscriber->IsComing;
+        if($isComing==1){
             $formation=formations::findOrfail($subscriber->formation_id);
             $formation->update([
-                'subscribed'=>$formation->subscribed -1,
+                'participants'=>$formation->participants -1,
             ]);
 
             $subscriber->delete();
@@ -112,11 +119,13 @@ class FormationsRequestsController extends Controller
            session()->flash('edit', 'Abonné supprimer');
            return redirect('formations/'.$formation_id);
         }
+        else{
+            $subscriber->delete();
 
-        $subscriber->delete();
-
-        session()->flash('edit', 'Abonné supprimer');
-        return redirect('formations-requests');
+            session()->flash('edit', 'Abonné supprimer');
+            return redirect('formations/'.$formation_id);
+        }
+        
     }
 
 
@@ -130,7 +139,6 @@ class FormationsRequestsController extends Controller
             "client_email"=>$request->client_email,
             "client_number"=>$request->client_number,
             "formation_id"=>$request->formation_id,
-            "begin_date"=>$request->formation_date
         ]);
         return response()->json([
             'message'=>'Votre demande à été envoyé.'

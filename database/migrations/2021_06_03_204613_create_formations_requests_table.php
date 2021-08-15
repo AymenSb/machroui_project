@@ -19,11 +19,10 @@ class CreateFormationsRequestsTable extends Migration
             $table->string('client_surname');
             $table->string('client_email');
             $table->integer('client_number');
-            $table->string('begin_date');
             $table->unsignedBigInteger('formation_id')->nullable();
             $table->unsignedBigInteger('client_id')->nullable();
             $table->foreign('client_id')->references('id')->on('users')->onDelete('cascade');
-            $table->boolean('Accpted')->default(0);
+            $table->boolean('Accepted')->default(0);
             $table->boolean('IsComing')->default(0);
             $table->foreign('formation_id')->references('id')->on('formations')->onDelete('cascade');
             $table->timestamps();

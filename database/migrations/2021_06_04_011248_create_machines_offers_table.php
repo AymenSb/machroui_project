@@ -22,7 +22,6 @@ class CreateMachinesOffersTable extends Migration
             $table->integer('client_offer');
             $table->unsignedBigInteger('machine_id')->nullable();
             $table->boolean('Accpted')->default(0);
-            $table->boolean('Refused')->default(0); //DELETE THIS BRO THERE IS NO USE OF IT
             $table->boolean('hasAcceptedOffer')->default(0);
             $table->boolean('hasRefusedOffer')->default(0);
             $table->foreign('machine_id')->references('id')->on('machines')->onDelete('cascade');
