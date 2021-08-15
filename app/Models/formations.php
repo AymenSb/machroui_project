@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class formations extends Model
 {
     use HasFactory;
-    protected $guarded=[];
     protected $fillable=[
-        "participants"
+        "name","begin_date","places","participants","description","trainer","locale","plan","link",
+        "price",""
     ];
     
     public function file()
