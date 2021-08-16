@@ -111,7 +111,7 @@ class RawMaterialsController extends Controller
         $categories=Category::all();
         $material=rawMaterials::where('id',$id)->first();
         $images=rawmaterials_attachments::where('material_id',$id)->first();
-        $requests=rawmaterials_requests::where('rawmaterial_id',$id)->where('Accpted',1)->get();
+        $requests=rawmaterials_requests::where('rawmaterial_id',$id)->get();
         return view('rawmaterials/show',compact('material','images','categories','requests'));
     }
 

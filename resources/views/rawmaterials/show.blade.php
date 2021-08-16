@@ -130,11 +130,11 @@
                     </div>
 
                     <div class="card-body all-icons">
-                            <a href="#modaldemo9" data-price="{{ $material->price }}"
-                                data-description="{{ $material->description }}" data-name="{{ $material->name }}"
-                                data-id="{{ $material->id }}" data-brand="{{ $material->brand }}" data-effect="effect-fall"
-                                data-toggle="modal" class="btn btn-primary btn-round"
-                                style="color: white;background-color:#FF3636;">Éditer</a>
+                        <a href="#modaldemo9" data-price="{{ $material->price }}"
+                            data-description="{{ $material->description }}" data-name="{{ $material->name }}"
+                            data-id="{{ $material->id }}" data-brand="{{ $material->brand }}" data-effect="effect-fall"
+                            data-toggle="modal" class="btn btn-primary btn-round"
+                            style="color: white;background-color:#FF3636;">Éditer</a>
                         {{-- place content here --}}
 
                         <!-- Tab links -->
@@ -147,7 +147,7 @@
                                     <button class="tablinks" onclick="openCity(event, 'Paris')">Image</button>
                                 @endcan
                                 <button class="tablinks" id='defaultOpen' onclick="openCity(event, 'requests')">Les
-                                    requêtes</button>
+                                    Les demandes des clients</button>
                             </div>
                         @endcan
                         <!-- Tab content -->
@@ -163,7 +163,8 @@
                                 <div class="col-md-2 pr-1">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">{{ __('Prix') }}</label>
-                                        <span type="text" name="trainer" class="form-control">{{ $material->price }}<span>
+                                        <span type="text" name="trainer"
+                                            class="form-control">{{ $material->price }}<span>
                                     </div>
                                 </div>
                                 <div class="col-md-3 pr-1">
@@ -269,6 +270,13 @@
                                 <table id="example1" class="table table-bordered table-striped">
                                     <thead>
                                         <tr style=" white-space: nowrap">
+                                            <td>Id</td>
+                                            <td>Nom et prénom</td>
+                                            <td>Email</td>
+                                            <td>Numéro</td>
+                                            <td>Quantité demandée</td>
+                                            <td>Opérations</td>
+                                            <td>État</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -280,13 +288,128 @@
                                                 <td>{{ $item->client_name }} {{ $item->client_surname }}</td>
                                                 <td>{{ $item->client_email }}</td>
                                                 <td>{{ $item->client_number }}</td>
+                                                <td>{{ $item->quantity }}</td>
                                                 <td>
+                                                    @if ($item->unavailable || !$item->available)
+                                                    <button class="btn btn-outline-success btn-sm" data-toggle="modal"
+                                                    data-request_id="{{ $item->id }}" data-target="#available"
+                                                    role="button"><i class="fas fa-check"></i>&nbsp;
+                                                    Disponible</button>  
+                                                    @endif
+                                                    
+                                                    @if (!$item->unavailable || $item->available)
+                                                    <button class="btn btn-outline-warning btn-sm" data-toggle="modal"
+                                                    data-request_id="{{ $item->id }}" data-target="#not_available"
+                                                    role="button"><i class="fas fa-times"></i>&nbsp;
+                                                    Non disponible</button>
+                                                    @endif
+                                                    
                                                     <button class="btn btn-outline-danger btn-sm" data-toggle="modal"
                                                         data-request_id="{{ $item->id }}" data-target="#delete_request"
-                                                        role="button"><i class="fas fa-times"></i>&nbsp;
+                                                        role="button"><i class="fas fa-trash"></i>&nbsp;
                                                         Supprimer</button>
                                                 </td>
+                                                <td>
+                                                    @if ($item->available)
+                                                    <a class="text-success">
+                                                        <i class="fas fa-check"></i>
+                                                        &nbsp; Disponible
+                                                    </a>
+                                                    @elseif($item->unavailable)
+                                                    <a class="text-danger">
+                                                        <i class="fas fa-times"></i>
+                                                        &nbsp; Non Disponible
+                                                    </a>
+                                                    @else
+                                                        --
+                                                    @endif
+                                                </td>
                                             </tr>
+                                            {{-- Availble Modal --}}
+                                            <div class="modal fade" id="available" tabindex="-1" role="dialog"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Matière première disponible?</h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <form
+                                                            action="{{ route('rawmaterials-requests.update', $item->id) }}"
+                                                            method="POST">
+                                                            {{ method_field('PATCH') }}
+                                                            {{ csrf_field() }}
+                                                            <div class="modal-body">
+                                                                <p class="text-center">
+                                                                <h6 style="color:green">Informer le client que cette matière première est disponible?</h6>
+                                                                </p>
+
+
+                                                                <input type="hidden" name="request_id" id="request_id"
+                                                                    value="">
+                                                                    <input type="hidden" name="available" id="available"
+                                                                    value="available">
+
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="submit"
+                                                                    class="btn btn-success">Confirmer</button>
+                                                                <button type="button" class="btn btn-default"
+                                                                    data-dismiss="modal">Fermer</button>
+
+                                                            </div>
+                                                        </form>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            {{-- Not available Modal --}}
+                                            <div class="modal fade" id="not_available" tabindex="-1" role="dialog"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Matière première non disponible?</h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <form
+                                                            action="{{ route('rawmaterials-requests.update', $item->id) }}"
+                                                            method="POST">
+                                                            {{ method_field('PATCH') }}
+                                                            {{ csrf_field() }}
+                                                            <div class="modal-body">
+                                                                <p class="text-center">
+                                                                <h6 style="color:rgb(27, 151, 189)">Informer le client que cette matière première est non disponible?</h6>
+                                                                </p>
+
+
+                                                                <input type="hidden" name="request_id" id="request_id"
+                                                                    value="">
+                                                                    <input type="hidden" name="unavailable" id="unavailable"
+                                                                    value="unavailable">
+
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="submit"
+                                                                    class="btn btn-info">Confirmer</button>
+                                                                <button type="button" class="btn btn-default"
+                                                                    data-dismiss="modal">Fermer</button>
+
+                                                            </div>
+                                                        </form>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
 
                                             <div class="modal fade" id="delete_request" tabindex="-1" role="dialog"
                                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -417,11 +540,13 @@
                             </div>
                             <input hidden name="id" id="id" value="">
                             <div class="form-group">
-                                <p class="text-danger">	&nbsp;En sélectionnant une(des) catégorie(s), les catégories existantes de votre produit seront remplacées par celles que vous avez sélectionnées.</p>
+                                <p class="text-danger"> &nbsp;En sélectionnant une(des) catégorie(s), les catégories
+                                    existantes de votre produit seront remplacées par celles que vous avez sélectionnées.
+                                </p>
 
                                 <label for="title">Selectionnez une categorie</label>
                                 <select name="category" class="form-control SlectBox">
-                                    
+
                                     <!--placeholder-->
                                     <option value="" selected disabled>Choisissez une catégorie</option>
                                     @foreach ($categories as $category)
@@ -475,7 +600,6 @@
         }
         //default page
         document.getElementById("defaultOpen").click();
-
     </script>
 
     <script>
@@ -494,7 +618,6 @@
             modal.find('.modal-body #description').val(description);
 
         })
-
     </script>
 
     <script src="../../plugins/jquery-ui/jquery-ui.min.js"></script>
@@ -504,7 +627,6 @@
         var date = $('.fc-datepicker').datepicker({
             dateFormat: 'yy-mm-dd'
         }).val();
-
     </script>
 
     <script>
@@ -518,7 +640,6 @@
             modal.find('.modal-body #file_name').val(file_name);
             modal.find('.modal-body #material_id').val(material_id);
         })
-
     </script>
 
     <script>
@@ -544,7 +665,6 @@
                 }
             });
         });
-
     </script>
 
     <script>
@@ -556,7 +676,28 @@
 
             modal.find('.modal-body #request_id').val(request_id);
         })
-
     </script>
+    <script>
+        $('#available').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+
+            var request_id = button.data('request_id')
+            var modal = $(this)
+
+            modal.find('.modal-body #request_id').val(request_id);
+        })
+    </script>
+
+
+<script>
+    $('#not_available').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget)
+
+        var request_id = button.data('request_id')
+        var modal = $(this)
+
+        modal.find('.modal-body #request_id').val(request_id);
+    })
+</script>
 
 @endsection

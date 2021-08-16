@@ -16,7 +16,9 @@ public function run()
 {
     
          $user = User::create([
-        'name' => 'Aymen Sbei', 
+        'name' => 'Aymen', 
+        'surname'=>'Sbei',
+        'phone_number'=>50891705,
         'email' => 'admin@gmail.com',
         'password' => bcrypt('123456'),
         'roles_name' => "Admin",

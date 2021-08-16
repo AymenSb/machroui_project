@@ -85,6 +85,7 @@ Route::post('/user-update-info/{id}',[UserController::class,'updateUserInfo']);
 //client requests APIs
 
 Route::post('/demandeRawMaterial',[RawmaterialsRequestsController::class,'demandeRawMaterials']);
+Route::get('/ClientMaterials/{client_id}',[RawmaterialsRequestsController::class,'ClientMaterials']);
 
 
 Route::post('/FormationsRequests',[FormationsRequestsController::class,'formationsRequests']); 

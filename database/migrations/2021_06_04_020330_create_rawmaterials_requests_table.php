@@ -19,7 +19,12 @@ class CreateRawmaterialsRequestsTable extends Migration
             $table->string('client_surname');
             $table->string('client_email');
             $table->integer('client_number');
-            $table->boolean('Accpted')->default(0);
+            $table->boolean('available')->default(0);
+            $table->boolean('unavailable')->default(0);
+            $table->integer('quantity')->nullable();
+            $table->longText('message')->default("Demande en attente");
+            $table->unsignedBigInteger('client_id')->nullable();
+            $table->foreign('client_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('rawmaterial_id')->nullable();
             $table->foreign('rawmaterial_id')->references('id')->on('raw_materials')->onDelete('cascade');
             $table->timestamps();
