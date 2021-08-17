@@ -107,3 +107,4 @@ Route::post('deleteOffer',[MachinesOffersController::class,'RefuseOffer']);
 Route::get('search-results',[MachinesController::class,'searchingForMachines']);
 
 Route::get('services',[ServicesController::class,'getServices']);
+Route::get('services/{id}',[ServicesController::class,'getServiceById']);
