@@ -197,7 +197,7 @@ class ServicesController extends Controller
         return $services;
     }
     function getServiceById($id){
-        $service=services::where('id',$id);
+        $service=services::where('id',$id)->first();
         return $service;
     }
 }
