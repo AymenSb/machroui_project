@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\formations;
 use App\Models\machines;
+use App\Models\project;
 use App\Models\MachinesAttachments;
 use App\Models\machines_offers;
 use App\Models\rawMaterials;
@@ -400,21 +401,10 @@ class MachinesController extends Controller
         $vendor_machines = machines::where('vendor_id', $id)->get();
         return $vendor_machines;
     }
-    public function searchMachines(Request $request)
-    {
-        $data = $request->data;
-        $machines = machines::where('name', 'like', "%{$data}%")
-            ->orWhere('details', 'like', "%{$data}%")
-            ->orWhere('state', 'like', "%{$data}%")
-            ->orWhere('characteristics', 'like', "%{$data}%")
-            ->orWhere('markDetails', 'like', "%{$data}%")
-            ->select('name')->get();
-
-        return $machines;
-    }
+  
 
     
-    public function searchingForMachines()
+    public function searching()
     {
         if (request()->cat && request()->sf) {
             $category = request()->cat;
@@ -441,10 +431,17 @@ class MachinesController extends Controller
                     ->orWhere('description', 'like', "%{$data}%")
                     ->orWhere('brand', 'like', "%{$data}%")
                     ->get();
+                $projects=project::where('name','like',"%{$data}%")
+                    ->orWhere('type', 'like', "%{$data}%")
+                    ->orWhere('project_type', 'like', "%{$data}%")
+                    ->orWhere('informations', 'like', "%{$data}%")
+                    ->get();
+
                 return response()->json([
                     "machines" => $machines,
                     "formations" => $formations,
                     "materials" => $materials,
+                    "projects"=>$projects
                 ]);
             } else {
                 $category = Category::where('name', 'like', $category)->first();
@@ -505,10 +502,27 @@ class MachinesController extends Controller
                             }
                         )
                         ->get();
+
+                    $projects =project::
+                             join('project_subcategory', 'projects.id', 'project_subcategory.project_id')
+                            ->join('subcategories', 'project_subcategory.subcategory_id', 'subcategories.id')
+                            ->where('subcategories.category_id', $category_id)
+                            ->select('projects.*')
+                            ->distinct('projects.id')
+                            ->where(
+                            function($q) use ($data){
+                                $q->where('projects.name','like',"%{$data}%")
+                                ->orWhere('projects.type', 'like', "%{$data}%")
+                                ->orWhere('projects.project_type', 'like', "%{$data}%")
+                                ->orWhere('projects.informations', 'like', "%{$data}%");
+                            }
+                        )
+                        ->get();
                     return response()->json([
                         "machines" => $machines,
                         "formations" => $formations,
                         "materials" => $materials,
+                        "projects"=>$projects
                     ]);
                 }
             }
