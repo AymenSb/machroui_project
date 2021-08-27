@@ -107,6 +107,8 @@ class RequestedMachinesController extends Controller
         $markDetails=$requestedMachine->markDetails;
         $state=$requestedMachine->state;
         $stateVal=$requestedMachine->stateVal;
+        $video_name=$requestedMachine->video_name;
+        $video_base64=$requestedMachine->video_base64;
 
         $machine=new machines();
         $machine->name=$name;
@@ -121,8 +123,11 @@ class RequestedMachinesController extends Controller
         $machine->markDetails=$markDetails;
         $machine->state=$state;
         $machine->stateVal=$stateVal;
+        $machine->video_name=$requestedMachine->video_name;
+        $machine->video_base64=$requestedMachine->video_base64;
         $machine->save();
 
+        
         $requestedMachine->delete();
         return redirect(route('machinesrequests.index'));
 

@@ -392,7 +392,7 @@ class MachinesController extends Controller
             'base64Urls' => $request->base64Urls,
             'images' => $request->images,
             'video_name'=>$request->video_name,
-            'video_base64'=>$request->base64
+            'video_base64'=>$request->video_base64
 
         ]);
         
@@ -418,7 +418,9 @@ class MachinesController extends Controller
             }
         }
         return response()->json(
-            "Votre machine est postuler"
+            [
+                "message"=>"Machine has been added"
+            ]
         );
     }
 

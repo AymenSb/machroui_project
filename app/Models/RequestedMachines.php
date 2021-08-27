@@ -25,6 +25,8 @@ class RequestedMachines extends Model
         'main_image',
         'images',
         'base64Urls',
+        'video_name',
+        'video_base64'
 
     ];
 
