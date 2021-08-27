@@ -30,6 +30,9 @@ class CreateMachinesTable extends Migration
             $table->longText('main_image')->nullable();
             $table->text('images')->nullable();
             $table->longText('base64Urls')->nullable();
+            $table->text('video_name')->nullable();
+            $table->longText('video_base64')->nullable();
+
             $table->timestamps();
         });
     }

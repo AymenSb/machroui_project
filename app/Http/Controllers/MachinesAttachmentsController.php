@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MachinesAttachments;
 use App\Models\machines;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
 class MachinesAttachmentsController extends Controller
@@ -114,4 +115,52 @@ class MachinesAttachmentsController extends Controller
     {
         //
     }
+
+    public function ViewVideo($machine_name,$video_name){
+        if(Storage::disk('machines_uploads')->getDriver()->getAdapter()->has($machine_name . '/Video/'. $video_name)){
+            $file = Storage::disk('machines_uploads')->getDriver()->getAdapter()->applyPathPrefix($machine_name . '/Video/'. $video_name);
+            return response()->file($file);
+        }
+        else {
+            return abort(404);
+        }
+    }
+    public function DownloadVideo($machine_name,$video_name){
+        if(Storage::disk('machines_uploads')->getDriver()->getAdapter()->has($machine_name . '/Video/'. $video_name)){
+            $file = Storage::disk('machines_uploads')->getDriver()->getAdapter()->applyPathPrefix($machine_name . '/Video/'. $video_name);
+            return response()->download($file);
+        }
+        else {
+            return abort(404);
+        }
+    }
+    public function ChangeVideo(Request $request){
+        if($request->hasFile('video')){
+            $machine_name=$request->machine_name;
+            $machine_id=$request->machine_id;
+            $machine=machines::findOrFail($machine_id);
+            $old_video=$machine->video_name;
+            $video = $request->file('video');
+            
+            if(!empty($old_video)){
+                Storage::disk('machines_uploads')->delete($machine_name.'/Video/'.$old_video);
+            }
+            
+            $destinationPath = 'Attachments/Machines Attachments/'.$machine_name.'/Video';
+            $file_name =$video->getClientOriginalName();
+            $file_extension=$video->getClientOriginalExtension();
+            $video->move($destinationPath, $file_name);
+            $base64Video=base64_encode(file_get_contents('Attachments/Machines Attachments/'.$machine_name.'/Video/'.$file_name));
+            $videoUrl="data:video/".$file_extension.";base64,".$base64Video;
+            
+            $machine->update([
+                'video_name'=>$file_name,
+                'video_base64'=>$videoUrl
+            ]);
+
+            session()->flash('created',"Video à été modifer");
+            return back();
+        }
+    }
+   
 }

@@ -112,6 +112,9 @@ Route::get('viewPdfFile/{project_name}/{file_name}',[ProjectController::class,'v
 Route::get('downloadPdfFile/{project_name}/{file_name}',[ProjectController::class,'downloadPdfFile'])->name('downloadPdfFile');
 Route::resource('updatePDF',ProjectAttachmentsController::class);
 
+Route::get('ViewVideo_machine/{machine_name}/{file_name}',[MachinesAttachmentsController::class,'ViewVideo'])->name('view_video');
+Route::get('DownloadVideo_machine/{machine_name}/{file_name}',[MachinesAttachmentsController::class,'DownloadVideo'])->name('download_video');
+Route::put('ChangeVideo_machine/{machine_id}',[MachinesAttachmentsController::class,'ChangeVideo'])->name('change_video');
 
 Route::post('sendToVendor/{id}',[MachinesOffersController::class,'sendToVendor'])->name('sendToVendor');
 

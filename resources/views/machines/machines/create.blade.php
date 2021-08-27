@@ -122,8 +122,8 @@ textarea::-webkit-scrollbar-thumb {
                         
                           <hr>
 
-                        <p class="text-danger">* La format de pièce jointe est jpeg, .jpg, .png</p>
-                        <h5 class="card-title">Pièces jointes</h5>
+                        <p class="text-danger">* La format des images est jpeg, .jpg, .png</p>
+                        <h5 class="card-title">Ajouter des images</h5>
 
                         <div class="col-sm-12 col-md-12">
                             <input type="file" name="image[]" id="images" class="dropify" accept=".jpg, .png, image/jpeg, image/png"
@@ -132,7 +132,19 @@ textarea::-webkit-scrollbar-thumb {
 
 
                           {{-- 4 --}}
-  
+                          <span style=" margin-left: 20px;"></span>
+
+                          {{-- 4 --}}
+                        
+                          <hr>
+
+                        <p class="text-danger">* La format du video .mp4</p>
+                        <h5 class="card-title">Ajouter une séquence vidéo</h5>
+
+                        <div class="col-sm-12 col-md-12">
+                            <input type="file" name="video" id="video" class="dropify" accept=".mp4"
+                                data-height="70"    />
+                        </div><br>
                          
   
                           {{-- 5 --}}

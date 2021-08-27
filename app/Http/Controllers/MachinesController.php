@@ -98,6 +98,22 @@ class MachinesController extends Controller
                 'base64Urls' => [],
             ]);
         }
+        if($request->hasFile('video')){
+            $machine=machines::latest()->first();
+            $video=$request->file('video');
+            $destinationPath = 'Attachments/Machines Attachments/' . $request->name.'/Video';
+            $file_name = $video->getClientOriginalName();
+            $video->move($destinationPath,$file_name);
+
+            $base64Encode= base64_encode(file_get_contents($destinationPath . '/' . $file_name));
+            $file_extension=$video->getClientOriginalExtension();
+            $video64Url="data:video/" . $file_extension . ";base64," . $base64Encode;
+            $machine->update([
+                'video_name'=>$file_name,
+                'video_base64'=>$video64Url
+            ]);
+
+        }
 
         if ($request->category) {
             if ($request->subcategory) {
@@ -375,10 +391,12 @@ class MachinesController extends Controller
             'main_image' => $request->main_image,
             'base64Urls' => $request->base64Urls,
             'images' => $request->images,
+            'video_name'=>$request->video_name,
+            'video_base64'=>$request->base64
 
         ]);
+        
         $index = 0;
-
         foreach ($request->base64Urls as $file_data) {
 
             $file_name = $request->images[$index]; //generating unique file name;
@@ -390,7 +408,15 @@ class MachinesController extends Controller
             }
             $index++;
         }
-
+        if($request->video_name){
+            $file_name=$request->video_name;
+            $file_data=$request->video_base64;
+            @list($type,$file_data)=explode(';',$file_data);
+            @list(,$file_data)=explode(',',$file_data);
+            if($file_data!=""){
+                Storage::disk('machines_uploads')->put($request->name . '/Video/' . $file_name, base64_decode($file_data));
+            }
+        }
         return response()->json(
             "Votre machine est postuler"
         );

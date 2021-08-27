@@ -102,32 +102,11 @@
         </div>
       </li>
 
-      <li>
-        <a data-toggle="collapse" href="#rawmaterials">
-          <i class="now-ui-icons users_single-02"></i>
-          <p>
-            {{ __("Matières premières") }}
-            <b class="caret"></b>
-          </p>
+      <li class = " @if ($activePage == 'Matiéres premiéres') active @endif">
+        <a href="{{ route('rawmaterials.index') }}">
+          <i class="now-ui-icons ui-1_bell-53"></i>
+          <p>{{ __('Matiéres premiéres') }}</p>
         </a>
-
-        <div class="collapse" id="rawmaterials">
-          <ul class="nav">
-            <li class = " @if ($activePage == 'Matiéres premiéres') active @endif">
-              <a href="{{ route('rawmaterials.index') }}">
-                <i class="now-ui-icons ui-1_bell-53"></i>
-                <p>{{ __('Matiéres premiéres') }}</p>
-              </a>
-            </li>
-            
-            <li class="@if ($activePage == 'MaterialsRequests') active @endif">
-              <a href="{{ route('rawmaterials-requests.index') }}">
-                <i class="now-ui-icons users_single-02"></i>
-                <p> {{ __("Demandes matiéres premiéres") }} </p>
-              </a>
-            </li>
-          </ul>
-        </div>
       </li>
       @can('projet')
       <li class="@if ($activePage == 'project') active @endif">
