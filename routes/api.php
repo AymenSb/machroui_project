@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 
 
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ProjectCommentsController;
 use App\Http\Controllers\FormationsController;
 use App\Http\Controllers\MachinesController;
 use App\Http\Controllers\RawMaterialsController;
@@ -42,6 +43,8 @@ Route::get('/projectsBySubCategory/{id}',[ProjectController::class,'getProjectsB
 Route::get('/getProjectsByCategories/{id}',[ProjectController::class,'getProjectsByCategories']);
 Route::get('/project-subcategories/{id}',[ProjectController::class,'ProjectSucategories']);
 Route::get('/project-categories/{id}',[ProjectController::class,'ProjectCategory']);
+Route::get('/get-comments/{project_id}',[ProjectCommentsController::class,'getComments']);
+Route::post('/postComment',[ProjectCommentsController::class,'postComment']);
 
 Route::get('/api_formations',[FormationsController::class,'getFormations']);
 Route::get('/api_formationsCat/{id}',[FormationsController::class,'getFormationsCat']);

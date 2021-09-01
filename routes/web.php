@@ -17,6 +17,7 @@ use App\Http\Controllers\ServicesAttachmentsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ProjectCommentsController;
 use App\Http\Controllers\ProjectAttachmentsController;
 use App\Http\Controllers\FormationsRequestsController;
 use App\Http\Controllers\MachinesOffersController;
@@ -58,6 +59,7 @@ Route::resource('ads',AdsController::class);
 Route::resource('services',ServicesController::class);
 Route::resource('add_image',ServicesAttachmentsController::class);
 Route::resource('project',ProjectController::class);
+Route::resource('projectComments',ProjectCommentsController::class);
 
 Route::get('getsubcategory/{id}',[CategoryController::class,'getsubcategory']);
 Route::post('editCategory',[CategoryController::class,'editCategory'])->name('editCategory');

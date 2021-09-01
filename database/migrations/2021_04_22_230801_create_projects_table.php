@@ -19,8 +19,8 @@ class CreateProjectsTable extends Migration
             $table->string('name');
             $table->string('project_type');
             $table->text('informations')->nullable();
-            $table->text('images')->nullable();
-            $table->longText('base64Urls')->nullable();
+            $table->text('images')->default('[]');
+            $table->longText('base64Urls')->default('[]');
             $table->text('pdf_file')->nullable();
             $table->longText('pdf_base64')->nullable();
             $table->timestamps();

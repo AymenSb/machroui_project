@@ -6,6 +6,7 @@ use App\Models\project;
 use App\Models\Category;
 use App\Models\subcategory;
 use App\Models\ProjectAttachments;
+use App\Models\ProjectComments;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
@@ -40,7 +41,8 @@ class ProjectController extends Controller
     public function create()
     {   
         $categories=Category::all();
-        return view('projects/create',compact('categories'));
+        $comments=ProjectComments::all();
+        return view('projects/create',compact('categories','comments'));
     }
 
     /**
@@ -94,14 +96,6 @@ class ProjectController extends Controller
             ]);
         }
         
-
-        else {
-            $project = project::latest()->first();   
-            $project->update([
-                'images'=>[],
-                'base64Urls'=>[],
-            ]);
-        }
         if($request->category){
             if($request->subcategory){
                 $project=project::latest()->first();
@@ -127,7 +121,8 @@ class ProjectController extends Controller
     {   $categories=Category::all();
         $project = project::findOrFail($id);
         $images = ProjectAttachments::where('project_id', $id)->first();
-        return view('projects/show', compact('project', 'images','categories'));
+        $comments = ProjectComments::where('project_id', $id)->get();
+        return view('projects/show', compact('project', 'images','categories','comments'));
     }
 
     /**

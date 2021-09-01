@@ -130,7 +130,7 @@
                                             <h5 class="card-title">Ajouter des images</h5>
 
                                             <div class="col-sm-4 col-md-4">
-                                                <input type="file" name="image[]" multiple id="images" class="form-control"
+                                                <input type="file" name="image[]" multiple id="image" class="form-control"
                                                     accept=".jpg, .png, image/jpeg, image/png" data-height="70" multiple />
                                             </div><br>
 
