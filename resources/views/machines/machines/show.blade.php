@@ -331,7 +331,7 @@
                         <div id="offers" class="tabcontent">
                             {{-- 1 --}}
                             <div class="row">
-                                @if ($offers=="{}")
+                                
                                 <table id="example1" class="table table-bordered table-striped">
                                     <thead>
                                         <tr style=" white-space: nowrap">
@@ -481,7 +481,6 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-                                @endif
                             </div>
                             {{-- 2 --}}
 
