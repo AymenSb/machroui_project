@@ -20,4 +20,11 @@ class apis_controller extends Controller
             "notifications"=>$notifications
         ]);
     }
+
+    function UpdateClientNotifications(Request $request){
+        $notification=ClientNotifications::where('id',$request->notification_id)->first();
+        $notification->update([
+            "new"=>0,
+        ]);
+    }
 }

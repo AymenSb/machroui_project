@@ -115,3 +115,4 @@ Route::get('services/{id}',[ServicesController::class,'getServiceById']);
 
 //notifications api
 Route::get('notifications/{client_id}',[apis_controller::class,'ClientNotifications']);
+Route::post('notifications',[apis_controller::class,'UpdateClientNotifications']);
