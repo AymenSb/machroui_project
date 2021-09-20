@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MachinesAttachments;
 use App\Models\machines;
+use App\Models\ClientNotifications;
 use App\Models\RequestedMachines;
 use Illuminate\Http\Request;
 
@@ -126,6 +127,15 @@ class RequestedMachinesController extends Controller
         $machine->video_name=$requestedMachine->video_name;
         $machine->video_base64=$requestedMachine->video_base64;
         $machine->save();
+
+        ClientNotifications::create([
+            'title'=>'Votre machine a été acceptée',
+            'subtitle'=>'Nous avons accepté votre machine "'.$name.'".',
+            'image'=>'test',
+            'link'=>'/account/sellings',
+            'client_id'=>$vendor_id,
+        ]);
+        
 
         
         $requestedMachine->delete();

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\machines_offers;
 use App\Models\machines;
+use App\Models\ClientNotifications;
 
 use Illuminate\Http\Request;
 
@@ -130,8 +131,18 @@ class MachinesOffersController extends Controller
     }
     public function sendToVendor(Request $request){
         $offer=machines_offers::where('id',$request->request_id)->first();
+        $machine=machines::where('id',$offer->machine_id)->first();
+        $vendor_id= $machine->vendor_id;
         $offer->update([
             'Accpted'=>1,
+        ]);
+        ClientNotifications::create([
+            'title'=>'Vous avez une nouvelle offre',
+            'subtitle'=>'une offre intéressante pour votre machine'.$machine->name.'.',
+            'image'=>'test',
+            'link'=>'/account/sellings-offers/'.$machine->id,
+            'client_id'=>$vendor_id,
+            'machine_id'=>$offer->machine_id
         ]);
         
         return back();
@@ -147,6 +158,7 @@ class MachinesOffersController extends Controller
         $offer=machines_offers::where('id',$request->offer_id)->first();
         $machine_id=$offer->machine_id;
         $machine=machines::where('id',$machine_id)->first();
+        $machine_name=$machine->name;
         if($offer->hasAcceptedOffer==0){
             $offer->update([
                 'hasAcceptedOffer'=>1

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\formations_requests;
+use App\Models\ClientNotifications;
 use Illuminate\Http\Request;
 use App\Models\formations;
 use Illuminate\Support\Facades\DB ;
@@ -88,9 +89,19 @@ class FormationsRequestsController extends Controller
     public function update(Request $request)
     {
         $subscriber=formations_requests::findOrfail($request->request_id);
+        $client_id=$subscriber->client_id;
         $formation_id=$subscriber->formation_id;
+        $formation=formations::where('id',$formation_id)->first();
         $subscriber->update([
             "Accepted"=>1
+        ]);
+
+        ClientNotifications::create([
+            'title'=>'Demande de formation acceptée',
+            'subtitle'=>'Veuillez confirmer votre arrivée pour la formation '.$formation->name.'.',
+            'image'=>'test',
+            'link'=>'/account/submited-formations',
+            'client_id'=>$client_id,
         ]);
         
         session()->flash('edit', 'Abonné ajouter');

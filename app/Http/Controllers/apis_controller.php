@@ -3,22 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\ClientNotifications;
 use Illuminate\Support\Facades\DB;
 
 
 class apis_controller extends Controller
 {
-    function latests(){
-        $project=DB::table('projects')->latest()->first();
-        $machine=DB::table('machines')->latest()->first();
-        $formation=DB::table('projects')->latest()->first();
-        $raw_mat=DB::table('projects')->latest()->first();
+    function ClientNotifications($client_id){
+        $_count=ClientNotifications::where('client_id',$client_id)
+                                    ->where('new',1)
+                                    ->count();
+        $notifications=ClientNotifications::where('client_id',$client_id)->get();
         
-        $test=array($machine);
-        $test2=array($project);
-        $tesss=array_merge($test,$test2);
-       
-        return response()->json($tesss);
-        
+        return response()->json([
+            "count"=>$_count,
+            "notifications"=>$notifications
+        ]);
     }
 }
